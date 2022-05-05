@@ -1,0 +1,46 @@
+@use 'sass:color';
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em 0;
+  row-gap: 5em;
+
+
+  background-color: #B1B1B1;
+  width: 28%;
+  max-width: 18em;
+  height: 100%;
+
+  &__section {
+    border-top: 0.15em solid color.scale(#8C8C8C, $alpha: -50%);
+
+    &-label {
+      display: inline-block;
+      padding: 0.8em 1.2em;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: color.scale(#8C8C8C, $alpha: -10%);
+    }
+  }
+  
+  &__link {
+    display: flex;
+    align-items: center;
+    column-gap: 1em;
+
+    font-size: 1.4em;
+    color: #FFFFFF;
+    padding: 0.5em 1em;
+    transition: background-color 600ms;
+
+    &:hover {
+      transition: background-color 200ms;
+      background-color: #C4C4C4;
+    }
+
+    &--active {
+      background-color: #C4C4C4;
+    }
+  }
+}
