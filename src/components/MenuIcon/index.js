@@ -6,7 +6,7 @@ import './style.scss';
 function MenuIcon({ icon }) {
   const Icon = icon;
   return (
-    <div className='menu__link-icon'>
+    <div className='main__menu-link-icon'>
       <Icon />
     </div>
   );

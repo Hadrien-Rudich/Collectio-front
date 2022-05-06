@@ -1,13 +1,12 @@
-import Menu from '../Menu';
+import Main from '../Main';
 import './style.scss';
 
 function App() {
   return (
-    <div className="App">
-      <p>Header</p>
-      <Menu />
-      <p>Main</p>
-      <p>Footer</p>
+    <div className="app">
+      <p style={{padding: '1em 0', textAlign: 'center'}}>Header</p>
+      <Main />
+      <p style={{padding: '1em 0', textAlign: 'center'}}>Footer</p>
     </div>
   );
 }

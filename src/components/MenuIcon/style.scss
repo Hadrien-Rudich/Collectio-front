@@ -1,8 +1,9 @@
-.menu__link-icon {
-  color: #29579D;
+@use '../../styles/vars.scss';
+
+.main__menu-link-icon {
+  color: vars.$secondary-color;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   font-size: 1.8em;
 }
