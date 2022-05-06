@@ -2,7 +2,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #c4c4c4;
+    background: #f3f3f0;
+    font-family: serif;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    box-shadow: 2px #5a6674;
 
     &__logo{
         display: flex;
@@ -14,7 +19,12 @@
         margin-right: 20px;
     }
 
-    .search-form {
+    & a{
+        text-decoration: none;
+        color: inherit;
+    }
+
+    &__form {
         position: relative;
         top: 50%;
         left: 50%;
@@ -22,7 +32,7 @@
         width: 350px;
         height: 40px;
         border-radius: 40px;
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         transform: translate(-50%, -50%);
         background: #fff;
         transition: all 0.3s ease;
@@ -32,7 +42,7 @@
         }
       }
       
-      .search-input {
+      &__input {
         position: absolute;
         top: 10px;
         left: 38px;
@@ -50,7 +60,7 @@
         }
       }
       
-      .search-button {
+      &__button {
         position: absolute;
         top: 10px;
         left: 15px;
@@ -70,7 +80,7 @@
         }
       }
       
-      .search-option {
+      &__option {
         position: absolute;
         text-align: right;
         top: 10px;
@@ -164,6 +174,8 @@
       &__user{
           display: flex;
           margin-right: 20px;
+          text-align: center;
+          font-weight: bold;
       }
 
       &__login{
@@ -176,6 +188,14 @@
 
       &__register p{
           margin: auto;
+      }
+
+      &__login:hover{
+          color: #e24040;
+      }
+
+      &__register:hover{
+          color: #e24040;
       }
     
 }
