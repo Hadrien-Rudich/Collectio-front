@@ -19,7 +19,7 @@ const Header = () => {
                 </button>
                 <div class="search-option">
                     <div>
-                        <input name="type" type="radio" value="type-users" id="type-users"></input>
+                        <input name="type" type="checkbox" value="type-users" id="type-users"></input>
                         <label for="type-users">
                             <svg class="edit-pen-title">
                                 <MdLocalMovies/>
@@ -29,7 +29,7 @@ const Header = () => {
                     </div>
                     
                     <div>
-                    <input name="type" type="radio" value="type-posts" id="type-posts"></input>
+                    <input name="type" type="checkbox" value="type-posts" id="type-posts"></input>
                     <label for="type-posts">
                         <svg class="edit-pen-title">
                             <FiTv/>
@@ -38,7 +38,7 @@ const Header = () => {
                     </label>
                     </div>
                     <div>
-                    <input name="type" type="radio" value="type-images" id="type-images"></input>
+                    <input name="type" type="checkbox" value="type-images" id="type-images"></input>
                     <label for="type-images">
                         <svg class="edit-pen-title">
                             <ImBooks/>
@@ -47,7 +47,7 @@ const Header = () => {
                     </label>
                     </div>
                     <div>
-                    <input name="type" type="radio" value="type-special" id="type-special"></input>
+                    <input name="type" type="checkbox" value="type-special" id="type-special"></input>
                     <label for="type-special">
                         <svg class="edit-pen-title">
                             <MdVideogameAsset/>
