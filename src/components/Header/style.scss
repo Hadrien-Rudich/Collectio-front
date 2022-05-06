@@ -1,0 +1,54 @@
+@use '../../styles/vars.scss';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em 1.2em;
+  user-select: none;
+
+  &__logoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.5em;
+
+    &-button {
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3em;
+      color: vars.$secondary-color;
+      cursor: pointer;
+      transition: transform 500ms;
+
+      &:hover {
+        transition: transform 300ms;
+        transform: scale(1.2);
+      }
+
+      &:active {
+        transition: transform 200ms;
+        transform: scale(1.35);
+      }
+    }
+
+    &-logo {
+      color: vars.$dark-color;
+      text-shadow: 1px 1px 0.05em #000;
+      font-weight: bold;
+      font-size: 2em;
+    }
+  }
+
+  &__searchBar {
+    display: flex;
+    align-items: center;
+  }
+
+  &__userContainer {
+    display: flex;
+    align-items: center;
+    column-gap: 1em;
+  }
+}

@@ -10,6 +10,7 @@ import { RiContactsBookFill } from 'react-icons/ri';
 
 import './style.scss';
 import MenuIcon from '../MenuIcon';
+import { useSelector } from 'react-redux';
 
 function MainMenu() {
   const categoriesDataTemp = [
@@ -35,8 +36,10 @@ function MainMenu() {
     },
   ];
 
+  const isOpen = useSelector((state) => state.mainMenu.isOpen);
+
   return (
-    <div className="main__menu">
+    <div className="main__menu" style={{width: isOpen ? '18em' : '0'}}>
       <div className="main__menu-section--first">
         <NavLink
           key="home"
