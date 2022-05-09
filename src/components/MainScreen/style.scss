@@ -1,0 +1,10 @@
+@use '../../styles/vars.scss';
+
+.main__screen {
+  background-color: vars.$light-color;
+  flex: 1;
+  contain: strict;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 1em;
+}
