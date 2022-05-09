@@ -12,7 +12,6 @@ export default class LoginForm extends React.Component {
         }
         return (
             <div class="modal" id="modal">
-                <h2>Modal Window</h2>
                 <div class="content"></div>
                 <div class="actions">
                     <button class="toggle-button" onClick={this.onClose}>OK</button>
