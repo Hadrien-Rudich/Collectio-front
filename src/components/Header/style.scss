@@ -180,6 +180,7 @@
 
       &__login{
           margin-right: 25px;
+          cursor: pointer;
       }
 
       &__login p{
@@ -188,14 +189,6 @@
 
       &__register p{
           margin: auto;
-      }
-
-      &__login:hover{
-          color: #e24040;
-      }
-
-      &__register:hover{
-          color: #e24040;
       }
     
 }
