@@ -1,13 +1,16 @@
-<<<<<<< HEAD
 import React from 'react';
 import './style.scss';
 import { Link } from 'react-router-dom';
 import LoginForm from '../LoginForm';
 
-import { GiHamburgerMenu, GiMagnifyingGlass, GiPencil } from 'react-icons/gi';
+import { GiMagnifyingGlass, GiPencil } from 'react-icons/gi';
 import { FiLogIn, FiTv } from 'react-icons/fi';
 import { MdLocalMovies, MdVideogameAsset } from 'react-icons/md';
 import { ImBooks } from 'react-icons/im';
+import { HiOutlineMenu } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleMainMenu } from '../../actions/mainMenu';
+import { toggleLoginModal } from '../../actions/loginModal';
 
 const categoriesData = [
         {
@@ -28,28 +31,24 @@ const categoriesData = [
         }
     ]
 
-class Header extends React.Component {
-
-    state = {
-        show: false
-      };
-      showModal = e => {
-        this.setState({
-            show: !this.state.show
-        });
-      };
-      onClose = e => {
-        this.props.onClose && this.props.onClose(e);
-      };
     
-    render(){
+function Header() {
+  const dispatch = useDispatch();
+
+  const isOpen = useSelector((state) => state.loginModal.isOpen);
+
         return(
             <header className='header'>
-                <div className='header__logo'>
-                    <span className='header__burger'><GiHamburgerMenu/></span>
-                    <Link to="/">
-                    <h1 className='header__title'> Collectio</h1>
-                    </Link>
+                <div className='header__logoContainer'>
+                  <div className="header__logoContainer-button" onClick={() => {dispatch(toggleMainMenu())}}>
+                    <HiOutlineMenu />
+                  </div>
+                  <Link
+                    to="/"
+                    className="header__logoContainer-logo"
+                  >
+                    Collectio
+                  </Link>
                 </div>
                 <div>
                 <form className="header__form">
@@ -79,10 +78,11 @@ class Header extends React.Component {
                     <span className='header__login'><FiLogIn />
                         <p class="toggle-button"
                                 id="centered-toggle-button" 
-                                onClick={e => {
-                                this.showModal();
-                        }}>Login</p>
-                        <LoginForm onClose={this.showModal} show={this.state.show}/>
+                                onClick={() => dispatch(toggleLoginModal())}
+                        >
+                          Login
+                        </p>
+                        {isOpen && <LoginForm />}
                     </span>
 
                     <Link to='/register'>
@@ -93,49 +93,7 @@ class Header extends React.Component {
                 </div>
             </header>
         );
-        }
+        
 }
 
 export default Header;
-=======
-import { useDispatch } from 'react-redux';
-import { toggleMainMenu } from '../../actions/mainMenu';
-import MenuIcon from '../MenuIcon';
-import './style.scss';
-
-import { HiOutlineMenu } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
-
-function Header() {
-  const dispatch = useDispatch();
-
-  return (
-    <header className="header">
-      <div className="header__logoContainer">
-        <div className="header__logoContainer-button" onClick={() => {dispatch(toggleMainMenu())}}>
-          <HiOutlineMenu />
-        </div>
-        <Link
-          to="/"
-          className="header__logoContainer-logo"
-        >
-          Collectio
-        </Link>
-      </div>
-      <div className="header__searchBar">
-        <p>SearchBar</p>
-      </div>
-      <div className="header__userContainer">
-        <p>Login</p>
-        <p>Register</p>
-      </div>
-    </header>
-  );
-}
-
-Header.propTypes = {
-  
-};
-
-export default Header;
->>>>>>> origin/menu
