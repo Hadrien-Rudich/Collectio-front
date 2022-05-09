@@ -1,10 +1,11 @@
 @use '../../styles/vars.scss';
+@use 'sass:color';
 
 .header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #f3f3f0;
+    background-color: color.scale(vars.$primary-color, $lightness: 24%);
     padding: 1em 1.2em;
 
     &__logoContainer {
@@ -173,15 +174,15 @@
           }
           
           input:checked + label svg {
-            fill: #e24040;
+            fill: vars.$third-color;
             opacity: .9;
           }
           
           input:checked + label span {
-            background: #e24040;
+            background: vars.$third-color;
             
             &::after {
-              border-top-color: #e24040;
+              border-top-color: vars.$third-color;
             }
           }
         }
@@ -196,8 +197,13 @@
       }
 
       &__login{
-          margin-right: 25px;
           cursor: pointer;
+      }
+
+      &__register {
+        height: 68px;
+        display: flex;
+        align-items: center;
       }
 
       &__login p{

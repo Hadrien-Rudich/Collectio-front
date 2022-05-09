@@ -74,22 +74,22 @@ function Header() {
                     </div>
                     </form>
                 </div>
-                <div className='header__user'>
-                    <span className='header__login'><FiLogIn />
-                        <p class="toggle-button"
-                                id="centered-toggle-button" 
-                                onClick={() => dispatch(toggleLoginModal())}
-                        >
-                          Login
-                        </p>
-                        {isOpen && <LoginForm />}
-                    </span>
+                <div className='header__user' >
+                    
+                    <div className='header__login'>
+                        <span onClick={() => dispatch(toggleLoginModal())}>
+                            <LoginForm /> 
+                        </span>
+                       
+                    </div> 
+                    
 
                     <Link to='/register'>
                         <span className='header__register'><GiPencil />
-                            <p>Register</p>
+                            Register
                         </span>
                     </Link>
+                    
                 </div>
             </header>
         );

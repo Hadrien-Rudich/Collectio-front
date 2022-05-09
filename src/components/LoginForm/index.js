@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { toggleLoginModal } from "../../actions/loginModal";
+import { FiLogIn } from 'react-icons/fi';
 import "./style.scss"
 
 function LoginForm() {
@@ -8,10 +8,52 @@ function LoginForm() {
 
     return (
         <div className="modal" id="modal">
-            <h2>Modal Window</h2>
-            <div className="content"></div>
-            <div className="actions">
-                <button className="toggle-button" onClick={() => dispatch(toggleLoginModal())}>OK</button>
+            <input className="c-checkbox" type="checkbox" id="start"></input>
+            <input className="c-checkbox" type="checkbox" id="progress2"></input>
+            <input className="c-checkbox" type="checkbox" id="finish"></input>
+
+            <div class="c-formContainer">
+            <div class="c-welcome">Welcome aboard!</div>
+            <form class="c-form" action="">
+                <div class="c-form__group">
+                <label class="c-form__label" for="femail">
+                    <input
+                        type="email"
+                        id="femail"
+                        class="c-form__input"
+                        placeholder=" "
+                        pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
+                        required></input>
+
+                <label class="c-form__next" for="progress2" role="button">
+                    <span class="c-form__nextIcon"></span>
+                </label>
+
+                <span class="c-form__groupLabel">What's your email?</span>
+                <b class="c-form__border"></b>
+                </label>
+                </div>
+
+                <div class="c-form__group">
+                <label class="c-form__label" for="fpass">
+                                <input
+                                    type="password"
+                                    id="fpass"
+                                    class="c-form__input"
+                                    placeholder=" "
+                                    required></input>
+
+                                <label class="c-form__next" for="finish" role="button">
+                                    <span class="c-form__nextIcon"></span>
+                                </label>
+
+                <span class="c-form__groupLabel">And now, your password:</span>
+                <b class="c-form__border"></b>
+                </label>
+                </div>
+
+                <label class="c-form__toggle" for="start"><span><FiLogIn /></span>Login</label>
+            </form>
             </div>
         </div>
     );
