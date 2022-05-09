@@ -1,12 +1,7 @@
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-import { AiFillHome } from 'react-icons/ai';
-import { MdLocalMovies, MdVideogameAsset } from 'react-icons/md';
-import { FiTv } from 'react-icons/fi';
-import { ImBooks } from 'react-icons/im';
-import { FaInfo } from 'react-icons/fa';
-import { RiContactsBookFill } from 'react-icons/ri';
+import { FaHome, FaFilm, FaTv, FaBook, FaGamepad, FaAddressBook, FaInfo } from 'react-icons/fa';
 
 import './style.scss';
 import MenuIcon from '../MenuIcon';
@@ -17,22 +12,22 @@ function MainMenu() {
     {
       name: 'Movies',
       route: '/movies',
-      icon: MdLocalMovies,
+      icon: FaFilm,
     },
     {
       name: 'Series',
       route: '/series',
-      icon: FiTv,
+      icon: FaTv,
     },
     {
       name: 'Books',
       route: '/books',
-      icon: ImBooks,
+      icon: FaBook,
     },
     {
       name: 'Video games',
       route: '/video-games',
-      icon: MdVideogameAsset,
+      icon: FaGamepad,
     },
   ];
 
@@ -46,7 +41,7 @@ function MainMenu() {
           to="/"
           className={({isActive}) => `main__menu-link ${isActive ? 'main__menu-link--active' : ''}`}
         >
-          <MenuIcon icon={AiFillHome} />
+          <MenuIcon icon={FaHome} />
           Home
         </NavLink>
       </div>
@@ -74,7 +69,7 @@ function MainMenu() {
           to="/contact"
           className={({isActive}) => `main__menu-link ${isActive ? 'main__menu-link--active' : ''}`}
         >
-          <MenuIcon icon={RiContactsBookFill} />
+          <MenuIcon icon={FaAddressBook} />
           Contact
         </NavLink>
         <NavLink

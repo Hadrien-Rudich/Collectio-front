@@ -1,11 +1,13 @@
 @use '../../styles/vars.scss';
+@use 'sass:color';
 
 .header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #f3f3f0;
     padding: 1em 1.2em;
+    user-select: none;
+    column-gap: 4em;
 
     &__logoContainer {
       display: flex;
@@ -14,18 +16,17 @@
       column-gap: 0.5em;
 
       &-button {
-
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 3em;
+        font-size: 2.3em;
         color: vars.$secondary-color;
-        cursor: pointer;
         transition: transform 500ms;
-  
+        
         &:hover {
           transition: transform 300ms;
           transform: scale(1.2);
+          cursor: pointer;
         }
   
         &:active {
@@ -42,170 +43,144 @@
       }
     }
 
-    &__form {
-        position: relative;
-        top: 50%;
-        left: 50%;
-        margin-top: 35px;
-        width: 350px;
-        height: 40px;
-        border-radius: 40px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        transform: translate(-50%, -50%);
-        background: #fff;
-        transition: all 0.3s ease;
+
+    &__searchBarContainer {
+      flex: 1;
+      max-width: 70em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border-radius: 10em;
+      padding: 0 1em;
+      background-color: white;
       
-        &.focus {
-          box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
-        }
+      &-searchIcon {
+        color: vars.$secondary-color;
       }
       
-      &__input {
-        position: absolute;
-        top: 10px;
-        left: 38px;
-        font-size: 14px;
-        background: none;
-        color: #5a6674;
-        width: 195px;
-        height: 20px;
-        border: none;
-        appearance: none;
-        outline: none;
-      
-        &::-webkit-search-cancel-button {
-          appearance: none;
+      &-form {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &-searchBar {
+          flex: 1;
+          width: 15em;
+          border: none;
+          outline: none;
+          padding: 0.5em;
+          font-size: 1.2em;
+        }
+
+        &-clearSearchBar {
+          background-color: transparent;
+          padding: 0.2em;
+          font-size: 1.2em;
+          color: vars.$secondary-color;
+          border: none;
+          outline: none;
+          transition: transform 500ms;
+          
+          &:hover {
+            transition: transform 300ms;
+            transform: scale(1.2);
+            cursor: pointer;
+          }
+    
+          &:active {
+            transition: transform 200ms;
+            transform: scale(1.35);
+          }
+
+          &-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotate(45deg);
+          }
+
+        }
+
+        &-filters {
+          align-self: stretch;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          column-gap: 0.5em;
+          padding-left: 0.5em;
+          border-left: 0.2em solid color.scale(vars.$primary-color, $lightness: 24%);
+
+          &-option {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            &-icon {
+              font-size: 1.5em;
+              color: vars.$secondary-color;
+              transition: transform 500ms;
+              
+              &:hover {
+                transition: transform 300ms;
+                transform: scale(1.2);
+                cursor: pointer;
+              }
+        
+              &:active {
+                transition: transform 200ms;
+                transform: scale(1.35);
+              }
+            }
+
+            &-checkbox {
+              display: none;
+            }
+
+            &-checkbox:checked + &-icon {
+              color: red;
+            }
+          }
         }
       }
+    }
+    
+    &__userActionsContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      column-gap: 1.5em;
       
-      &__button {
-        position: absolute;
-        top: 10px;
-        left: 15px;
-        height: 20px;
-        width: 20px;
-        padding: 0;
-        margin: 0;
-        border: none;
-        background: none;
-        outline: none!important;
+      &-actionContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
         
-        & svg {
-          width: 20px;
-          height: 20px;
-          fill: #5a6674;
-        }
-      }
-      
-      &__option {
-        position: absolute;
-        text-align: right;
-        top: 10px;
-        right: 15px;
-      
-        div {
-          position: relative;
-          display: inline-block;
-          margin: 0 1px;
-          cursor: pointer;
+        &-logo {
+          font-size: 2em;
+          color: vars.$secondary-color;
+          transition: transform 500ms;
           
-          input {
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0.01;
-            cursor: pointer;
+          &:hover {
+            transition: transform 300ms;
+            transform: scale(1.2);
           }
           
-          span {
-            position: absolute;
-            display: block;
-            text-align: center;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            background: #929AA3;
-            color: #fff;
-            font-size: 9px;
-            letter-spacing: 1px;
-            line-height: 1;
-            text-transform: uppercase;
-            padding: 4px 7px;
-            border-radius: 12px;
-            top: -18px;
-            transition: all .2s ease-in-out;
-            
-            &::after {
-              content: '';
-              position: absolute;
-              bottom: -3px;
-              left: 50%;
-              transform: translateX(-50%);
-              border-top: 4px solid #929AA3;
-              border-left: 4px solid transparent;
-              border-right: 4px solid transparent;
-              transition: all .2s ease-in-out;
-            }
-          }
-          
-          &:hover span {
-            opacity: 1;
-            top: -21px;
-          }
-          
-          label {
-            display: block;
-            cursor: pointer;
-          }
-          
-          svg {
-            height: 20px;
-            width: 20px;
-            fill: #5a6674;
-            opacity: 0.6;
-            transition: all .2s ease-in-out;
-            pointer-events: none;
-          }
-          
-          &:hover svg {
-            opacity: 1;
-          }
-          
-          input:checked + label svg {
-            fill: #e24040;
-            opacity: .9;
-          }
-          
-          input:checked + label span {
-            background: #e24040;
-            
-            &::after {
-              border-top-color: #e24040;
-            }
+          &:active {
+            transition: transform 200ms;
+            transform: scale(1.35);
           }
         }
-      
-      
+        
+        &-name {
+          font-size: 1.2em;
+          font-weight: 500;
+        }
       }
-     
-      &__user{
-          display: flex;
-          text-align: center;
-          font-weight: bold;
-      }
-
-      &__login{
-          margin-right: 25px;
-          cursor: pointer;
-      }
-
-      &__login p{
-          margin: auto;
-      }
-
-      &__register p{
-          margin: auto;
-      }
+    }
     
 }
+

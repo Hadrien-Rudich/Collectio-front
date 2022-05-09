@@ -15,7 +15,7 @@
 
   transition: width 550ms cubic-bezier(.60,-0.3,.30,1.5);
   
-  overflow: hidden;
+  overflow-x: hidden;
 
   &-section {
     border-top: 0.2em solid color.scale(vars.$primary-color, $blackness: 10%);
