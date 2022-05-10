@@ -75,8 +75,10 @@
         }
 
         &-clearSearchBar {
+          align-self: stretch;
+          // background-color: lime;
           background-color: transparent;
-          padding: 0.2em;
+          padding: 0.5em 0.5em 0.5em 0;
           font-size: 1.2em;
           color: vars.$secondary-color;
           border: none;
