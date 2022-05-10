@@ -16,10 +16,10 @@ function LoginForm() {
             <div class="c-welcome">Welcome aboard!</div>
             <form class="c-form" action="">
                 <div class="c-form__group">
-                <label class="c-form__label" for="femail">
+                <label class="c-form__label" for="email">
                     <input
                         type="email"
-                        id="femail"
+                        id="email"
                         class="c-form__input"
                         placeholder=" "
                         pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
@@ -35,10 +35,10 @@ function LoginForm() {
                 </div>
 
                 <div class="c-form__group">
-                <label class="c-form__label" for="fpass">
+                <label class="c-form__label" for="password">
                                 <input
                                     type="password"
-                                    id="fpass"
+                                    id="password"
                                     class="c-form__input"
                                     placeholder=" "
                                     required/>
