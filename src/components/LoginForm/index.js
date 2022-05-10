@@ -21,10 +21,10 @@ function LoginForm() {
     async function handleSubmit(event) {
         event.preventDefault()
         try {
-            const response = await axios.post('https://collectio-app.herokuapp.com/api/login', (
+            const response = await axios.post('https://collectio-app.herokuapp.com/api/login', {
                 email,
                 password
-            ))
+        })
             console.log(response);
         } catch (error) {
             console.log(error);
