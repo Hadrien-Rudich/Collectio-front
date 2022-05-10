@@ -8,9 +8,9 @@ function LoginForm() {
 
     return (
         <div className="modal" id="modal">
-            <input className="c-checkbox" type="checkbox" id="start"></input>
-            <input className="c-checkbox" type="checkbox" id="progress2"></input>
-            <input className="c-checkbox" type="checkbox" id="finish"></input>
+            <input className="c-checkbox" type="checkbox" id="start"/>
+            <input className="c-checkbox" type="checkbox" id="progress2"/>
+            <input className="c-checkbox" type="checkbox" id="finish"/>
 
             <div class="c-formContainer">
             <div class="c-welcome">Welcome aboard!</div>
@@ -23,7 +23,7 @@ function LoginForm() {
                         class="c-form__input"
                         placeholder=" "
                         pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
-                        required></input>
+                        required/>
 
                 <label class="c-form__next" for="progress2" role="button">
                     <span class="c-form__nextIcon"></span>
@@ -41,7 +41,7 @@ function LoginForm() {
                                     id="fpass"
                                     class="c-form__input"
                                     placeholder=" "
-                                    required></input>
+                                    required/>
 
                                 <label class="c-form__next" for="finish" role="button">
                                     <span class="c-form__nextIcon"></span>
