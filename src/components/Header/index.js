@@ -78,7 +78,7 @@ function Header() {
                     
                     <div className='header__login'>
                         <span onClick={() => dispatch(toggleLoginModal())}>
-                            <LoginForm /> 
+                           <LoginForm /> 
                         </span>
                        
                     </div> 
