@@ -4,9 +4,13 @@ import PropTypes from 'prop-types';
 import './style.scss';
 
 function RegisterPage() {
+  const handleSubmit = () => {
+    console.log('Je veux m\'enregistrer');
+  }
+
   return (
     <div className="registerPage">
-      <form style={{ backgroundColor: '#ccc', padding: '2em' }}>
+      <form onSubmit={handleSubmit} style={{ backgroundColor: '#ccc', padding: '2em' }}>
         <div style={{ display: 'flex', columnGap: '1em' }}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <label htmlFor="firstname">Firstname</label>
