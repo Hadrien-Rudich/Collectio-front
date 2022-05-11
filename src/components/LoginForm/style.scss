@@ -1,10 +1,12 @@
-$black: #000000;
+@use '../../styles/vars.scss';
+@use 'sass:color';
+
 $blue-ribbon: #0069ec;
 $dodger-blue: #29579D;
 $mine-shaft: #333333;
 $scorpion: #565656;
 $torch-red: #ff0033;
-$white: #ffffff;
+
 
 @mixin form-group-visible {
   visibility: visible;
@@ -115,7 +117,7 @@ $white: #ffffff;
   height: inherit;
 
   font-size: 20px;
-  color: $white;
+  color: vars.$light-color;
   opacity: 0;
   transition: 0.3s;
 }
@@ -124,7 +126,7 @@ $white: #ffffff;
   position: relative;
   width: inherit;
   height: inherit;
-  background-color: #c4c4c4;
+  background-color: color.scale(vars.$primary-color, $lightness: 24%);
 }
 
 .c-form__toggle {
