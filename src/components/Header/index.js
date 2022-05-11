@@ -71,12 +71,13 @@ function Header() {
         </form>
       </div>
       <div className='header__userActionsContainer'>
-        <div className='header__userActionsContainer-actionContainer' onClick={() => dispatch(toggleLoginModal())}>
+        <LoginForm />
+        {/* <div className='header__userActionsContainer-actionContainer' onClick={() => dispatch(toggleLoginModal())}>
           <div className='header__userActionsContainer-actionContainer-logo'>
             <FaSignInAlt />
           </div>
           <span className='header__userActionsContainer-actionContainer-name'>Login</span>
-        </div>
+        </div> */}
         <Link
           to="/register"
           className='header__userActionsContainer-actionContainer'
@@ -86,7 +87,7 @@ function Header() {
           </div>
           <span className='header__userActionsContainer-actionContainer-name'>Register</span>
         </Link>
-        {isOpen && <LoginForm />}
+        
       </div>
     </header>
   );
