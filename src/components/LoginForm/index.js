@@ -5,6 +5,7 @@ import "./style.scss"
 import { useDispatch, useSelector } from "react-redux";
 import { changeLoginValue, changePasswordValue } from "../../actions/loginModal";
 
+
 function LoginForm() {
     
     const dispatch = useDispatch()
@@ -17,6 +18,7 @@ function LoginForm() {
     useEffect(() => {
         console.log(password);
     }, [password])
+    
 
     async function handleSubmit(event) {
         event.preventDefault()
