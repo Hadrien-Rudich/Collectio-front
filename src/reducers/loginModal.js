@@ -1,4 +1,4 @@
-import { CHANGE_LOGIN_VALUE, CHANGE_PASSWORD_VALUE, TOGGLE_LOGIN_MODAL } from "../actions/loginModal";
+import { CHANGE_INPUT_VALUE_LOGIN, TOGGLE_LOGIN_MODAL } from "../actions/loginModal";
 
 const initialState = {
   isOpen: false,
@@ -8,17 +8,10 @@ const initialState = {
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case CHANGE_LOGIN_VALUE: {
+    case CHANGE_INPUT_VALUE_LOGIN: {
       return {
         ...state,
-        email: action.loginValue,
-      }
-    }
-
-    case CHANGE_PASSWORD_VALUE: {
-      return {
-        ...state,
-        password: action.passwordValue,
+        [action.stateName]: action.value,
       }
     }
 

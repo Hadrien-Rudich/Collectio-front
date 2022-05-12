@@ -3,7 +3,7 @@ import axios from "axios";
 import { FiLogIn } from 'react-icons/fi';
 import "./style.scss"
 import { useDispatch, useSelector } from "react-redux";
-import { changeLoginValue, changePasswordValue } from "../../actions/loginModal";
+import { changeInputValueLogin } from "../../actions/loginModal";
 
 function LoginForm() {
     
@@ -11,12 +11,12 @@ function LoginForm() {
     const email = useSelector((state) => state.loginModal.email)
     const password = useSelector((state) => state.loginModal.password)
 
-    useEffect(() => {
-        console.log(email);
-    }, [email])
-    useEffect(() => {
-        console.log(password);
-    }, [password])
+    // useEffect(() => {
+    //     console.log(email);
+    // }, [email])
+    // useEffect(() => {
+    //     console.log(password);
+    // }, [password])
 
     async function handleSubmit(event) {
         event.preventDefault()
@@ -47,10 +47,11 @@ function LoginForm() {
                         id="email"
                         value={email}
                         onChange={(event) => {
-                            dispatch(changeLoginValue(event.target.value))
+                            dispatch(changeInputValueLogin("email", event.target.value))
                         }}
                         className="c-form__input"
                         placeholder=" "
+                        autoComplete="email"
                         required/>
 
                 <label className="c-form__next" htmlFor="progress2" role="button">
@@ -70,10 +71,12 @@ function LoginForm() {
                                     className="c-form__input"
                                     value={password}
                                     onChange={(event) => {
-                                        dispatch(changePasswordValue(event.target.value))
+                                        dispatch(changeInputValueLogin("password", event.target.value))
                                     }}
                                     placeholder=" "
-                                    required/>
+                                    autoComplete="current-password"
+                                    required
+                                />
 
                                 <label className="c-form__next" htmlFor="finish" role="button">
                                     <button className="c-form__nextIcon" type="submit"></button>
