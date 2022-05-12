@@ -1,15 +1,15 @@
-import { CHANGE_INPUT_VALUE_REGISTER } from "../actions/global";
+import { CHANGE_INPUT_VALUE_REGISTER } from "../actions/register";
 
 const initialState = {
-  firstname: 'Jean',
-  lastname: 'Claude',
-  username: 'JC',
-  bYear: '1972',
-  bMonth: 'june',
-  bDay: '29',
-  email: 'jean.claude@yahoo.xyz',
-  password1: 'jeanC',
-  password2: 'jeanC',
+  firstname: '',
+  lastname: '',
+  username: '',
+  bYear: '',
+  bMonth: '',
+  bDay: '',
+  email: '',
+  password1: '',
+  password2: '',
 };
 
 const reducer = (state = initialState, action = {}) => {

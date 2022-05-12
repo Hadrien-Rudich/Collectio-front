@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './style.scss';
-import { Link } from 'react-router-dom';
-import LoginForm from '../LoginForm';
+import { Link, NavLink } from 'react-router-dom';
 
 import { FaBars, FaSearch, FaPlus, FaFilm, FaTv, FaBook, FaGamepad, FaSignInAlt, FaPen, FaAngleDown } from 'react-icons/fa';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleMainMenu } from '../../actions/mainMenu';
-import { toggleLoginModal } from '../../actions/loginModal';
+import { changeInputValueHeader } from '../../actions/header';
 
 const categoriesData = [
         {
@@ -32,7 +31,14 @@ const categoriesData = [
 function Header() {
   const dispatch = useDispatch();
 
-  const isOpen = useSelector((state) => state.loginModal.isOpen);
+  const { searchBar } = useSelector((state) => state.header);
+
+  const searchBarElement = useRef(null);
+  
+  const handleClearSearchBar = () => {
+    dispatch(changeInputValueHeader("searchBar", ""));
+    searchBarElement.current.focus();
+  }
 
   return(
     <header className='header'>
@@ -52,12 +58,14 @@ function Header() {
           <FaSearch />
         </div>
         <form className='header__searchBarContainer-form'>
-          <input className='header__searchBarContainer-form-searchBar' type="text" placeholder='Search media...' />
-          {true && <button type='button' className='header__searchBarContainer-form-clearSearchBar'>
-            <div className='header__searchBarContainer-form-clearSearchBar-icon'>
-              <FaPlus />
-            </div>
-          </button>}
+          <input ref={searchBarElement} className='header__searchBarContainer-form-searchBar' type="text" placeholder='Search media...' value={searchBar} onChange={(event) => dispatch(changeInputValueHeader("searchBar", event.target.value))} />
+          {searchBar.length > 0 && (
+            <button type='button' className='header__searchBarContainer-form-clearSearchBar' onClick={handleClearSearchBar}>
+              <div className='header__searchBarContainer-form-clearSearchBar-icon'>
+                <FaPlus />
+              </div>
+            </button>
+          )}
           <div className='header__searchBarContainer-form-filters'>
             {categoriesData.map((category) =>(
               <div className='header__searchBarContainer-form-filters-option' key={category.name}>
@@ -71,22 +79,24 @@ function Header() {
         </form>
       </div>
       <div className='header__userActionsContainer'>
-        <LoginForm />
-        {/* <div className='header__userActionsContainer-actionContainer' onClick={() => dispatch(toggleLoginModal())}>
+        <NavLink
+          to="/login"
+          className={({isActive}) => `header__userActionsContainer-actionContainer header__userActionsContainer-actionContainer${isActive ? '--active' : ''}`}
+        >
           <div className='header__userActionsContainer-actionContainer-logo'>
             <FaSignInAlt />
           </div>
           <span className='header__userActionsContainer-actionContainer-name'>Login</span>
-        </div> */}
-        <Link
+        </NavLink>
+        <NavLink
           to="/register"
-          className='header__userActionsContainer-actionContainer'
+          className={({isActive}) => `header__userActionsContainer-actionContainer header__userActionsContainer-actionContainer${isActive ? '--active' : ''}`}
         >
           <div className='header__userActionsContainer-actionContainer-logo'>
             <FaPen />
           </div>
           <span className='header__userActionsContainer-actionContainer-name'>Register</span>
-        </Link>
+        </NavLink>
         
       </div>
     </header>

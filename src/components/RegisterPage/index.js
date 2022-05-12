@@ -3,7 +3,7 @@
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeInputValueRegister } from '../../actions/global';
+import { changeInputValueRegister } from '../../actions/register';
 import './style.scss';
 
 function RegisterPage() {

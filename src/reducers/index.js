@@ -1,12 +1,15 @@
 import { combineReducers } from 'redux';
+
+import headerReducer from './header';
 import mainMenuReducer from './mainMenu';
-import loginModalReducer from './loginModal';
 import registerReducer from './register';
+import loginModalReducer from './login';
 
 const rootReducer = combineReducers({
+  header: headerReducer,
   mainMenu: mainMenuReducer,
-  loginModal: loginModalReducer,
   register: registerReducer,
+  login: loginModalReducer,
 });
 
 export default rootReducer;

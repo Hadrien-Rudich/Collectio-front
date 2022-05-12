@@ -1,9 +1,8 @@
-import { CHANGE_INPUT_VALUE_LOGIN, TOGGLE_LOGIN_MODAL } from "../actions/loginModal";
+import { CHANGE_INPUT_VALUE_LOGIN } from "../actions/login";
 
 const initialState = {
-  isOpen: false,
   email: '',
-  password: ''
+  password: '',
 };
 
 const reducer = (state = initialState, action = {}) => {
@@ -12,13 +11,6 @@ const reducer = (state = initialState, action = {}) => {
       return {
         ...state,
         [action.stateName]: action.value,
-      }
-    }
-
-    case TOGGLE_LOGIN_MODAL: {
-      return {
-        ...state,
-        isOpen: !state.isOpen,
       }
     }
     default: {
