@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import './style.scss';
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LoginForm from '../LoginForm';
 
 import { FaBars, FaSearch, FaPlus, FaFilm, FaTv, FaBook, FaGamepad, FaSignInAlt, FaPen, FaAngleDown } from 'react-icons/fa';
@@ -10,6 +10,8 @@ import { FaBars, FaSearch, FaPlus, FaFilm, FaTv, FaBook, FaGamepad, FaSignInAlt,
 import { toggleMainMenu } from '../../actions/mainMenu';
 import { toggleLoginModal } from '../../actions/loginModal';
 import { searchTitleValue } from "../../actions/searchBar";
+import { saveResultsData } from '../../actions/searchResults';
+
 
 const categoriesData = [
         {
@@ -33,6 +35,7 @@ const categoriesData = [
     
 function Header() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isOpen = useSelector((state) => state.loginModal.isOpen);
 
@@ -46,7 +49,9 @@ function Header() {
     event.preventDefault()
     try {
         const response = await axios.get(`https://imdb-api.com/en/API/Search/k_ysxe8sph/${searchBar}`)
-        console.log(response);
+        console.log(response.data);
+        dispatch(saveResultsData(response.data))
+        navigate(`/results/${searchBar}`)
     } catch (error) {
         console.log(error);
     }
@@ -66,18 +71,20 @@ function Header() {
         </Link>
       </div>
       <div className='header__searchBarContainer'>
+        
         <form className='header__searchBarContainer-form' onSubmit={handleSubmit}>
-          <button className='header__searchBarContainer-searchIcon' type='submit'>
-            <FaSearch />
-          </button>
-          <input 
-              className='header__searchBarContainer-form-searchBar' 
-              type="text"
-              value={searchBar}
-              onChange={(event) => {
-                dispatch(searchTitleValue(event.target.value))
-            }}
-              placeholder='Search media...' />
+            <button className='header__searchBarContainer-searchIcon' type='submit'>
+              <FaSearch />
+            </button>
+            <input 
+                className='header__searchBarContainer-form-searchBar' 
+                type="text"
+                value={searchBar}
+                onChange={(event) => {
+                  dispatch(searchTitleValue(event.target.value))
+              }}
+                placeholder='Search media...' />
+          
           {true && <button type='button' className='header__searchBarContainer-form-clearSearchBar'>
             <div className='header__searchBarContainer-form-clearSearchBar-icon'>
               <FaPlus />
@@ -94,6 +101,7 @@ function Header() {
             ))}
           </div>
         </form>
+        
       </div>
       <div className='header__userActionsContainer'>
         <LoginForm />
