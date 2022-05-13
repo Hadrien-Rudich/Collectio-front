@@ -1,27 +1,24 @@
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeInputValueLogin } from '../../actions/login';
+import { useNavigate } from 'react-router-dom';
+import { changeInputValueLogin, login } from '../../actions/login';
+import { saveUserData } from '../../actions/user';
 import './style.scss';
 
 function LoginPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { email, password } =  useSelector((state) => state.login);
+  const { auth, token, userId } = useSelector((state) => state.user);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('Je veux me connecter');
-
-    try {
-      const response = await axios.post('https://collectio-app.herokuapp.com/api/login', {
-        email,
-        password,
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(login());
+    navigate("/");
   }
 
   return (

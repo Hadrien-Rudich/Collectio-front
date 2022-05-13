@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import './style.scss';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function HomePage() {
   const categoriesDataTemp = [
@@ -152,8 +153,10 @@ function HomePage() {
               <ul className="glide__slides">
                 {category.items.map((item) => (
                   <li key={item.name} className="glide__slide">
-                    <img className="glide__slide-image" src={item.imageURL} alt={item.name} />
-                    <span>{item.name}</span>
+                    <Link to='/media/1' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <img className="glide__slide-image" src={item.imageURL} alt={item.name} />
+                      <span>{item.name}</span>
+                    </Link>
                   </li>
                 ))}
               </ul>

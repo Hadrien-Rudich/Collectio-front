@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './style.scss';
 import { Link, NavLink } from 'react-router-dom';
 
-import { FaBars, FaSearch, FaPlus, FaFilm, FaTv, FaBook, FaGamepad, FaSignInAlt, FaPen, FaAngleDown } from 'react-icons/fa';
+import { FaBars, FaSearch, FaPlus, FaFilm, FaTv, FaBook, FaGamepad, FaSignInAlt, FaPen, FaAngleDown, FaSignOutAlt, FaUserAlt } from 'react-icons/fa';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleMainMenu } from '../../actions/mainMenu';
@@ -32,6 +32,12 @@ function Header() {
   const dispatch = useDispatch();
 
   const { searchBar } = useSelector((state) => state.header);
+  const { auth, userId } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    console.log(auth);
+
+  }, [auth])
 
   const searchBarElement = useRef(null);
   
@@ -78,27 +84,46 @@ function Header() {
           </div>
         </form>
       </div>
-      <div className='header__userActionsContainer'>
-        <NavLink
-          to="/login"
-          className={({isActive}) => `header__userActionsContainer-actionContainer header__userActionsContainer-actionContainer${isActive ? '--active' : ''}`}
-        >
-          <div className='header__userActionsContainer-actionContainer-logo'>
-            <FaSignInAlt />
-          </div>
-          <span className='header__userActionsContainer-actionContainer-name'>Login</span>
-        </NavLink>
-        <NavLink
-          to="/register"
-          className={({isActive}) => `header__userActionsContainer-actionContainer header__userActionsContainer-actionContainer${isActive ? '--active' : ''}`}
-        >
-          <div className='header__userActionsContainer-actionContainer-logo'>
-            <FaPen />
-          </div>
-          <span className='header__userActionsContainer-actionContainer-name'>Register</span>
-        </NavLink>
-        
-      </div>
+        <div className={`header__userActionsContainer${!auth ? '--active' : ''}`}>
+          <NavLink
+            to="/login"
+            className={({isActive}) => `header__userActionsContainer-actionContainer header__userActionsContainer-actionContainer${isActive ? '--active' : ''}`}
+          >
+            <div className='header__userActionsContainer-actionContainer-logo'>
+              <FaSignInAlt />
+            </div>
+            <span className='header__userActionsContainer-actionContainer-name'>Login</span>
+          </NavLink>
+          <NavLink
+            to="/register"
+            className={({isActive}) => `header__userActionsContainer-actionContainer header__userActionsContainer-actionContainer${isActive ? '--active' : ''}`}
+          >
+            <div className='header__userActionsContainer-actionContainer-logo'>
+              <FaPen />
+            </div>
+            <span className='header__userActionsContainer-actionContainer-name'>Register</span>
+          </NavLink>
+        </div>
+        <div className={`header__userActionsContainer${auth ? '--active' : ''}`}>
+          <NavLink
+            to={`/profile/${userId}`}
+            className={({isActive}) => `header__userActionsContainer-actionContainer header__userActionsContainer-actionContainer${isActive ? '--active' : ''}`}
+          >
+            <div className='header__userActionsContainer-actionContainer-logo'>
+              <FaUserAlt />
+            </div>
+            <span className='header__userActionsContainer-actionContainer-name'>My profile</span>
+          </NavLink>
+          <NavLink
+            to="/logout"
+            className={({isActive}) => `header__userActionsContainer-actionContainer header__userActionsContainer-actionContainer${isActive ? '--active' : ''}`}
+          >
+            <div className='header__userActionsContainer-actionContainer-logo'>
+              <FaSignOutAlt />
+            </div>
+            <span className='header__userActionsContainer-actionContainer-name'>Logout</span>
+          </NavLink>
+        </div>
     </header>
   );
         
