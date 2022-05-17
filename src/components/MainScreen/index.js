@@ -14,6 +14,9 @@ import MyLibrairyPage from '../MyLibraryPage';
 import './style.scss';
 
 function MainScreen() {
+  
+  // importer ici le useSelector
+  
   return (
     <div className="main__screen">
       <Routes>
@@ -24,7 +27,7 @@ function MainScreen() {
         <Route path='/profile/:userId' element={<ProfilePage />} />
         <Route path='/results/:searchBar'  element={<ResultsPage />} />
 
-        {/* { !isLogged?
+        {/* { isLogged?
             Route if true   :
             Route if False
           } */}

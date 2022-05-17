@@ -1,6 +1,7 @@
-import './style.scss'
-import axios from 'axios'
-import React, { useState, useEffect } from 'react'
+import './style.scss';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const MyLibraryPage = (props) => {
   const libraryType = props.library;
@@ -32,6 +33,7 @@ const MyLibraryPage = (props) => {
     //}
   }, [libraryType])
 
+  console.log(libraryList)
 
   if (isLoaded) {
     return (
@@ -39,12 +41,13 @@ const MyLibraryPage = (props) => {
         <h2>My Library</h2>
         <div className="myLibraryPage_Container">
           {libraryList.map(el => (
-            <div className='myLibraryPage_Element' key={el.apimediaid}>
-
-              <p>{el.title}</p>
-              <p>{el.listname}</p>
-              <img className='myLibraryPage_Element_img' src={el.coverurl} alt="blabla"></img>
-            </div>
+            <Link to={'/'+el.mediatypename+'/'+el.apimediaid}>
+              <div className='myLibraryPage_Element' key={el.apimediaid}>
+                <p>{el.title}</p>
+                <p>{el.listname}</p>
+                <img className='myLibraryPage_Element_img' src={el.coverurl} alt="blabla"></img>
+              </div>
+            </Link>
           ))}
         </div>
       </section>
