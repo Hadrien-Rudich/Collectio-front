@@ -11,7 +11,10 @@ import MoviesPage from '../MoviesPage';
 import RegisterPage from '../RegisterPage';
 import ResultsPage from '../ResultsPage'
 import './style.scss';
-import MediaDetails from '../MediaDetails';
+import MovieDetails from '../MovieDetails';
+import SeriesDetails from '../SeriesDetails';
+import BookDetails from '../BookDetails';
+import VideoGameDetails from '../VideoGameDetails';
 
 function MainScreen() {
   return (
@@ -23,7 +26,14 @@ function MainScreen() {
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/profile/:userId' element={<ProfilePage />} />
         <Route path='/results/:searchBar'  element={<ResultsPage />} />
-        <Route path='/media/:mediaId'  element={<MediaDetails />} />
+
+        <Route path='/movies/:mediaId' element={<MovieDetails />} />
+        <Route path='/series/:mediaId' element={<SeriesDetails />} />
+        <Route path='/books/:mediaId' element={<BookDetails />} />
+        <Route path='/video-games/:mediaId' element={<VideoGameDetails />} />
+
+
+
         <Route path='/movies' element={<MoviesPage />} />
         <Route path='/series' element={<div>Series</div>} />
         <Route path='/books' element={<div>Books</div>} />

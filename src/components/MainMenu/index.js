@@ -32,6 +32,7 @@ function MainMenu() {
   ];
 
   const isOpen = useSelector((state) => state.mainMenu.isOpen);
+  const { auth } = useSelector((state) => state.user);
 
   return (
     <div className="main__menu" style={{width: isOpen ? '18em' : '0'}}>
@@ -47,7 +48,7 @@ function MainMenu() {
       </div>
       <div className="main__menu-section">
         <span className="main__menu-section-label">
-          Categories
+          {auth ? 'My collections' : 'Categories'}
         </span>
         {categoriesDataTemp.map((category) => (
           <NavLink

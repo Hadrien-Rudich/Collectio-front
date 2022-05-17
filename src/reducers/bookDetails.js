@@ -1,23 +1,22 @@
-import { SAVE_MOVIE_RESULT, TOGGLE_LOADING_MEDIA } from "../actions/mediaDetails";
+import { SAVE_BOOK_RESULT, SET_BOOK_LOADING } from "../actions/bookDetails";
 
 const initialState = {
   loading: true,
-  movieResult: undefined,
-  seriesResult: undefined,
+  bookResult: undefined,
 };
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case SAVE_MOVIE_RESULT: {
+    case SAVE_BOOK_RESULT: {
       return {
         ...state,
-        movieResult: action.responseMovie,
+        bookResult: action.bookResponse,
       }
     }
-    case TOGGLE_LOADING_MEDIA: {
+    case SET_BOOK_LOADING: {
       return {
         ...state,
-        loading: !state.loading,
+        loading: action.newLoadingValue,
       }
     }
     default: {

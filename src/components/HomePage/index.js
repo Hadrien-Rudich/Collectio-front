@@ -90,10 +90,12 @@ useEffect(() => {
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides">
                 {resultsData.results.map((item) => (
-                  <li key={item.title} className="glide__slide">
-                    <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
-                    <span>{item.title}</span>
-                  </li>
+                  <Link to={`/movies/${item.id}`}>
+                    <li key={item.title} className="glide__slide">
+                      <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
+                      <span>{item.title}</span>
+                    </li>
+                  </Link>
                 ))}
               </ul>
               <div className="glide__arrows" data-glide-el="controls">
@@ -110,10 +112,12 @@ useEffect(() => {
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides">
                 {resultsData.results.map((item) => (
-                  <li key={item.title} className="glide__slide">
-                    <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
-                    <span>{item.title}</span>
-                  </li>
+                  <Link to={`/series/${item.id}`}>
+                    <li key={item.title} className="glide__slide">
+                      <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
+                      <span>{item.title}</span>
+                    </li>
+                  </Link>
                 ))}
               </ul>
               <div className="glide__arrows" data-glide-el="controls">

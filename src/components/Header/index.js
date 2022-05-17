@@ -55,10 +55,12 @@ function Header() {
   //   console.log(searchBar);
   // }, [searchBar])
 
+  const apiKey = "53d8914dec27b153e9ddc38fedcfb93e";
+
   async function handleSubmit(event) {
     event.preventDefault()
     try {
-        const response = await axios.get(`https://imdb-api.com/en/API/Search/k_ysxe8sph/${searchBar}`)
+        const response = await axios.get(`https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&language=en-US&query=${searchBar}&page=1&page=1&include_adult=false`);
         console.log(response.data);
         dispatch(saveResultsData(response.data))
         navigate(`/results/${searchBar}`)

@@ -5,6 +5,7 @@ import "@glidejs/glide/dist/css/glide.theme.min.css";
 import { useEffect } from 'react';
 import './style.scss';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function ResultsPage() {
   const resultsData = useSelector((state) => state.searchResults.results);
@@ -144,10 +145,13 @@ function ResultsPage() {
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides">
                 {resultsData.results.map((item) => (
-                  <li key={item.title} className="glide__slide">
-                    <img className="glide__slide-image" src={item.image} alt={item.title} />
-                    <span>{item.title}</span>
-                  </li>
+                  console.log(item),
+                  <Link to={`/${category.slug}/${item.id}`}>
+                    <li key={item.title} className="glide__slide">
+                      <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
+                      <span>{item.title}</span>
+                    </li>
+                  </Link>
                 ))}
               </ul>
               <div className="glide__arrows" data-glide-el="controls">
