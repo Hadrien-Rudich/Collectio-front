@@ -1,7 +1,7 @@
-import { SAVE_RESULTS_DATA, TOGGLE_SEARCH_RESULTS } from "../actions/searchResults"
+import { SAVE_RESULTS_DATA, TOGGLE_SEARCH_RESULTS } from "../actions/searchResultsMovie"
 
 const initialState = {
-    results: null
+    resultsMovie:null
 }
 
 const reducer = (state = initialState, action = {}) => {
@@ -9,7 +9,7 @@ const reducer = (state = initialState, action = {}) => {
         case SAVE_RESULTS_DATA: {
           return {
             ...state,
-            results: action.results,
+            resultsMovie: action.resultsMovie,
           }
         }
 
