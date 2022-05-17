@@ -18,8 +18,13 @@ function LoginPage() {
     event.preventDefault();
     console.log('Je veux me connecter');
     dispatch(login());
-    navigate("/");
   }
+  
+  useEffect(() => {
+    if (auth) {
+      navigate("/");
+    }
+  }, [auth])
 
   return (
     <div className="loginPage">

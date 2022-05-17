@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-import { FaHome, FaFilm, FaTv, FaBook, FaGamepad, FaAddressBook, FaInfo } from 'react-icons/fa';
+import { FaHome, FaFilm, FaTv, FaBook, FaGamepad, FaAddressBook, FaInfo, FaQuestion } from 'react-icons/fa';
 
 import './style.scss';
 import MenuIcon from '../MenuIcon';
@@ -79,6 +79,14 @@ function MainMenu() {
         >
           <MenuIcon icon={FaInfo} />
           About
+        </NavLink>
+        <NavLink
+          key="legal notice"
+          to="/legal-notice"
+          className={({isActive}) => `main__menu-link ${isActive ? 'main__menu-link--active' : ''}`}
+        >
+          <MenuIcon icon={FaQuestion} />
+          Legal Notice
         </NavLink>
       </div>
     </div>

@@ -2,7 +2,15 @@
 
 .homePage {
   padding: 1em;
-  user-select: auto;
+  // user-select: auto;
+
+
+  &-title {
+    font-weight: bold;    
+    font-size: 2em;
+    margin-bottom: 1.2em;
+  }
+
   .glide {    
     cursor: auto;
   }

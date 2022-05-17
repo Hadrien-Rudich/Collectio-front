@@ -6,6 +6,7 @@ import { logout } from '../../actions/login';
 import HomePage from '../HomePage';
 import LoginPage from '../LoginPage';
 import LogoutPage from '../LogoutPage';
+import ProfilePage from '../ProfilePage';
 import RegisterPage from '../RegisterPage';
 import './style.scss';
 
@@ -17,12 +18,14 @@ function MainScreen() {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/logout' element={<LogoutPage />} />
         <Route path='/register' element={<RegisterPage />} />
+        <Route path='/profile/:userId' element={<ProfilePage />} />
         <Route path='/movies' element={<div>Movies</div>} />
         <Route path='/series' element={<div>Series</div>} />
         <Route path='/books' element={<div>Books</div>} />
         <Route path='/video-games' element={<div>Video games</div>} />
         <Route path='/contact' element={<div>Contact</div>} />
         <Route path='/about' element={<div>About</div>} />
+        <Route path='/legal-notice' element={<div>Legal notice</div>} />
       </Routes>
     </div>
   );

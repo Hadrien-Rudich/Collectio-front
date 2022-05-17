@@ -147,7 +147,7 @@ function HomePage() {
     <div className="homePage">
       {categoriesDataTemp.map((category) => (
         <div key={category.name}>
-          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>{category.name}</h2>
+          <h2 className="homePage-title">{category.name}</h2>
           <div className="glide" style={{ transition: 'all 550ms' }}>
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides">

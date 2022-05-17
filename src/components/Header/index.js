@@ -106,7 +106,7 @@ function Header() {
         </div>
         <div className={`header__userActionsContainer${auth ? '--active' : ''}`}>
           <NavLink
-            to={`/profile/${userId}`}
+            to={`/profile/${localStorage.getItem('userId')}`}
             className={({isActive}) => `header__userActionsContainer-actionContainer header__userActionsContainer-actionContainer${isActive ? '--active' : ''}`}
           >
             <div className='header__userActionsContainer-actionContainer-logo'>
