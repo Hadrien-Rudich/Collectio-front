@@ -12,7 +12,7 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const { email, password } =  useSelector((state) => state.login);
-  const { auth, token, userId } = useSelector((state) => state.user);
+  const { auth } = useSelector((state) => state.user);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

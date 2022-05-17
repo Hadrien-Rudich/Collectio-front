@@ -1,12 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import './style.scss';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 import { FaBars, FaSearch, FaPlus, FaFilm, FaTv, FaBook, FaGamepad, FaSignInAlt, FaPen, FaAngleDown, FaSignOutAlt, FaUserAlt } from 'react-icons/fa';
 
-import { useDispatch, useSelector } from 'react-redux';
 import { toggleMainMenu } from '../../actions/mainMenu';
 import { changeInputValueHeader } from '../../actions/header';
+import { searchTitleValue } from "../../actions/searchBar";
+import { saveResultsData } from '../../actions/searchResults';
+
 
 const categoriesData = [
         {
@@ -30,12 +34,13 @@ const categoriesData = [
     
 function Header() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { searchBar } = useSelector((state) => state.header);
-  const { auth, userId } = useSelector((state) => state.user);
+  const { auth } = useSelector((state) => state.user);
 
   useEffect(() => {
-    console.log(auth);
+    console.log({auth});
 
   }, [auth])
 
@@ -45,6 +50,22 @@ function Header() {
     dispatch(changeInputValueHeader("searchBar", ""));
     searchBarElement.current.focus();
   }
+
+  useEffect(() => {
+    console.log(searchBar);
+  }, [searchBar])
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+    try {
+        const response = await axios.get(`https://imdb-api.com/en/API/Search/k_ysxe8sph/${searchBar}`)
+        console.log(response.data);
+        dispatch(saveResultsData(response.data))
+        navigate(`/results/${searchBar}`)
+    } catch (error) {
+        console.log(error);
+    }
+}
 
   return(
     <header className='header'>
@@ -63,7 +84,7 @@ function Header() {
         <div className='header__searchBarContainer-searchIcon'>
           <FaSearch />
         </div>
-        <form className='header__searchBarContainer-form'>
+        <form className='header__searchBarContainer-form' onSubmit={handleSubmit}>
           <input ref={searchBarElement} className='header__searchBarContainer-form-searchBar' type="text" placeholder='Search media...' value={searchBar} onChange={(event) => dispatch(changeInputValueHeader("searchBar", event.target.value))} />
           {searchBar.length > 0 && (
             <button type='button' className='header__searchBarContainer-form-clearSearchBar' onClick={handleClearSearchBar}>
@@ -72,6 +93,25 @@ function Header() {
               </div>
             </button>
           )}
+        
+        {/* <form className='header__searchBarContainer-form' onSubmit={handleSubmit}>
+            <button className='header__searchBarContainer-searchIcon' type='submit'>
+              <FaSearch />
+            </button>
+            <input 
+                className='header__searchBarContainer-form-searchBar' 
+                type="text"
+                value={searchBar}
+                onChange={(event) => {
+                  dispatch(searchTitleValue(event.target.value))
+              }}
+                placeholder='Search media...' />
+          
+          {true && <button type='button' className='header__searchBarContainer-form-clearSearchBar'>
+            <div className='header__searchBarContainer-form-clearSearchBar-icon'>
+              <FaPlus />
+            </div>
+          </button>} */}
           <div className='header__searchBarContainer-form-filters'>
             {categoriesData.map((category) =>(
               <div className='header__searchBarContainer-form-filters-option' key={category.name}>
@@ -83,6 +123,7 @@ function Header() {
             ))}
           </div>
         </form>
+        
       </div>
         <div className={`header__userActionsContainer${!auth ? '--active' : ''}`}>
           <NavLink

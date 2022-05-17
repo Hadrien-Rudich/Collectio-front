@@ -6,6 +6,7 @@ import registerReducer from './register';
 import loginModalReducer from './login';
 import userReducer from './user';
 import profileReducer from './profile';
+import searchResultsReducer from './searchResults'
 
 const rootReducer = combineReducers({
   header: headerReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   login: loginModalReducer,
   user: userReducer,
   profile: profileReducer,
+  searchResults: searchResultsReducer,
 });
 
 export default rootReducer;
