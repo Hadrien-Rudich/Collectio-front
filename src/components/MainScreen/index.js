@@ -23,10 +23,16 @@ function MainScreen() {
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/profile/:userId' element={<ProfilePage />} />
         <Route path='/results/:searchBar'  element={<ResultsPage />} />
-        <Route path='/movies' element={<MoviesPage />} />
-        <Route path='/series' element={<div><MyLibrairyPage /></div>} />
-        <Route path='/books' element={<div>Books</div>} />
-        <Route path='/video-games' element={<div>Video games</div>} />
+
+        {/* { !isLogged?
+            Route if true   :
+            Route if False
+          } */}
+
+        <Route path='/movies' element={<MyLibrairyPage library='movie'/>} />
+        <Route path='/series' element={<MyLibrairyPage library='series'/>} />
+        <Route path='/books' element={<MyLibrairyPage library='book'/>} />
+        <Route path='/video-games' element={<MyLibrairyPage library='video_game'/>} />
         <Route path='/contact' element={<div>Contact</div>} />
         <Route path='/about' element={<div>About</div>} />
         <Route path='/legal-notice' element={<div>Legal notice</div>} />
