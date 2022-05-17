@@ -8,20 +8,22 @@ import { useEffect } from 'react';
 import './style.scss';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveResultsData } from '../../actions/searchResults';
+import { saveResultsData, saveResultsDataMovie, saveResultsDataTV } from '../../actions/searchResults';
 
 function HomePage() {
 
   const dispatch = useDispatch;
   const menuIsOpen = useSelector((state) => state.mainMenu.isOpen);
   const resultsData = useSelector((state) => state.searchResults.results);
+  const resultsDataMovie = useSelector((state) => state.searchResults.resultsMovie);
+  const resultsDataTV = useSelector((state) => state.searchResults.resultsTV);
   // console.log(resultsData);
 
   async function inTheater() {
     try {
         const response = await axios.get('https://api.themoviedb.org/3/movie/now_playing?api_key=53d8914dec27b153e9ddc38fedcfb93e&language=en-US&France')
         console.log(response.data);
-        dispatch(saveResultsData(response.data))
+        dispatch(saveResultsDataMovie(response.data))
     } catch (error) {
         console.log(error);
     }
@@ -31,7 +33,7 @@ function HomePage() {
     try {
       const response = await axios.get('https://api.themoviedb.org/3/tv/on_the_air?api_key=53d8914dec27b153e9ddc38fedcfb93e&language=en-US&page=1')
       console.log(response.data);
-      dispatch(saveResultsData(response.data))
+      dispatch(saveResultsDataTV(response.data))
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +42,7 @@ function HomePage() {
 useEffect(() => {
   return() => {
       inTheater()
-      // TV()
+      TV()
   }
 }, [])
 
