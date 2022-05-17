@@ -39,10 +39,10 @@ function Header() {
   const { searchBar } = useSelector((state) => state.header);
   const { auth } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    console.log({auth});
+  // useEffect(() => {
+  //   console.log({auth});
 
-  }, [auth])
+  // }, [auth])
 
   const searchBarElement = useRef(null);
   
@@ -51,9 +51,9 @@ function Header() {
     searchBarElement.current.focus();
   }
 
-  useEffect(() => {
-    console.log(searchBar);
-  }, [searchBar])
+  // useEffect(() => {
+  //   console.log(searchBar);
+  // }, [searchBar])
 
   async function handleSubmit(event) {
     event.preventDefault()
