@@ -9,7 +9,8 @@ import LogoutPage from '../LogoutPage';
 import ProfilePage from '../ProfilePage';
 import LibraryPage from '../LibraryPage';
 import RegisterPage from '../RegisterPage';
-import ResultsPage from '../ResultsPage'
+import ResultsPage from '../ResultsPage';
+import MyLibrairyPage from '../MyLibraryPage';
 import './style.scss';
 import MovieDetails from '../MovieDetails';
 import SeriesDetails from '../SeriesDetails';
@@ -17,6 +18,9 @@ import BookDetails from '../BookDetails';
 import VideoGameDetails from '../VideoGameDetails';
 
 function MainScreen() {
+  
+  // importer ici le useSelector
+  
   return (
     <div className="main__screen">
       <Routes>
@@ -31,14 +35,15 @@ function MainScreen() {
         <Route path='/series/:mediaId' element={<SeriesDetails />} />
         <Route path='/books/:mediaId' element={<BookDetails />} />
         <Route path='/video-games/:mediaId' element={<VideoGameDetails />} />
+        {/* { isLogged?
+            Route if true   :
+            Route if False
+          } */}
 
-
-
-        <Route path='/movies' element={<LibraryPage />} />
-        <Route path='/series' element={<LibraryPage/>} />
-        <Route path='/books' element={<LibraryPage />} />
-        <Route path='/video-games' element={<LibraryPage />} />
-      
+        <Route path='/movies' element={<MyLibrairyPage library='movie'/>} />
+        <Route path='/series' element={<MyLibrairyPage library='series'/>} />
+        <Route path='/books' element={<MyLibrairyPage library='book'/>} />
+        <Route path='/video-games' element={<MyLibrairyPage library='video_game'/>} />
         <Route path='/contact' element={<div>Contact</div>} />
         <Route path='/about' element={<div>About</div>} />
         <Route path='/legal-notice' element={<div>Legal notice</div>} />
