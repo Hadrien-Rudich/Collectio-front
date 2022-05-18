@@ -17,8 +17,8 @@ const initialState = {
       resultsVideoGames: [],
     },
 
-    bestRated: {
-      bestRated: [],
+    resultsBestRated: {
+      resultsBestRated: [],
     }
 }
 
@@ -56,7 +56,7 @@ const reducer = (state = initialState, action = {}) => {
         case BEST_RATED: {
           return {
             ...state,
-            bestRated: action.bestRated,
+            resultsBestRated: action.resultsBestRated,
           }
         }
 
