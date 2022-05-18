@@ -49,7 +49,7 @@ function MovieDetails() {
       <div>
         <img src={`https://image.tmdb.org/t/p/original/${movieResults.movie.poster_path}`} alt="" />
         <h2 className="mediaDetails__mediaReleaseYear">{movieResults.movie.release_date}</h2>
-        <h2 className="mediaDetails__mediaRunTime">{movieResults.movie.runtime} minutes</h2> 
+        <h2 className="mediaDetails__mediaRunTime">{movieResults.movie.runtime} minutes</h2>
         <h2 className="mediaDetails__mediaTitle">{movieResults.movie.original_title}</h2>
 
         <br />
