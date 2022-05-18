@@ -49,7 +49,7 @@ const bestRated = async () => {
     try {
         const response = await axios.get('https://collectio-app.herokuapp.com/api/movie/bestrated')
         console.log("bestRated", response.data);
-        dispatch(saveResultsDataMovie(response.data))
+        dispatch(bestRated(response.data))
     } catch (error) {
         console.log(error);
     }
