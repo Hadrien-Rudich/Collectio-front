@@ -33,6 +33,7 @@ function LibraryPage() {
 
 
 
+
      console.log("ICI JE SUIS LA EN DEHORS DU USEEFFECT")
 
   const inTheater = async () => {

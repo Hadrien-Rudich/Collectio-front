@@ -31,6 +31,7 @@
       font-weight: bold;
       text-transform: uppercase;
       color: color.scale(vars.$primary-color, $blackness: 20%);
+      white-space: nowrap;
     }
   }
   

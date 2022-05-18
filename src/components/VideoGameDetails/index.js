@@ -75,43 +75,6 @@ function VideoGameDetails() {
         {videoGameResult.publishers.map((publisher) => (
           <p key={publisher.id}>{publisher.name}</p>
         ))}
-
-
-
-        {/* <br />
-        <br />
-        <h3 className="mediaDetails__mediaCast">Director{videoGameResult.cast.crew.filter((crew) => crew.department === "Directing").length > 1 ? 's' : ''}</h3>
-        <br />
-        {videoGameResult.cast.crew.filter((crew) => crew.department === "Directing").slice(0, 5).map((crew) => (
-          <h4 key={crew.id} className="mediaDetails__mediaGenre">{crew.name}</h4>
-        ))}
-
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaCast">Main cast</h3>
-        <br />
-        {videoGameResult.cast.cast.slice(0, 5).map((cast) => (
-          <div key={cast.id}>
-            <h4 className="mediaDetails__mediaGenre">{cast.name}</h4>
-            <span>{cast.character}</span>
-            <br />
-            <br />
-          </div>
-        ))}
-
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaOverview">Overview</h3>
-        <br />
-        <p className="mediaDetails__mediaOverview">{videoGameResult.movie.overview}</p>
-
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaOverview">Genres</h3>
-        <br />
-        {videoGameResult.movie.genres.map((genre) => (
-          <h4 key={genre.id} className="mediaDetails__mediaGenre">{genre.name}</h4>
-        ))} */}
       </div>
     )}
     </div>
