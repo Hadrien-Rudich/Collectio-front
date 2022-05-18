@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import './style.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveResultsData, saveResultsDataMovie, saveResultsDataTV, saveResultsDataVideoGames, bestRated } from '../../actions/searchResults';
+import { saveResultsData, saveResultsDataMovie, saveResultsDataTV, saveResultsDataVideoGames } from '../../actions/searchResults';
 
 function LibraryPage() {
    const dispatch = useDispatch();
@@ -26,10 +26,6 @@ function LibraryPage() {
 //     console.log('JE TESTE MON STATE 3 --> ', state.searchResults.resultsVideoGames.results)
 //     return state.searchResults.resultsVideoGames.results
 //   });
-  const resultsBestRated = useSelector((state) => {
-    console.log('JE TESTE MON STATE 3 --> ', state.searchResults.bestRated.results)
-    return state.searchResults.bestRated.results
-  });
 
 
 
@@ -44,16 +40,6 @@ function LibraryPage() {
         console.log(error);
     }
 };
-
-const bestRated = async () => {
-    try {
-        const response = await axios.get('https://collectio-app.herokuapp.com/api/movie/bestrated')
-        console.log("bestRated", response.data);
-        dispatch(bestRated(response.data))
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 //   const TV = async () => {
 //     try {
@@ -83,8 +69,7 @@ const bestRated = async () => {
 
     console.log({
       "AVANCEE" : "PREMIERE EXECUTION",
-      resultsDataMovie,
-      resultsBestRated
+      resultsDataMovie
     //   resultsDataTV,
     //   resultsDataVideoGames
     })
@@ -96,8 +81,7 @@ const bestRated = async () => {
     //   await VideoGames()
       console.log({
         "AVANCEE" : "DEUXIEME EXECUTION",
-        resultsDataMovie,
-        resultsBestRated
+        resultsDataMovie
         // resultsDataTV,
         // resultsDataVideoGames
       })
@@ -164,7 +148,7 @@ const bestRated = async () => {
   // }, [glidesList]);
 
     return (
-        <section>
+        <section className="homePage">
             <div className='Movie'>
                 <div key="Movie">
                     <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Movies in theater</h2>

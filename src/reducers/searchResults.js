@@ -1,4 +1,4 @@
-import { SAVE_RESULTS_DATA, SAVE_RESULTS_DATA_MOVIE, SAVE_RESULTS_DATA_TV, SAVE_RESULTS_DATA_VIDEOGAMES, TOGGLE_SEARCH_RESULTS, BEST_RATED } from "../actions/searchResults"
+import { SAVE_RESULTS_DATA, SAVE_RESULTS_DATA_MOVIE, SAVE_RESULTS_DATA_TV, SAVE_RESULTS_DATA_VIDEOGAMES, SAVE_RESULTS_BEST_RESULTS, TOGGLE_SEARCH_RESULTS } from "../actions/searchResults"
 
 const initialState = {
     results: {
@@ -17,9 +17,9 @@ const initialState = {
       resultsVideoGames: [],
     },
 
-    resultsBestRated: {
-      resultsBestRated: [],
-    }
+    bestRated: {
+      bestRated: [],
+    },
 }
 
 const reducer = (state = initialState, action = {}) => {
@@ -50,13 +50,6 @@ const reducer = (state = initialState, action = {}) => {
           return {
             ...state,
             resultsVideoGames: action.resultsVideoGames,
-          }
-        }
-
-        case BEST_RATED: {
-          return {
-            ...state,
-            resultsBestRated: action.resultsBestRated,
           }
         }
 
