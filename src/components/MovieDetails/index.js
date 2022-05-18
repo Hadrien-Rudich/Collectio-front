@@ -27,11 +27,11 @@ function MovieDetails() {
     }
   }
 
-  useEffect(() => {
-    if (typeof movieResults.movie !== 'undefined' && typeof movieResults.cast !== 'undefined') {
-      console.log('movieResult', movieResults);
-    }
-  }, [movieResults]);
+  // useEffect(() => {
+  //   if (typeof movieResults.movie !== 'undefined' && typeof movieResults.cast !== 'undefined') {
+  //     console.log('movieResult', movieResults);
+  //   }
+  // }, [movieResults]);
 
   useEffect(() => {
     return () => {
