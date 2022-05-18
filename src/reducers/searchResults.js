@@ -1,9 +1,25 @@
-import { SAVE_RESULTS_DATA, TOGGLE_SEARCH_RESULTS } from "../actions/searchResults"
+import { SAVE_RESULTS_DATA, SAVE_RESULTS_DATA_MOVIE, SAVE_RESULTS_DATA_TV, SAVE_RESULTS_DATA_VIDEOGAMES, TOGGLE_SEARCH_RESULTS, BEST_RATED } from "../actions/searchResults"
 
 const initialState = {
     results: {
       results: [],
     },
+
+    resultsMovie: {
+      resultsMovie: [],
+    }, 
+
+    resultsTV: {
+      resultsTV: [],
+    },
+
+    resultsVideoGames: {
+      resultsVideoGames: [],
+    },
+
+    resultsBestRated: {
+      resultsBestRated: [],
+    }
 }
 
 const reducer = (state = initialState, action = {}) => {
@@ -12,6 +28,35 @@ const reducer = (state = initialState, action = {}) => {
           return {
             ...state,
             results: action.results,
+          }
+        }
+
+        case SAVE_RESULTS_DATA_MOVIE: {
+          console.log("JE SUIS DANS LE REDUCER action.resultsMovie", action.resultsMovie)
+          return {
+            ...state,
+            resultsMovie: action.resultsMovie,
+          }
+        }
+
+        case SAVE_RESULTS_DATA_TV: {
+          return {
+            ...state,
+            resultsTV: action.resultsTV,
+          }
+        }
+
+        case SAVE_RESULTS_DATA_VIDEOGAMES: {
+          return {
+            ...state,
+            resultsVideoGames: action.resultsVideoGames,
+          }
+        }
+
+        case BEST_RATED: {
+          return {
+            ...state,
+            resultsBestRated: action.resultsBestRated,
           }
         }
 

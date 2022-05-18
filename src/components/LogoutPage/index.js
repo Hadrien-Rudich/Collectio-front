@@ -13,9 +13,12 @@ function LogoutPage() {
     navigate('/');
   };
   useEffect(() => {
-    return () => {
+  
       logoutFunction();
-    }
+   
+    // return () => {
+    //   logoutFunction();
+    // }
   }, []);
 
   return (
