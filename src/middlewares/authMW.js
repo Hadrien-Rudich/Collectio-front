@@ -3,7 +3,8 @@ import { LOGIN, LOGOUT } from "../actions/login";
 import { saveUserData } from "../actions/user";
 
 const instance = axios.create({
-  baseURL: 'https://collectio-app.herokuapp.com',
+  // baseURL: 'https://collectio-app.herokuapp.com',
+  baseURL: 'http://localhost:4200',
 });
 
 if (localStorage.getItem('token')) {
@@ -30,7 +31,7 @@ const authMW = (store) => (next) => async (action) => {
     }
   }
   else if (action.type === LOGOUT) {
-    delete instance.defaults.headers.common.Authorization;
+    delete instance.defaults.headers.common.authorization;
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
   }

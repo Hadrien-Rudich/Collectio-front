@@ -1,9 +1,8 @@
-import axios from 'axios';
-import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { saveVideoGameResult, setVideoGameLoading } from '../../actions/videoGameDetails';
+import { fetchVideoGameDetails } from '../../actions/videoGameDetails';
+import Loader from '../Loader';
 import './style.scss';
 
 function VideoGameDetails() {
@@ -12,30 +11,14 @@ function VideoGameDetails() {
   const { loading, videoGameResult } = useSelector((state) => state.videoGameDetails);
   const { mediaId } = useParams();
 
-  const videoGameApiKey = '445da378957044c0ad00ff9fe3f8e708';
-
-  const getVideoGameData = async () => {
-    dispatch(setVideoGameLoading(true));
-    try {
-      const videoGameResponse = await axios.get(`https://api.rawg.io/api/games/${mediaId}?key=${videoGameApiKey}`);
-      
-      dispatch(saveVideoGameResult(videoGameResponse.data));
-      dispatch(setVideoGameLoading(false));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // useEffect(() => {
+  //   if (typeof videoGameResult !== 'undefined') {
+  //     console.log('videoGameResult', videoGameResult);
+  //   }
+  // }, [videoGameResult]);
 
   useEffect(() => {
-    if (typeof videoGameResult !== 'undefined') {
-      console.log('videoGameResult', videoGameResult);
-    }
-  }, [videoGameResult]);
-
-  useEffect(() => {
-    return () => {
-      getVideoGameData();
-    }
+    dispatch(fetchVideoGameDetails(mediaId));
   }, []);
 
 
@@ -43,7 +26,7 @@ function VideoGameDetails() {
   return (
     <div className="mediaDetails">
     {loading ? (
-      <div>Chargement...</div>
+      <Loader />
     ) : (
       <div>
         <img src={videoGameResult.background_image} alt="" />
@@ -80,9 +63,5 @@ function VideoGameDetails() {
     </div>
   );
 }
-
-VideoGameDetails.propTypes = {
-  
-};
 
 export default VideoGameDetails;

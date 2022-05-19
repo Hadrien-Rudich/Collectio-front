@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { saveSeriesResults, setSeriesLoading } from '../../actions/seriesDetails';
+import { fetchSeriesDetails, saveSeriesResults, setSeriesLoading } from '../../actions/seriesDetails';
+import Loader from '../Loader';
 import './style.scss';
 
 function SeriesDetails() {
@@ -12,31 +13,14 @@ function SeriesDetails() {
   const { loading, seriesResults } = useSelector((state) => state.seriesDetails);
   const { mediaId } = useParams();
 
-  const seriesApiKey = '53d8914dec27b153e9ddc38fedcfb93e';
-
-  const getSeriesData = async () => {
-    dispatch(setSeriesLoading(true));
-    try {
-      const seriesResponse = await axios.get(`https://api.themoviedb.org/3/tv/${mediaId}?api_key=${seriesApiKey}&language=en-US`);
-      const seriesCastResponse = await axios.get(`https://api.themoviedb.org/3/tv/${mediaId}/credits?api_key=${seriesApiKey}&language=en-US`);
-      
-      dispatch(saveSeriesResults(seriesResponse.data, seriesCastResponse.data));      
-      dispatch(setSeriesLoading(false));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // useEffect(() => {
+  //   if (typeof seriesResults.series !== 'undefined' && typeof seriesResults.cast !== 'undefined') {
+  //     console.log('seriesResult', seriesResults);
+  //   }
+  // }, [seriesResults]);
 
   useEffect(() => {
-    if (typeof seriesResults.series !== 'undefined' && typeof seriesResults.cast !== 'undefined') {
-      console.log('seriesResult', seriesResults);
-    }
-  }, [seriesResults]);
-
-  useEffect(() => {
-    return () => {
-      getSeriesData();
-    }
+    dispatch(fetchSeriesDetails(mediaId));
   }, []);
 
 
@@ -44,7 +28,7 @@ function SeriesDetails() {
   return (
     <div className="mediaDetails">
     {loading ? (
-      <div>Chargement...</div>
+      <Loader />
     ) : (
       <div>
         <img src={`https://image.tmdb.org/t/p/original/${seriesResults.series.poster_path}`} alt="" />

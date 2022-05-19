@@ -6,7 +6,8 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import './style.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveResultsData, saveResultsDataMovie, saveResultsDataTV, saveResultsDataVideoGames, bestRated } from '../../actions/searchResults';
+import { saveResultsData, saveResultsDataMovie, saveResultsDataTV, saveResultsDataVideoGames } from '../../actions/searchResults';
+import { Link } from 'react-router-dom';
 
 function LibraryPage() {
    const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function LibraryPage() {
     console.log('JE TESTE MON STATE 1 --> ', state.searchResults.resultsMovie.results)
     return state.searchResults.resultsMovie.results
   });
+
 //   const resultsDataTV = useSelector((state) => {
 //     console.log('JE TESTE MON STATE 2 --> ', state.searchResults.resultsTV.results)
 //     return state.searchResults.resultsTV.results
@@ -26,10 +28,10 @@ function LibraryPage() {
 //     console.log('JE TESTE MON STATE 3 --> ', state.searchResults.resultsVideoGames.results)
 //     return state.searchResults.resultsVideoGames.results
 //   });
-  const resultsBestRated = useSelector((state) => {
-    console.log('JE TESTE MON STATE 3 --> ', state.searchResults.bestRated.results)
-    return state.searchResults.bestRated.results
-  });
+  // const resultsBestRated = useSelector((state) => {
+  //   console.log('JE TESTE MON STATE 3 --> ', state.searchResults.bestRated.results)
+  //   return state.searchResults.bestRated.results
+  // });
 
 
 
@@ -45,16 +47,6 @@ function LibraryPage() {
         console.log(error);
     }
 };
-
-const bestRated = async () => {
-    try {
-        const response = await axios.get('https://collectio-app.herokuapp.com/api/movie/bestrated')
-        console.log("bestRated", response.data);
-        dispatch(bestRated(response.data))
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 //   const TV = async () => {
 //     try {
@@ -85,20 +77,17 @@ const bestRated = async () => {
     console.log({
       "AVANCEE" : "PREMIERE EXECUTION",
       resultsDataMovie,
-      resultsBestRated
     //   resultsDataTV,
     //   resultsDataVideoGames
     })
 
     const execFetch = async () => {
       await inTheater()
-      await bestRated()
     //   await TV()
     //   await VideoGames()
       console.log({
         "AVANCEE" : "DEUXIEME EXECUTION",
         resultsDataMovie,
-        resultsBestRated
         // resultsDataTV,
         // resultsDataVideoGames
       })
@@ -141,13 +130,28 @@ const bestRated = async () => {
 
   
   const gliderOptions = {
-    type: 'carousel',
+    type: 'slider',
     startAt: 0,
-    focusAt: "center",
+    bound: true,
+    focusAt: 0,
     perView: menuIsOpen ? 7 : 9,
     keyboard: false,
     swipeThreshold: false,
     dragThreshold: false,
+    breakpoints: {
+      1650: {
+        perView: menuIsOpen ? 5 : 7,
+      },
+      1250: {
+        perView: menuIsOpen ? 3 : 5,
+      },
+      880: {
+        perView: menuIsOpen ? 1 : 3,
+      },
+      590: {
+        perView: 1,
+      }
+    }
   }
   
   // useEffect(() => {
@@ -166,17 +170,19 @@ const bestRated = async () => {
 
     return (
         <section>
-            <div className='Movie'>
+            <div className='homePage'>
                 <div key="Movie">
-                    <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Movies in theater</h2>
+                    <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em', textAlign: 'center'}}>My Movies</h2>
                     <div className="glide" style={{ transition: 'all 550ms' }}>
                         <div className="glide__track" data-glide-el="track">
                             <ul className="glide__slides">
                             {resultsDataMovie && resultsDataMovie.map((item) => (
-                                <li key={item.title} className="glide__slide">
-                                <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
-                                <span>{item.title}</span>
-                                </li>
+                              <li key={item.id} className="glide__slide">
+                                <Link to={`/movies/${item.id}`} className="glide__slide-link">
+                                  <img className="glide__slide-link-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
+                                  <span className="glide__slide-link-title">{item.title}</span>
+                                </Link>
+                              </li>
                             ))}
                             </ul>
                             <div className="glide__arrows" data-glide-el="controls">
@@ -186,7 +192,7 @@ const bestRated = async () => {
                         </div>
                     </div>
                 </div>
-                <div className='main_soon'>
+                {/* <div className='main_soon'>
                 <div key="main_soon">
                     <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Top Rated</h2>
                     <div className="glide" style={{ transition: 'all 550ms' }}>
@@ -206,7 +212,7 @@ const bestRated = async () => {
                         </div>
                     </div>
                     </div>
-                </div>
+                // </div> */}
                 <div className='main_top'>
 
                 </div>

@@ -4,143 +4,185 @@ import "@glidejs/glide/dist/css/glide.theme.min.css";
 
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import './style.scss';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveResultsData, saveResultsDataMovie, saveResultsDataTV, saveResultsDataVideoGames } from '../../actions/searchResults';
+import {
+  fetchLatestMoviesRelease,
+  fetchLatestSeriesRelease,
+  fetchLatestBooksRelease,
+  fetchLatestVideoGamesRelease,
+
+  saveLatestMoviesReleaseGlide,
+  saveLatestSeriesReleaseGlide,
+  saveLatestBooksReleaseGlide,
+  saveLatestVideoGamesReleaseGlide,
+} from '../../actions/homePage';
+import Loader from '../Loader';
 
 function HomePage() {
 
   const dispatch = useDispatch();
+  const isInitialMount = useRef(true);
+
   const menuIsOpen = useSelector((state) => state.mainMenu.isOpen);
-  const resultsData = useSelector((state) => state.searchResults.results);
+  const { 
+    latestMoviesReleaseResult,
+    latestSeriesReleaseResult,
+    latestBooksReleaseResult,
+    latestVideoGamesReleaseResult,
 
-  const resultsDataMovie = useSelector((state) => {
-    console.log('JE TESTE MON STATE 1 --> ', state.searchResults.resultsMovie.results)
-    return state.searchResults.resultsMovie.results
-  });
-  const resultsDataTV = useSelector((state) => {
-    console.log('JE TESTE MON STATE 2 --> ', state.searchResults.resultsTV.results)
-    return state.searchResults.resultsTV.results
-  });
-  const resultsDataVideoGames = useSelector((state) => {
-    console.log('JE TESTE MON STATE 3 --> ', state.searchResults.resultsVideoGames.results)
-    return state.searchResults.resultsVideoGames.results
-  });
+    latestMoviesReleaseLoading,
+    latestSeriesReleaseLoading,
+    latestBooksReleaseLoading,
+    latestVideoGamesReleaseLoading,
+  } = useSelector((state) => state.homePage);
 
-  // const resultsDataTV = useSelector((state) => state.searchResults.resultsTV);
-
-  // const resultsDataMovie = useSelector((state) => state.searchResults.resultsMovie.results);
-  // const resultsDataTV = useSelector((state) => state.searchResults.resultsTV.results);
-
-  // console.log(resultsData);
-
-  console.log("ICI JE SUIS LA EN DEHORS DU USEEFFECT")
-
-  const apiKey = "53d8914dec27b153e9ddc38fedcfb93e";
-  const apiKeyGames = "65da31f76aac4be6aeead35e091febd7"; 
-
-  const inTheater = async () => {
-    try {
-        const response = await axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&France`)
-        console.log("inTheater", response.data);
-        dispatch(saveResultsDataMovie(response.data))
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-  const TV = async () => {
-    try {
-      const response = await axios.get(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${apiKey}&language=en-US&page=1`)
-      console.log("TV", response.data);
-      console.log(response.data);
-      dispatch(saveResultsDataTV(response.data))
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const VideoGames = async () => {
-    try {
-      const response = await axios.get(`https://api.rawg.io/api/games?key=${apiKeyGames}&dates=2022-01-01,2022-12-12`)
-      console.log("VideoGames", response.data);
-      console.log(response.data);
-      dispatch(saveResultsDataVideoGames(response.data))
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-
-    console.log("1) je suis ici dans le useEffect")
-
-    console.log({
-      "AVANCEE" : "PREMIERE EXECUTION",
-      resultsDataMovie,
-      resultsDataTV,
-      resultsDataVideoGames
-    })
-
-    const execFetch = async () => {
-      await inTheater()
-      await TV()
-      await VideoGames()
-      console.log({
-        "AVANCEE" : "DEUXIEME EXECUTION",
-        resultsDataMovie,
-        resultsDataTV,
-        resultsDataVideoGames
-      })
-    }
-    execFetch()
-
-
-
-
-      const glides = document.querySelectorAll('.glide');
-      if (glides && glides.length > 0) {
-        for (let i = 0; i < glides.length; i++) {
-          const glideElement = new Glide(glides[i], gliderOptions).mount();
-          // glideElement.update({
-          //   perView: menuIsOpen ? 7 : 9,
-          // });
-          // glidesList[i] = {
-          //   name: `glide${i + 1}`,
-          //   glideElement,
-          // }
-        }
-      }
-    
-    // return () => {
-    //   const glides = document.querySelectorAll('.glide');
-    //   if (glides && glides.length > 0) {
-    //     for (let i = 0; i < glides.length; i++) {
-    //       const glideElement = new Glide(glides[i], gliderOptions).mount();
-    //       // glideElement.update({
-    //       //   perView: menuIsOpen ? 7 : 9,
-    //       // });
-    //       // glidesList[i] = {
-    //       //   name: `glide${i + 1}`,
-    //       //   glideElement,
-    //       // }
-    //     }
-    //   }
-    // }
-  }, []);
-
-  
   const gliderOptions = {
-    type: 'carousel',
+    type: 'slider',
     startAt: 0,
-    focusAt: "center",
+    bound: true,
+    focusAt: 0,
     perView: menuIsOpen ? 7 : 9,
     keyboard: false,
     swipeThreshold: false,
     dragThreshold: false,
+    breakpoints: {
+      1650: {
+        perView: menuIsOpen ? 5 : 7,
+      },
+      1250: {
+        perView: menuIsOpen ? 3 : 5,
+      },
+      880: {
+        perView: menuIsOpen ? 1 : 3,
+      },
+      590: {
+        perView: 1,
+      }
+    }
   }
+
+
+  useEffect(() => {
+    if (typeof latestMoviesReleaseResult === "undefined") {
+      dispatch(fetchLatestMoviesRelease());
+    }
+    if (typeof latestSeriesReleaseResult === "undefined") {
+      dispatch(fetchLatestSeriesRelease());
+    }
+    if (typeof latestBooksReleaseResult === "undefined") {
+      dispatch(fetchLatestBooksRelease());
+    }
+    if (typeof latestVideoGamesReleaseResult === "undefined") {
+      dispatch(fetchLatestVideoGamesRelease());
+    }
+  }, []);
+
+
+  useEffect(() => {
+    if (!latestMoviesReleaseLoading) {
+      dispatch(saveLatestMoviesReleaseGlide(new Glide("#glideMovies", gliderOptions).mount()));
+    }
+  }, [latestMoviesReleaseLoading]);
+
+  useEffect(() => {
+    if (!latestSeriesReleaseLoading) {
+      dispatch(saveLatestSeriesReleaseGlide(new Glide("#glideSeries", gliderOptions).mount()));
+    }
+  }, [latestSeriesReleaseLoading]);
+
+  useEffect(() => {
+    if (!latestBooksReleaseLoading) {
+      dispatch(saveLatestBooksReleaseGlide(new Glide("#glideBooks", gliderOptions).mount()));
+    }
+  }, [latestBooksReleaseLoading]);
+
+  useEffect(() => {
+    if (!latestVideoGamesReleaseLoading) {
+      dispatch(saveLatestVideoGamesReleaseGlide(new Glide("#glideVideoGames", gliderOptions).mount()));
+    }
+  }, [latestVideoGamesReleaseLoading]);
+
+  
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    }
+    else {
+      setTimeout(() => {
+        dispatch(saveLatestMoviesReleaseGlide(new Glide("#glideMovies", gliderOptions).mount()));
+        dispatch(saveLatestSeriesReleaseGlide(new Glide("#glideSeries", gliderOptions).mount()));
+        dispatch(saveLatestBooksReleaseGlide(new Glide("#glideBooks", gliderOptions).mount()));
+        dispatch(saveLatestVideoGamesReleaseGlide(new Glide("#glideVideoGames", gliderOptions).mount()));
+      }, menuIsOpen ? 565 : 420);
+    }
+  }, [menuIsOpen]);
+
+
+  // useEffect(() => {
+  //   if (typeof latestMoviesReleaseResult !== 'undefined') {
+  //     const slideActive = document.querySelector('.glide__slide--active');
+  //     if (gliderOptions.perView === 9) {
+  //       const currentSlide = slideActive.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling;
+  //       currentSlide.style.transition = "transform 200ms";
+  //       currentSlide.style.transformOrigin = "50% 0";
+  //       currentSlide.style.transform = "scale(1.1)";
+  //     }
+  //     else if (gliderOptions.perView === 7) {
+  //       const currentSlide = slideActive.nextElementSibling.nextElementSibling.nextElementSibling;
+  //       currentSlide.style.transition = "transform 200ms";
+  //       currentSlide.style.transformOrigin = "50% 0";
+  //       currentSlide.style.transform = "scale(1.1)";
+  //     }
+  //     else if (gliderOptions.perView === 5) {
+  //       const currentSlide = slideActive.nextElementSibling.nextElementSibling;
+  //       currentSlide.style.transition = "transform 200ms";
+  //       currentSlide.style.transformOrigin = "50% 0";
+  //       currentSlide.style.transform = "scale(1.1)";
+  //     }
+  //     else if (gliderOptions.perView === 3) {
+  //       const currentSlide = slideActive.nextElementSibling;
+  //       currentSlide.style.transition = "transform 200ms";
+  //       currentSlide.style.transformOrigin = "50% 0";
+  //       currentSlide.style.transform = "scale(1.1)";
+  //     }
+  //     else if (gliderOptions.perView === 1) {
+  //       const currentSlide = slideActive;
+  //       currentSlide.style.transition = "transform 200ms";
+  //       currentSlide.style.transformOrigin = "50% 0";
+  //       currentSlide.style.transform = "scale(1.1)";
+  //     }
+  //   }
+  //   // console.log(slideActive.nextElementSibling);
+  // }, [latestMoviesReleaseResult, gliderOptions.perView]);
+
+
+
+  // useEffect(() => {
+  //   if (typeof resultsDataMovie !== 'undefined' && typeof resultsDataTV !== 'undefined' && typeof resultsDataVideoGames !== 'undefined') {
+  //     console.log('init glides');
+  //     const glides = document.querySelectorAll('.glide');
+  //     glides.forEach((glide) => {
+  //       const glideSlides = glide.querySelectorAll('.glide__slides');
+  //       glideSlides.forEach((glideSlide) => {
+  //         const glideSlidesClones = glideSlide.querySelectorAll('.glide__slide--clone');
+  //         glideSlidesClones.forEach((glideSlideClone) => {
+  //           glideSlide.removeChild(glideSlideClone);
+  //         });
+  //       })
+  //     })
+  //     if (glides && glides.length > 0) {
+  //       for (let i = 0; i < glides.length; i++) {
+  //         const glideElement = new Glide(glides[i], gliderOptions).destroy();
+  //         glideElement.mount();
+  //       }
+  //     }
+  //   }
+  // }, [resultsDataMovie, resultsDataTV, resultsDataVideoGames])
+
   
   // useEffect(() => {
   //   return() => {
@@ -162,72 +204,117 @@ function HomePage() {
 
   return (
     <div className="homePage">
-      
-        <div key="Movie">
-          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Movie</h2>
-          <div className="glide" style={{ transition: 'all 550ms' }}>
-            <div className="glide__track" data-glide-el="track">
-              <ul className="glide__slides">
-              {resultsDataMovie && resultsDataMovie.map((item) => (
-                <Link to={`/movies/${item.id}`}>
-                  <li key={item.title} className="glide__slide">
-                    <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
-                    <span>{item.title}</span>
+        <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Movie</h2>
+        {latestMoviesReleaseLoading ? (
+          <div style={{ padding: '5em 0' }}>
+            <Loader />
+          </div>
+        ) : (
+          <div className="glideContainer">
+            <div id="glideMovies" className="glide" style={{ transition: 'all 550ms' }}>
+              <div className="glide__track" data-glide-el="track">
+                <ul className="glide__slides">
+                {latestMoviesReleaseResult && latestMoviesReleaseResult.results.map((item) => (
+                  <li key={item.id} className="glide__slide">
+                    <Link to={`/movies/${item.id}`} className="glide__slide-link">
+                      <img className="glide__slide-link-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
+                      <span className="glide__slide-link-title">{item.title}</span>
+                    </Link>
                   </li>
-                </Link>
-              ))}
-              </ul>
-              <div className="glide__arrows" data-glide-el="controls">
-                <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div key="Serie">
-          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Series</h2>
-          <div className="glide" style={{ transition: 'all 550ms' }}>
-            <div className="glide__track" data-glide-el="track">
-              <ul className="glide__slides">
-              {resultsDataTV?.length > 0 && resultsDataTV.map((item) => (
-                  <Link to={`/series/${item.id}`}>
-                    <li key={item.name} className="glide__slide">
-                      <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.name} />
-                      <span>{item.name}</span>
-                    </li>
-                  </Link>
                 ))}
-              </ul>
-              <div className="glide__arrows" data-glide-el="controls">
-                <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+                </ul>
+                <div className="glide__arrows" data-glide-el="controls">
+                  <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                  <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
-        <div key="VideoGames">
-          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Video Games</h2>
-          <div className="glide" style={{ transition: 'all 550ms' }}>
-            <div className="glide__track" data-glide-el="track">
-              <ul className="glide__slides">
-              {resultsDataVideoGames?.length > 0 && resultsDataVideoGames.map((item) => (
-                  <Link to={`/video-games/${item.id}`}>
-                    <li key={item.name} className="glide__slide">
-                      <img className="glide__slide-image" src={item.background_image} alt={item.name} />
-                      <span>{item.name}</span>
+        <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Series</h2>
+        {latestSeriesReleaseLoading ? (
+          <div style={{ padding: '5em 0' }}>
+            <Loader />
+          </div>
+        ) : (
+          <div className="glideContainer">
+            <div id="glideSeries" className="glide" style={{ transition: 'all 550ms' }}>
+              <div className="glide__track" data-glide-el="track">
+                <ul className="glide__slides">
+                {latestSeriesReleaseResult && latestSeriesReleaseResult.results.map((item) => (
+                    <li key={item.id} className="glide__slide">
+                      <Link to={`/series/${item.id}`} className="glide__slide-link">
+                        <img className="glide__slide-link-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.name} />
+                        <span className="glide__slide-link-title">{item.name}</span>
+                      </Link>
                     </li>
-                  </Link>
-                ))}
-              </ul>
-              <div className="glide__arrows" data-glide-el="controls">
-                <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+                  ))}
+                </ul>
+                <div className="glide__arrows" data-glide-el="controls">
+                  <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                  <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
+
+        <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Books</h2>
+        {latestBooksReleaseLoading ? (
+          <div style={{ padding: '5em 0' }}>
+            <Loader />
+          </div>
+        ) : (
+          <div className="glideContainer">
+            <div id="glideBooks" className="glide" style={{ transition: 'all 550ms' }}>
+              <div className="glide__track" data-glide-el="track">
+                <ul className="glide__slides">
+                {latestBooksReleaseResult && latestBooksReleaseResult.items.map((item) => (
+                    <li key={item.id} className="glide__slide">
+                      <Link to={`/books/${item.id}`} className="glide__slide-link">
+                        <img className="glide__slide-link-image" src={item.volumeInfo.imageLinks && (item.volumeInfo.imageLinks.thumbnail) && item.volumeInfo.imageLinks.smallThumbnail } alt={item.name} />
+                        <span className="glide__slide-link-title">{item.volumeInfo.title}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <div className="glide__arrows" data-glide-el="controls">
+                  <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                  <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Video Games</h2>
+        {latestVideoGamesReleaseLoading ? (
+          <div style={{ padding: '5em 0' }}>
+            <Loader />
+          </div>
+        ) : (
+          <div className="glideContainer">
+            <div id="glideVideoGames" className="glide" style={{ transition: 'all 550ms' }}>
+              <div className="glide__track" data-glide-el="track">
+                <ul className="glide__slides">
+                {latestVideoGamesReleaseResult && latestVideoGamesReleaseResult.results.map((item) => (
+                    <li key={item.name} className="glide__slide">
+                      <Link to={`/video-games/${item.id}`} className="glide__slide-link">
+                        <img className="glide__slide-link-image" src={item.background_image} alt={item.name} />
+                        <span className="glide__slide-link-title">{item.name}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <div className="glide__arrows" data-glide-el="controls">
+                  <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                  <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
     
     </div>
 
