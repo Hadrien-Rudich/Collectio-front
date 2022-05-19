@@ -38,9 +38,12 @@ function HomePage() {
 
   console.log("ICI JE SUIS LA EN DEHORS DU USEEFFECT")
 
+  const apiKey = "53d8914dec27b153e9ddc38fedcfb93e";
+  const apiKeyGames = "65da31f76aac4be6aeead35e091febd7"; 
+
   const inTheater = async () => {
     try {
-        const response = await axios.get('https://api.themoviedb.org/3/movie/now_playing?api_key=53d8914dec27b153e9ddc38fedcfb93e&language=en-US&France')
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&France`)
         console.log("inTheater", response.data);
         dispatch(saveResultsDataMovie(response.data))
     } catch (error) {
@@ -50,7 +53,7 @@ function HomePage() {
 
   const TV = async () => {
     try {
-      const response = await axios.get('https://api.themoviedb.org/3/tv/on_the_air?api_key=53d8914dec27b153e9ddc38fedcfb93e&language=en-US&page=1')
+      const response = await axios.get(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${apiKey}&language=en-US&page=1`)
       console.log("TV", response.data);
       console.log(response.data);
       dispatch(saveResultsDataTV(response.data))
@@ -61,7 +64,7 @@ function HomePage() {
 
   const VideoGames = async () => {
     try {
-      const response = await axios.get('https://api.rawg.io/api/games?key=65da31f76aac4be6aeead35e091febd7&dates=2022-01-01,2022-12-12')
+      const response = await axios.get(`https://api.rawg.io/api/games?key=${apiKeyGames}&dates=2022-01-01,2022-12-12`)
       console.log("VideoGames", response.data);
       console.log(response.data);
       dispatch(saveResultsDataVideoGames(response.data))

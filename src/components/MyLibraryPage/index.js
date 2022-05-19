@@ -7,15 +7,15 @@ const MyLibraryPage = (props) => {
   const libraryType = props.library;
   const [isLoaded, setIsLoaded] = useState(false);
   const [libraryList, setLibraryList] = useState([]);
-  //const token = localStorage.getItem('token');
-  const tokenTest = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTY1Mjc3NzE2MSwiZXhwIjoxNzM5MTc3MTYxfQ.qBFTFlkJvKz8f106Axdtsot-Xx43gaf3lAP3Hch5dm4`
+  const token = localStorage.getItem('token');
+  // const tokenTest = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTY1Mjc3NzE2MSwiZXhwIjoxNzM5MTc3MTYxfQ.qBFTFlkJvKz8f106Axdtsot-Xx43gaf3lAP3Hch5dm4`
 
   const fetchLibrary = async () => {
     setLibraryList([]);
     try {
       const response = await axios.get(`http://localhost:4200/api/${libraryType}`, { 
         headers: {
-          "authorization": tokenTest
+          "authorization": token
         }
        });
       if (response.status === 200) {

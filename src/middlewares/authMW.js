@@ -8,7 +8,7 @@ const instance = axios.create({
 
 if (localStorage.getItem('token')) {
   const token = localStorage.getItem('token');
-  instance.defaults.headers.common.Authorization = `Bearer ${token}`
+  instance.defaults.headers.common.authorization = `${token}`
 }
 
 const authMW = (store) => (next) => async (action) => {

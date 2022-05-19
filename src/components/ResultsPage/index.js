@@ -9,7 +9,9 @@ import { Link } from 'react-router-dom';
 
 function ResultsPage() {
   const resultsData = useSelector((state) => state.searchResults.results);
-  
+  const resultsDataMovie = useSelector((state) => state.searchResults.resultsMovie.results);
+  const resultsDataTV = useSelector((state) => state.searchResults.resultsTV.results);
+  const resultsDataVideoGames = useSelector((state) => state.searchResults.resultsVideoGames.results);
 
   const categoriesDataTemp = [
     {
@@ -138,15 +140,15 @@ function ResultsPage() {
 
   return (
     <div className="homePage">
-      {categoriesDataTemp.map((category) => (
-        <div key={category.name}>
-          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>{category.name}</h2>
+      
+        <div key="Movie">
+          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Movies</h2>
           <div className="glide" style={{ transition: 'all 550ms' }}>
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides">
-                {resultsData.results.map((item) => (
+                {resultsDataMovie && resultsDataMovie.map((item) => (
                   console.log(item),
-                  <Link to={`/${category.slug}/${item.id}`}>
+                  <Link to={`/movies/${item.id}`}>
                     <li key={item.title} className="glide__slide">
                       <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
                       <span>{item.title}</span>
@@ -161,8 +163,78 @@ function ResultsPage() {
             </div>
           </div>
         </div>
-      ))}
+
+        <div key="Serie">
+          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Series</h2>
+          <div className="glide" style={{ transition: 'all 550ms' }}>
+            <div className="glide__track" data-glide-el="track">
+              <ul className="glide__slides">
+                {resultsDataTV?.length > 0 && resultsDataTV.map((item) => (
+                  console.log(item),
+                  <Link to={`/series/${item.id}`}>
+                    <li key={item.name} className="glide__slide">
+                      <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.name} />
+                      <span>{item.name}</span>
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+              <div className="glide__arrows" data-glide-el="controls">
+                <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div key="Book">
+          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Books</h2>
+          <div className="glide" style={{ transition: 'all 550ms' }}>
+            <div className="glide__track" data-glide-el="track">
+              <ul className="glide__slides">
+                {/* {resultsDataTV?.length > 0 && resultsDataTV.map((item) => (
+                  console.log(item),
+                  <Link to={`/series/${item.id}`}>
+                    <li key={item.name} className="glide__slide">
+                      <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.name} />
+                      <span>{item.name}</span>
+                    </li>
+                  </Link>
+                ))} */}
+              </ul>
+              <div className="glide__arrows" data-glide-el="controls">
+                <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div key="VideoGames">
+          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Video Games</h2>
+          <div className="glide" style={{ transition: 'all 550ms' }}>
+            <div className="glide__track" data-glide-el="track">
+              <ul className="glide__slides">
+                {resultsDataVideoGames?.length > 0 && resultsDataVideoGames.map((item) => (
+                  console.log(item),
+                  <Link to={`/video-games/${item.id}`}>
+                    <li key={item.name} className="glide__slide">
+                      <img className="glide__slide-image" src={item.background_image} alt={item.name} />
+                      <span>{item.name}</span>
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+              <div className="glide__arrows" data-glide-el="controls">
+                <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
+
+    
   );
 
 }
