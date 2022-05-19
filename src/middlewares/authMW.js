@@ -3,13 +3,13 @@ import { LOGIN, LOGOUT } from "../actions/login";
 import { saveUserData } from "../actions/user";
 
 const instance = axios.create({
-  // baseURL: 'https://collectio-app.herokuapp.com',
-  baseURL: 'http://localhost:4200',
+  baseURL: 'https://collectio-app.herokuapp.com',
+  // baseURL: 'http://localhost:4200',
 });
 
 if (localStorage.getItem('token')) {
   const token = localStorage.getItem('token');
-  instance.defaults.headers.common.authorization = `${token}`
+  instance.defaults.headers.common.authorization = token;
 }
 
 const authMW = (store) => (next) => async (action) => {

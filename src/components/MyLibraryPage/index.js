@@ -13,7 +13,7 @@ const MyLibraryPage = (props) => {
   const fetchLibrary = async () => {
     setLibraryList([]);
     try {
-      const response = await axios.get(`http://localhost:4200/api/${libraryType}`, { 
+      const response = await axios.get(`https://collectio-app.herokuapp.com/api/${libraryType}`, { 
         headers: {
           "authorization": token
         }
