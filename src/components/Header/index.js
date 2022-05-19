@@ -57,13 +57,6 @@ function Header() {
   const apiKey = "53d8914dec27b153e9ddc38fedcfb93e";
   const apiKeyGames = "65da31f76aac4be6aeead35e091febd7"; 
 
-  // let movie = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${searchBar}&page=1&include_adult=false`;
-  // let serie = `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&language=en-US&query=${searchBar}&page=1&include_adult=false`;
-  // let video_game = `https://api.rawg.io/api/games?key=${apiKeyGames}&query=${searchBar}`;
-
-  // const requestOne = axios.get(movie);
-  // const requestTwo = axios.get(serie);
-  // const requestThree = axios.get(video_game);
 
   async function handleSubmit(event) {
     let movie = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${searchBar}&page=1&include_adult=false`;
