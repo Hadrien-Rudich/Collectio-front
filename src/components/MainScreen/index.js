@@ -33,7 +33,7 @@ function MainScreen() {
 
         <Route path='/movies/:mediaId' element={<MovieDetails />} />
         <Route path='/series/:mediaId' element={<SeriesDetails />} />
-        <Route path='/book/:mediaId' element={<BookDetails />} />
+        <Route path='/books/:mediaId' element={<BookDetails />} />
         <Route path='/video-games/:mediaId' element={<VideoGameDetails />} />
         {/* { isLogged?
             Route if true   :

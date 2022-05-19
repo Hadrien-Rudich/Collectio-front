@@ -28,36 +28,72 @@ function VideoGameDetails() {
     {loading ? (
       <Loader />
     ) : (
-      <div>
-        <img src={videoGameResult.background_image} alt="" />
-        <h2 className="mediaDetails__mediaTitle">{videoGameResult.name_original}</h2>
-        <h2>Release : {videoGameResult.released}</h2>
+      <div className="mediaContainer">
+        <div className="mediaImageContainer">  
+            <h1 className="mediaDetails__mediaTitle">{videoGameResult.name_original}</h1>
+            <img src={videoGameResult.background_image} alt="" />
+            <h2 className="mediaDetails__mediaReleaseYear">({videoGameResult.released.substring(0,4)})</h2>
+            <div className='mediaDetails__mediaGenreContainer'>
+            {videoGameResult.genres.map((genre) => (
+              <h4 className="mediaDetails__mediaGenre" key={genre.id}>{genre.name}</h4>
+              ))}            
+             </div>
 
+             <div className="mediaCastContainer">       
 
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaCast">Description</h3>
-        <br />
-        <p>{videoGameResult.description_raw}</p>
+                <h4 className="mediaDetails__mediaCast"></h4>        
+            
+                {videoGameResult.publishers.map((publisher) => (
+                  <p key={publisher.id}>{publisher.name}</p>
+                  ))}
+              </div>
+            {/* <h3>Playtime: {videoGameResult.playtime} hours</h3> */}
 
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaCast">Genres</h3>
-        <br />
-        {videoGameResult.genres.map((genre) => (
-          <p key={genre.id}>{genre.name}</p>
-        ))}
+          </div>       
+          <div className="mediaTextContainer">   
+            
 
-        <br />
-        <h3>Playtime: {videoGameResult.playtime} hours</h3>
+            <div className="mediaOverviewContainer">
 
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaCast">Publisher{videoGameResult.publishers.length > 1 ? 's' : ''}</h3>
-        <br />
-        {videoGameResult.publishers.map((publisher) => (
-          <p key={publisher.id}>{publisher.name}</p>
-        ))}
+              <h4 className="mediaDetails__mediaOverview">{videoGameResult.description_raw}</h4>           
+              </div>
+
+        </div>
+
+          {/* <br />
+          <br />
+          <h3 className="mediaDetails__mediaCast">Director{videoGameResult.cast.crew.filter((crew) => crew.department === "Directing").length > 1 ? 's' : ''}</h3>
+          <br />
+          {videoGameResult.cast.crew.filter((crew) => crew.department === "Directing").slice(0, 5).map((crew) => (
+            <h4 key={crew.id} className="mediaDetails__mediaGenre">{crew.name}</h4>
+          ))}
+
+          <br />
+          <br />
+          <h3 className="mediaDetails__mediaCast">Main cast</h3>
+          <br />
+          {videoGameResult.cast.cast.slice(0, 5).map((cast) => (
+            <div key={cast.id}>
+              <h4 className="mediaDetails__mediaGenre">{cast.name}</h4>
+              <span>{cast.character}</span>
+              <br />
+              <br />
+            </div>
+          ))}
+
+          <br />
+          <br />
+          <h3 className="mediaDetails__mediaOverview">Overview</h3>
+          <br />
+          <p className="mediaDetails__mediaOverview">{videoGameResult.movie.overview}</p>
+
+          <br />
+          <br />
+          <h3 className="mediaDetails__mediaOverview">Genres</h3>
+          <br />
+          {videoGameResult.movie.genres.map((genre) => (
+            <h4 key={genre.id} className="mediaDetails__mediaGenre">{genre.name}</h4>
+          ))} */}
       </div>
     )}
     </div>

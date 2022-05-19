@@ -156,87 +156,93 @@ function ResultsPage() {
   return (
     <div className="homePage">
       
-        <div key="Movie">
+        <div key="Movie" className="homePage-container">
           <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Movies</h2>
-          <div className="glide" style={{ transition: 'all 550ms' }}>
-            <div className="glide__track" data-glide-el="track">
-              <ul className="glide__slides">
-                {resultsData.results.map((item) => (
-                  <li key={item.id} className="glide__slide">
-                    <Link to={`/movies/${item.id}`} className="glide__slide-link">
-                      <img className="glide__slide-link-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
-                      <span className="glide__slide-link-title">{item.title}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              <div className="glide__arrows" data-glide-el="controls">
-                <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+          <div key="Book" className="homePage-container">
+            <div className="glide" style={{ transition: 'all 550ms' }}>
+              <div className="glide__track" data-glide-el="track">
+                <ul className="glide__slides">
+                  {resultsData.results.map((item) => (
+                    <li key={item.id} className="glide__slide">
+                      <Link to={`/movies/${item.id}`} className="glide__slide-link">
+                        <img className="glide__slide-link-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
+                        <span className="glide__slide-link-title">{item.title}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <div className="glide__arrows" data-glide-el="controls">
+                  <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                  <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div key="Serie">
+        <div key="Serie" className="homePage-container">
           <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Series</h2>
-          <div className="glide" style={{ transition: 'all 550ms' }}>
-            <div className="glide__track" data-glide-el="track">
-              <ul className="glide__slides">
-                {resultsDataTV?.length > 0 && resultsDataTV.map((item) => (
-                  console.log(item),
-                  <Link to={`/series/${item.id}`}>
+          <div key="Book" className="homePage-container">
+            <div className="glide" style={{ transition: 'all 550ms' }}>
+              <div className="glide__track" data-glide-el="track">
+                <ul className="glide__slides">
+                  {resultsDataTV?.length > 0 && resultsDataTV.map((item) => (
+                    console.log(item),
                     <li key={item.name} className="glide__slide">
-                      <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.name} />
-                      <span>{item.name}</span>
+                      <Link to={`/series/${item.id}`} className="glide__slide-link">
+                        <img className="glide__slide-link-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.name} />
+                        <span className="glide__slide-link-title">{item.name}</span>
+                      </Link>
                     </li>
-                  </Link>
-                ))}
-              </ul>
-              <div className="glide__arrows" data-glide-el="controls">
-                <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+                  ))}
+                </ul>
+                <div className="glide__arrows" data-glide-el="controls">
+                  <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                  <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div key="Book">
+        <div key="Book" className="homePage-container">
           <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Books</h2>
-          <div className="glide" style={{ transition: 'all 550ms' }}>
-            <div className="glide__track" data-glide-el="track">
-              <ul className="glide__slides">
-                {/* {resultsDataTV?.length > 0 && resultsDataTV.map((item) => (
-                  console.log(item),
-                  <Link to={`/series/${item.id}`}>
-                    <li key={item.name} className="glide__slide">
-                      <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.name} />
-                      <span>{item.name}</span>
-                    </li>
-                  </Link>
-                ))} */}
-              </ul>
-              <div className="glide__arrows" data-glide-el="controls">
-                <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+          <div className="glideContainer">
+            <div className="glide" style={{ transition: 'all 550ms' }}>
+              <div className="glide__track" data-glide-el="track">
+                <ul className="glide__slides">
+                  {/* {resultsDataTV?.length > 0 && resultsDataTV.map((item) => (
+                    console.log(item),
+                    <Link to={`/series/${item.id}`}>
+                      <li key={item.name} className="glide__slide">
+                        <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.name} />
+                        <span>{item.name}</span>
+                      </li>
+                    </Link>
+                  ))} */}
+                </ul>
+                <div className="glide__arrows" data-glide-el="controls">
+                  <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                  <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div key="VideoGames">
+        <div key="VideoGames" className="homePage-container">
           <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Video Games</h2>
           <div className="glide" style={{ transition: 'all 550ms' }}>
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides">
                 {resultsDataVideoGames?.length > 0 && resultsDataVideoGames.map((item) => (
                   console.log(item),
-                  <Link to={`/video-games/${item.id}`}>
-                    <li key={item.name} className="glide__slide">
-                      <img className="glide__slide-image" src={item.background_image} alt={item.name} />
-                      <span>{item.name}</span>
-                    </li>
-                  </Link>
+                  <li key={item.name} className="glide__slide">
+                    <Link to={`/video-games/${item.id}`} className="glide__slide-link">
+                      <img className="glide__slide-link-image" src={item.background_image} alt={item.name} />
+                      <span className="glide__slide-link-title">{item.name}</span>
+                    </Link>
+                  </li>
                 ))}
               </ul>
               <div className="glide__arrows" data-glide-el="controls">

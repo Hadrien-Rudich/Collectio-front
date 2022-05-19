@@ -1,5 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100;8..144,400;8..144,700&display=swap');
+
 .mediaDetails {
   img {
-    width: 8em;
+    width: 25em !important;
   }
+
+  font-family: 'Roboto Flex', sans-serif;
+}
+
+  
+  .mediaDetails__mediaGenreContainer {
+         
+  display: flex;
+  row-gap: 1rem, 1rem;
+  gap: 1rem;
+
+}
+
+.mediaContainer {
+  margin-top: 7rem;
+  margin-left: 10rem;
+  display: flex;
+  justify-content: center;
+}
+
+.mediaImageContainer {    
+ 
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  img {    
+    
+    border-radius: 1rem;   
+    
+  }
+
+  h1 {
+    
+    font-size:x-large; 
+    font-weight:bolder;
+}
+
+h2, h4 {
+    
+  font-style: oblique;
+    
+}
+
+  }
+
+
+
+.mediaTextContainer {
+  display: flex;
+  flex-direction: column-reverse;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: flex-start; 
+  justify-content: center;
+  margin-left: 3rem;
+  margin-right: 20rem;  
+  gap: 2rem;
+
+  h3 {
+
+    font-style: italic;
+    text-decoration: underline;
+  }
+
+
+  .mediaOverviewContainer {
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: space-evenly;
+    align-items: center;
+    
+
+      .mediaDetails__mediaOverview {
+
+          font-size:x-large;
+          font-style: italic;     
+        
+      }
+
+}
 }
