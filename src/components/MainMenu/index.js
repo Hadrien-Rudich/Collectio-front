@@ -46,21 +46,23 @@ function MainMenu() {
           Home
         </NavLink>
       </div>
-      <div className="main__menu-section">
-        <span className="main__menu-section-label">
-          {auth ? 'My collections' : 'Categories'}
-        </span>
-        {categoriesDataTemp.map((category) => (
-          <NavLink
-            key={category.route}
-            to={category.route}
-            className={({isActive}) => `main__menu-link ${isActive ? 'main__menu-link--active' : ''}`}
-          >
-            <MenuIcon icon={category.icon} />
-            {category.name}
-          </NavLink>
-        ))}
-      </div>
+      {auth && (
+        <div className="main__menu-section">
+          <span className="main__menu-section-label">
+            My collections
+          </span>
+          {categoriesDataTemp.map((category) => (
+            <NavLink
+              key={category.route}
+              to={category.route}
+              className={({isActive}) => `main__menu-link ${isActive ? 'main__menu-link--active' : ''}`}
+            >
+              <MenuIcon icon={category.icon} />
+              {category.name}
+            </NavLink>
+          ))}
+        </div>
+      )}
       <div className="main__menu-section">
         <span className="main__menu-section-label">
           Other

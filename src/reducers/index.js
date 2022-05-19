@@ -13,6 +13,8 @@ import seriesDetailsReducer from './seriesDetails';
 import bookDetailsReducer from './bookDetails';
 import videoGameDetailsReducer from './videoGameDetails';
 
+import homePageReducer from './homePage';
+
 const rootReducer = combineReducers({
   header: headerReducer,
   mainMenu: mainMenuReducer,
@@ -25,6 +27,7 @@ const rootReducer = combineReducers({
   seriesDetails: seriesDetailsReducer,
   bookDetails: bookDetailsReducer,
   videoGameDetails: videoGameDetailsReducer,
+  homePage: homePageReducer,
 });
 
 export default rootReducer;

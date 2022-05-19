@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import './style.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveResultsData, saveResultsDataMovie, saveResultsDataTV, saveResultsDataVideoGames } from '../../actions/searchResults';
+import { Link } from 'react-router-dom';
 
 function LibraryPage() {
    const dispatch = useDispatch();
@@ -129,13 +130,28 @@ function LibraryPage() {
 
   
   const gliderOptions = {
-    type: 'carousel',
+    type: 'slider',
     startAt: 0,
-    focusAt: "center",
+    bound: true,
+    focusAt: 0,
     perView: menuIsOpen ? 7 : 9,
     keyboard: false,
     swipeThreshold: false,
     dragThreshold: false,
+    breakpoints: {
+      1650: {
+        perView: menuIsOpen ? 5 : 7,
+      },
+      1250: {
+        perView: menuIsOpen ? 3 : 5,
+      },
+      880: {
+        perView: menuIsOpen ? 1 : 3,
+      },
+      590: {
+        perView: 1,
+      }
+    }
   }
   
   // useEffect(() => {
@@ -161,10 +177,12 @@ function LibraryPage() {
                         <div className="glide__track" data-glide-el="track">
                             <ul className="glide__slides">
                             {resultsDataMovie && resultsDataMovie.map((item) => (
-                                <li key={item.title} className="glide__slide">
-                                <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
-                                <span>{item.title}</span>
-                                </li>
+                              <li key={item.id} className="glide__slide">
+                                <Link to={`/movies/${item.id}`} className="glide__slide-link">
+                                  <img className="glide__slide-link-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
+                                  <span className="glide__slide-link-title">{item.title}</span>
+                                </Link>
+                              </li>
                             ))}
                             </ul>
                             <div className="glide__arrows" data-glide-el="controls">

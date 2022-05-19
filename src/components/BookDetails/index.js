@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { saveBookResult, setBookLoading } from '../../actions/bookDetails';
+import { fetchBookDetails, saveBookResult, setBookLoading } from '../../actions/bookDetails';
+import Loader from '../Loader';
 import './style.scss';
 
 function BookDetails() {
@@ -13,27 +14,17 @@ function BookDetails() {
   const { mediaId } = useParams();
 
   const getBookData = async () => {
-    dispatch(setBookLoading(true));
-    try {
-      const bookResponse = await axios.get(`https://www.googleapis.com/books/v1/volumes/${mediaId}`);
-      
-      dispatch(saveBookResult(bookResponse.data));
-      dispatch(setBookLoading(false));
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(fetchBookDetails(mediaId));
   }
 
-  useEffect(() => {
-    if (typeof bookResult !== 'undefined') {
-      console.log('bookResult', bookResult);
-    }
-  }, [bookResult]);
+  // useEffect(() => {
+  //   if (typeof bookResult !== 'undefined') {
+  //     console.log('bookResult', bookResult);
+  //   }
+  // }, [bookResult]);
 
   useEffect(() => {
-    return () => {
-      getBookData();
-    }
+    getBookData();
   }, []);
 
 
@@ -41,12 +32,12 @@ function BookDetails() {
   return (
     <div className="mediaDetails">
     {loading ? (
-      <div>Chargement...</div>
+      <Loader />
     ) : (
       <div>
         {typeof bookResult.volumeInfo.imageLinks !== 'undefined' && (
           <div>
-            <img src={bookResult.volumeInfo.imageLinks.thumbnail} alt="" />
+            <img src={bookResult.volumeInfo.imageLinks.large ? bookResult.volumeInfo.imageLinks.large : bookResult.volumeInfo.imageLinks.medium} alt="" />
           </div>
         )}
         <br />

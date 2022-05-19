@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { saveMovieResults, setMovieLoading } from '../../actions/movieDetails';
+import { fetchMovieDetails } from '../../actions/movieDetails';
+import Loader from '../Loader';
 import './style.scss';
 
 function MovieDetails() {
@@ -12,39 +13,21 @@ function MovieDetails() {
   const { loading, movieResults } = useSelector((state) => state.movieDetails);
   const { mediaId } = useParams();
 
-  const moviesApiKey = '53d8914dec27b153e9ddc38fedcfb93e';
-
-  const getMovieData = async () => {
-    dispatch(setMovieLoading(true));
-    try {
-      const movieResponse = await axios.get(`https://api.themoviedb.org/3/movie/${mediaId}?api_key=${moviesApiKey}&language=en-US`);
-      const movieCastResponse = await axios.get(`https://api.themoviedb.org/3/movie/${mediaId}/credits?api_key=${moviesApiKey}&language=en-US`);
-      
-      dispatch(saveMovieResults(movieResponse.data, movieCastResponse.data));
-      dispatch(setMovieLoading(false));
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // useEffect(() => {
-  //   if (typeof movieResults.movie !== 'undefined' && typeof movieResults.cast !== 'undefined') {
-  //     console.log('movieResult', movieResults);
-  //   }
-  // }, [movieResults]);
-
-  useEffect(() => {
-    return () => {
-      getMovieData();
-    }
+  useEffect(() => {    
+    dispatch(fetchMovieDetails(mediaId));
   }, []);
 
+  useEffect(() => {
+    if (typeof movieResults.movie !== 'undefined' && typeof movieResults.cast !== 'undefined') {
+      console.log('movieResult', movieResults);
+    }
+  }, [movieResults]);
 
 
   return (
     <div className="mediaDetails">
     {loading ? (
-      <div>Chargement...</div>
+      <Loader />
     ) : (
       <div>
         <img src={`https://image.tmdb.org/t/p/original/${movieResults.movie.poster_path}`} alt="" />
