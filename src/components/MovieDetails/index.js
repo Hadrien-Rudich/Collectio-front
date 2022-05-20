@@ -7,13 +7,28 @@ import { fetchMovieDetails } from '../../actions/movieDetails';
 import Loader from '../Loader';
 import './style.scss';
 
+
+// TO DO:
+// - Afficher la note Moyenne
+// - Créer input pour modifier son commentaire
+// - Créer un Update pour la note de la review
+// - Dupliquer sur Book, Series...
+
+
+// NOTE MOYENNE
+// Afficher la note moyenne pour une review, si le USER est CONNECTÉ: response.data.avg_rating[0].note_moyenne
+// si le user n'est pas CONNECTÉ: response.data.note_moyenne
+
+
 function MovieDetails() {
 
   const token = localStorage.getItem('token');
   const [results, setResults] = useState('');
   const [inLibrary, setInLibrary] = useState(false);
   const [reviewDetails, setReviewDetails] = useState({});
+  let baseURL = "https://image.tmdb.org/t/p/original";
   console.log(token)
+
 
   const dispatch = useDispatch();
 
@@ -72,13 +87,16 @@ function MovieDetails() {
           },
         })
         console.log(response);
-        setResults(response.data[0].note_moyenne)
-        console.log(results);
+        //setResults(response.data[0].note_moyenne)
+        //console.log(results);
       } catch (error) {
         console.log(error)
       }
 
   }
+
+  
+
 
   async function PatchReview(list) {
 
@@ -86,22 +104,42 @@ function MovieDetails() {
      try {
 
        const response = await axios.patch(`https://collectio-app.herokuapp.com/api/movie/${mediaId}`, {
-          "list": list,
-          "note": 5 // à enlever, erreur back
+          "list": list
         }, {
          headers: {
            "authorization": token
          },
        })
        console.log(response);
-       setResults(response.data[0].note_moyenne)
-       console.log(results);
+       //setResults(response.data[0].note_moyenne)
+       //console.log(results);
      } catch (error) {
        console.log(error)
      }
 
 
   }
+
+
+  // A DÉVELOPPER
+  /*
+  async function PatchReviewComment(comment) {
+  }
+
+  async function PatchReviewNote(note) {
+    try {
+    const response = await axios.patch(`https://collectio-app.herokuapp.com/api/movie/${mediaId}`, { 
+          "note": note
+        }, {
+         headers: {
+           "authorization": token
+         },
+       })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    */
 
 
 
@@ -157,7 +195,7 @@ function MovieDetails() {
                 <ion-icon name="bookmark"></ion-icon></span>
               </button>
           :
-                <button type="button" className="button" value='wishlist' onClick={() => PostReview('wishlist', movieResults.movie.original_title, movieResults.movie.poster_path)}>
+                <button type="button" className="button" value='wishlist' onClick={() => PostReview('wishlist', movieResults.movie.original_title, `${baseURL}${movieResults.movie.poster_path}`)}>
                   <span className="button__text">Wishlist</span>
                   <span className="button__icon">
                   <ion-icon name="bookmark"></ion-icon></span>
