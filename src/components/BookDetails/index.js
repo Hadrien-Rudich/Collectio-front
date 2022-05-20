@@ -1,6 +1,6 @@
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchBookDetails, saveBookResult, setBookLoading } from '../../actions/bookDetails';
@@ -17,6 +17,21 @@ function BookDetails() {
     dispatch(fetchBookDetails(mediaId));
   }
 
+  const [results, setResults] = useState('');
+
+  const bookDetails = async () => {
+    
+    try {
+      const response = await axios.get(`https://collectio-app.herokuapp.com/api/book/zG9wDwAAQBAJ`)
+      console.log(response);
+      setResults(response.data[0].note_moyenne)
+      console.log(results);
+    } catch (error) {
+      console.log(error)
+    }
+    };
+  
+
   // useEffect(() => {
   //   if (typeof bookResult !== 'undefined') {
   //     console.log('bookResult', bookResult);
@@ -25,6 +40,7 @@ function BookDetails() {
 
   useEffect(() => {
     getBookData();
+    bookDetails()
   }, []);
 
 
@@ -69,6 +85,8 @@ function BookDetails() {
             <div className="mediaOverviewContainer">        
               <h4 className="mediaDetails__mediaCast" dangerouslySetInnerHTML={{__html: bookResult.volumeInfo.description}} />
             </div>
+
+            <p>Note moyenne: {results}</p>
                                  
            
                </div>
