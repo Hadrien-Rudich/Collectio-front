@@ -2,8 +2,6 @@ import Glide from '@glidejs/glide/dist/glide';
 import "@glidejs/glide/dist/css/glide.core.min.css";
 import "@glidejs/glide/dist/css/glide.theme.min.css";
 
-import PropTypes from 'prop-types';
-import axios from 'axios';
 import { useEffect, useRef } from 'react';
 import './style.scss';
 import { Link } from 'react-router-dom';
@@ -13,11 +11,6 @@ import {
   fetchLatestSeriesRelease,
   fetchLatestBooksRelease,
   fetchLatestVideoGamesRelease,
-
-  saveLatestMoviesReleaseGlide,
-  saveLatestSeriesReleaseGlide,
-  saveLatestBooksReleaseGlide,
-  saveLatestVideoGamesReleaseGlide,
 } from '../../actions/homePage';
 import Loader from '../Loader';
 
@@ -28,15 +21,15 @@ function HomePage() {
 
   const menuIsOpen = useSelector((state) => state.mainMenu.isOpen);
   const { 
-    latestMoviesReleaseResult,
-    latestSeriesReleaseResult,
-    latestBooksReleaseResult,
-    latestVideoGamesReleaseResult,
-
     latestMoviesReleaseLoading,
     latestSeriesReleaseLoading,
     latestBooksReleaseLoading,
     latestVideoGamesReleaseLoading,
+
+    latestMoviesReleaseResult,
+    latestSeriesReleaseResult,
+    latestBooksReleaseResult,
+    latestVideoGamesReleaseResult,
   } = useSelector((state) => state.homePage);
 
   const gliderOptions = {
@@ -83,25 +76,25 @@ function HomePage() {
 
   useEffect(() => {
     if (!latestMoviesReleaseLoading) {
-      dispatch(saveLatestMoviesReleaseGlide(new Glide("#glideMovies", gliderOptions).mount()));
+      new Glide("#glideMovies", gliderOptions).mount();
     }
   }, [latestMoviesReleaseLoading]);
 
   useEffect(() => {
     if (!latestSeriesReleaseLoading) {
-      dispatch(saveLatestSeriesReleaseGlide(new Glide("#glideSeries", gliderOptions).mount()));
+      new Glide("#glideSeries", gliderOptions).mount();
     }
   }, [latestSeriesReleaseLoading]);
 
   useEffect(() => {
     if (!latestBooksReleaseLoading) {
-      dispatch(saveLatestBooksReleaseGlide(new Glide("#glideBooks", gliderOptions).mount()));
+      new Glide("#glideBooks", gliderOptions).mount();
     }
   }, [latestBooksReleaseLoading]);
 
   useEffect(() => {
     if (!latestVideoGamesReleaseLoading) {
-      dispatch(saveLatestVideoGamesReleaseGlide(new Glide("#glideVideoGames", gliderOptions).mount()));
+      new Glide("#glideVideoGames", gliderOptions).mount();
     }
   }, [latestVideoGamesReleaseLoading]);
 
@@ -113,10 +106,10 @@ function HomePage() {
     }
     else {
       setTimeout(() => {
-        dispatch(saveLatestMoviesReleaseGlide(new Glide("#glideMovies", gliderOptions).mount()));
-        dispatch(saveLatestSeriesReleaseGlide(new Glide("#glideSeries", gliderOptions).mount()));
-        dispatch(saveLatestBooksReleaseGlide(new Glide("#glideBooks", gliderOptions).mount()));
-        dispatch(saveLatestVideoGamesReleaseGlide(new Glide("#glideVideoGames", gliderOptions).mount()));
+        new Glide("#glideMovies", gliderOptions).mount();
+        new Glide("#glideSeries", gliderOptions).mount();
+        new Glide("#glideBooks", gliderOptions).mount();
+        new Glide("#glideVideoGames", gliderOptions).mount();
       }, menuIsOpen ? 565 : 420);
     }
   }, [menuIsOpen]);
@@ -159,53 +152,10 @@ function HomePage() {
   //   // console.log(slideActive.nextElementSibling);
   // }, [latestMoviesReleaseResult, gliderOptions.perView]);
 
-
-
-  // useEffect(() => {
-  //   if (typeof resultsDataMovie !== 'undefined' && typeof resultsDataTV !== 'undefined' && typeof resultsDataVideoGames !== 'undefined') {
-  //     console.log('init glides');
-  //     const glides = document.querySelectorAll('.glide');
-  //     glides.forEach((glide) => {
-  //       const glideSlides = glide.querySelectorAll('.glide__slides');
-  //       glideSlides.forEach((glideSlide) => {
-  //         const glideSlidesClones = glideSlide.querySelectorAll('.glide__slide--clone');
-  //         glideSlidesClones.forEach((glideSlideClone) => {
-  //           glideSlide.removeChild(glideSlideClone);
-  //         });
-  //       })
-  //     })
-  //     if (glides && glides.length > 0) {
-  //       for (let i = 0; i < glides.length; i++) {
-  //         const glideElement = new Glide(glides[i], gliderOptions).destroy();
-  //         glideElement.mount();
-  //       }
-  //     }
-  //   }
-  // }, [resultsDataMovie, resultsDataTV, resultsDataVideoGames])
-
-  
-  // useEffect(() => {
-  //   return() => {
-  //       console.log(resultsData);
-  //   }
-  // }, [resultsDataMovie])
-  // let glidesList = [];
-
-  // useEffect(() => {
-  //   console.log(glidesList);
-  //   glidesList.forEach((glide) => {
-  //     console.log('perView :', glide.glideElement._o.perView);
-  //   });
-  // }, [glidesList]);
-
-
-
- 
-
   return (
     <div className="homePage">
         <div className="homePage-container">
-          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Movie</h2>
+          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Movies</h2>
           {latestMoviesReleaseLoading ? (
             <div style={{ padding: '5em 0' }}>
               <Loader />
@@ -329,9 +279,5 @@ function HomePage() {
     
   );
 }
-
-HomePage.propTypes = {
-  
-};
 
 export default HomePage;

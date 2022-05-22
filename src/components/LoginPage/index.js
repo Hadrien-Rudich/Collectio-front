@@ -24,7 +24,7 @@ function LoginPage() {
     if (auth) {
       navigate("/");
     }
-  }, [auth])
+  }, [auth]);
 
   return (
     <div className="loginPage">

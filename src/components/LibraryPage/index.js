@@ -6,19 +6,18 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import './style.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveResultsData, saveResultsDataMovie, saveResultsDataTV, saveResultsDataVideoGames } from '../../actions/searchResults';
 import { Link } from 'react-router-dom';
 
 function LibraryPage() {
    const dispatch = useDispatch();
    const menuIsOpen = useSelector((state) => state.mainMenu.isOpen);
 
-   const resultsData = useSelector((state) => state.searchResults.results);
+  //  const resultsData = useSelector((state) => state.searchResults.results);
 
-   const resultsDataMovie = useSelector((state) => {
-    console.log('JE TESTE MON STATE 1 --> ', state.searchResults.resultsMovie.results)
-    return state.searchResults.resultsMovie.results
-  });
+  //  const resultsDataMovie = useSelector((state) => {
+  //   console.log('JE TESTE MON STATE 1 --> ', state.searchResults.resultsMovie.results)
+  //   return state.searchResults.resultsMovie.results
+  // });
 
 //   const resultsDataTV = useSelector((state) => {
 //     console.log('JE TESTE MON STATE 2 --> ', state.searchResults.resultsTV.results)
@@ -36,17 +35,17 @@ function LibraryPage() {
 
 
 
-     console.log("ICI JE SUIS LA EN DEHORS DU USEEFFECT")
+//      console.log("ICI JE SUIS LA EN DEHORS DU USEEFFECT")
 
-  const inTheater = async () => {
-    try {
-        const response = await axios.get('https://api.themoviedb.org/3/movie/now_playing?api_key=53d8914dec27b153e9ddc38fedcfb93e&language=en-US&France')
-        console.log("inTheater", response.data);
-        dispatch(saveResultsDataMovie(response.data))
-    } catch (error) {
-        console.log(error);
-    }
-};
+//   const inTheater = async () => {
+//     try {
+//         const response = await axios.get('https://api.themoviedb.org/3/movie/now_playing?api_key=53d8914dec27b153e9ddc38fedcfb93e&language=en-US&France')
+//         console.log("inTheater", response.data);
+//         dispatch(saveResultsDataMovie(response.data))
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
 
 //   const TV = async () => {
 //     try {
@@ -70,63 +69,63 @@ function LibraryPage() {
 //     }
 //   }
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    console.log("1) je suis ici dans le useEffect")
+  //   console.log("1) je suis ici dans le useEffect")
 
-    console.log({
-      "AVANCEE" : "PREMIERE EXECUTION",
-      resultsDataMovie,
-    //   resultsDataTV,
-    //   resultsDataVideoGames
-    })
+  //   console.log({
+  //     "AVANCEE" : "PREMIERE EXECUTION",
+  //     resultsDataMovie,
+  //   //   resultsDataTV,
+  //   //   resultsDataVideoGames
+  //   })
 
-    const execFetch = async () => {
-      await inTheater()
-    //   await TV()
-    //   await VideoGames()
-      console.log({
-        "AVANCEE" : "DEUXIEME EXECUTION",
-        resultsDataMovie,
-        // resultsDataTV,
-        // resultsDataVideoGames
-      })
-    }
-    execFetch()
-
-
+  //   // const execFetch = async () => {
+  //   //   await inTheater()
+  //   // //   await TV()
+  //   // //   await VideoGames()
+  //   //   console.log({
+  //   //     "AVANCEE" : "DEUXIEME EXECUTION",
+  //   //     resultsDataMovie,
+  //   //     // resultsDataTV,
+  //   //     // resultsDataVideoGames
+  //   //   })
+  //   // }
+  //   // execFetch()
 
 
-      const glides = document.querySelectorAll('.glide');
-      if (glides && glides.length > 0) {
-        for (let i = 0; i < glides.length; i++) {
-          const glideElement = new Glide(glides[i], gliderOptions).mount();
-          // glideElement.update({
-          //   perView: menuIsOpen ? 7 : 9,
-          // });
-          // glidesList[i] = {
-          //   name: `glide${i + 1}`,
-          //   glideElement,
-          // }
-        }
-      }
+
+
+  //     const glides = document.querySelectorAll('.glide');
+  //     if (glides && glides.length > 0) {
+  //       for (let i = 0; i < glides.length; i++) {
+  //         const glideElement = new Glide(glides[i], gliderOptions).mount();
+  //         // glideElement.update({
+  //         //   perView: menuIsOpen ? 7 : 9,
+  //         // });
+  //         // glidesList[i] = {
+  //         //   name: `glide${i + 1}`,
+  //         //   glideElement,
+  //         // }
+  //       }
+  //     }
     
-    // return () => {
-    //   const glides = document.querySelectorAll('.glide');
-    //   if (glides && glides.length > 0) {
-    //     for (let i = 0; i < glides.length; i++) {
-    //       const glideElement = new Glide(glides[i], gliderOptions).mount();
-    //       // glideElement.update({
-    //       //   perView: menuIsOpen ? 7 : 9,
-    //       // });
-    //       // glidesList[i] = {
-    //       //   name: `glide${i + 1}`,
-    //       //   glideElement,
-    //       // }
-    //     }
-    //   }
-    // }
-  }, []);
+  //   // return () => {
+  //   //   const glides = document.querySelectorAll('.glide');
+  //   //   if (glides && glides.length > 0) {
+  //   //     for (let i = 0; i < glides.length; i++) {
+  //   //       const glideElement = new Glide(glides[i], gliderOptions).mount();
+  //   //       // glideElement.update({
+  //   //       //   perView: menuIsOpen ? 7 : 9,
+  //   //       // });
+  //   //       // glidesList[i] = {
+  //   //       //   name: `glide${i + 1}`,
+  //   //       //   glideElement,
+  //   //       // }
+  //   //     }
+  //   //   }
+  //   // }
+  // }, []);
 
   
   const gliderOptions = {
@@ -171,7 +170,7 @@ function LibraryPage() {
     return (
         <section>
             <div className='homePage'>
-                <div key="Movie">
+                {/* <div key="Movie">
                     <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em', textAlign: 'center'}}>My Movies</h2>
                     <div className="glide" style={{ transition: 'all 550ms' }}>
                         <div className="glide__track" data-glide-el="track">
@@ -191,7 +190,7 @@ function LibraryPage() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 {/* <div className='main_soon'>
                 <div key="main_soon">
                     <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Top Rated</h2>

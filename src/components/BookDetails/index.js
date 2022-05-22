@@ -1,59 +1,59 @@
-import axios from 'axios';
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchBookDetails, saveBookResult, setBookLoading } from '../../actions/bookDetails';
+import { fetchBookDetailsById } from '../../actions/bookDetails';
 import Loader from '../Loader';
 import './style.scss';
 
 function BookDetails() {
   const dispatch = useDispatch();
-
-  const { loading, bookResult } = useSelector((state) => state.bookDetails);
-  const { mediaId } = useParams();
-
-  const getBookData = async () => {
-    dispatch(fetchBookDetails(mediaId));
-  }
-
-  // useEffect(() => {
-  //   if (typeof bookResult !== 'undefined') {
-  //     console.log('bookResult', bookResult);
-  //   }
-  // }, [bookResult]);
-
+  
+  const { bookDetailsLoading, bookDetailsResult } = useSelector((state) => state.bookDetails);
+  const bookId = useParams().mediaId;
+  
   useEffect(() => {
-    getBookData();
+    dispatch(fetchBookDetailsById(bookId));
   }, []);
-
+  
+  // /**
+  //  * ! show bookDetailsResult in console
+  //  */
+  // const isInitialMount = useRef(true);
+  // useEffect(() => {
+  //   if (isInitialMount.current) {
+  //     isInitialMount.current = false;
+  //   }
+  //   else {
+  //     console.log('bookDetailsResult', bookDetailsResult);
+  //   }
+  // }, [bookDetailsResult]);
 
 
   return (
     <div className="mediaDetails">
-    {loading ? (
+    {bookDetailsLoading ? (
       <Loader />
     ) : (
         <div className="mediaContainer">
           <div className="mediaImageContainer">             
-            <h1 className="mediaDetails__mediaTitle">{bookResult.volumeInfo.title}</h1>
+            <h1 className="mediaDetails__mediaTitle">{bookDetailsResult.volumeInfo.title}</h1>
           
-          {typeof bookResult.volumeInfo.imageLinks !== 'undefined' && (
-          <img src={bookResult.volumeInfo.imageLinks.thumbnail} alt="" />         
+          {typeof bookDetailsResult.volumeInfo.imageLinks !== 'undefined' && (
+          <img src={bookDetailsResult.volumeInfo.imageLinks.thumbnail} alt="" />         
           )}
            
-            <h2 className="mediaDetails__mediaReleaseYear">({bookResult.volumeInfo.publishedDate.substring(0,4)})</h2>
-            <h2 className="mediaDetails__mediaRunTime">{bookResult.volumeInfo.pageCount} pages</h2>
+            <h2 className="mediaDetails__mediaReleaseYear">({bookDetailsResult.volumeInfo.publishedDate.substring(0,4)})</h2>
+            <h2 className="mediaDetails__mediaRunTime">{bookDetailsResult.volumeInfo.pageCount} pages</h2>
             <div className='mediaDetails__mediaGenreContainer'>
-              <h4 className="mediaDetails__mediaGenre">{bookResult.volumeInfo.categories}</h4>
+              <h4 className="mediaDetails__mediaGenre">{bookDetailsResult.volumeInfo.categories}</h4>
           </div>                       
           <div className="mediaTextContainer"> 
            <div className="mediaCrewContainer">
-            {typeof bookResult.volumeInfo.authors !== 'undefined' && (
+            {typeof bookDetailsResult.volumeInfo.authors !== 'undefined' && (
               <div>
-                <h3 className="mediaDetails__mediaCrew">Author{bookResult.volumeInfo.authors.length > 1 ? 's' : ''}</h3>
+                <h3 className="mediaDetails__mediaCrew">Author{bookDetailsResult.volumeInfo.authors.length > 1 ? 's' : ''}</h3>
                 <br />
-                {bookResult.volumeInfo.authors.map((author) => (
+                {bookDetailsResult.volumeInfo.authors.map((author) => (
                   <h4 key={author} className="mediaDetails__mediaTitle">{author}</h4>
                 ))}                
                 
@@ -62,12 +62,12 @@ function BookDetails() {
             )}
               </div>                   
                                      
-            <h2 className="mediaDetails__mediaTitle">Publisher : {bookResult.volumeInfo.publisher}</h2>
+            <h2 className="mediaDetails__mediaTitle">Publisher : {bookDetailsResult.volumeInfo.publisher}</h2>
            
             </div>
             
             <div className="mediaOverviewContainer">        
-              <h4 className="mediaDetails__mediaCast" dangerouslySetInnerHTML={{__html: bookResult.volumeInfo.description}} />
+              <h4 className="mediaDetails__mediaCast" dangerouslySetInnerHTML={{__html: bookDetailsResult.volumeInfo.description}} />
             </div>
                                  
            
@@ -79,9 +79,5 @@ function BookDetails() {
     </div>
   );
 }
-
-BookDetails.propTypes = {
-  
-};
 
 export default BookDetails;

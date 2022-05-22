@@ -43,21 +43,25 @@
           &-title {
             text-align: center;
             width: 10em;
-            word-break: break-all;
           }
         }
       }
       
-      // .glide__slide--active + .glide__slide + .glide__slide {
-      //   transform-origin: 50% 0;
-      //   transition: transform 400ms;
-      // }
+      .glide__slide--active + .glide__slide + .glide__slide {
+        transform-origin: 50% 0;
+        transition: transform 400ms;
+      }
   
-      // .glide__slide--active + .glide__slide + .glide__slide + .glide__slide {
-      //   transition: transform 200ms;
-      //   transform-origin: 50% 0;
-      //   transform: scale(1.1);
-      // }
+      .glide__slide--active + .glide__slide + .glide__slide + .glide__slide {
+        transition: transform 200ms;
+        transform-origin: 50% 0;
+        transform: scale(1.1);
+      }
+
+      .glide__slide--active + .glide__slide + .glide__slide + .glide__slide + .glide__slide {
+        transform-origin: 50% 0;
+        transition: transform 400ms;
+      }
     }
   }
 }

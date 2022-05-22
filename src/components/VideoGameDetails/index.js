@@ -1,40 +1,45 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchVideoGameDetails } from '../../actions/videoGameDetails';
+import { fetchVideoGameDetailsById } from '../../actions/videoGameDetails';
 import Loader from '../Loader';
 import './style.scss';
 
 function VideoGameDetails() {
   const dispatch = useDispatch();
 
-  const { loading, videoGameResult } = useSelector((state) => state.videoGameDetails);
-  const { mediaId } = useParams();
-
-  // useEffect(() => {
-  //   if (typeof videoGameResult !== 'undefined') {
-  //     console.log('videoGameResult', videoGameResult);
-  //   }
-  // }, [videoGameResult]);
+  const { videoGameDetailsLoading, videoGameDetailsResult } = useSelector((state) => state.videoGameDetails);
+  const videoGameId = useParams().mediaId;
 
   useEffect(() => {
-    dispatch(fetchVideoGameDetails(mediaId));
+    dispatch(fetchVideoGameDetailsById(videoGameId));
   }, []);
 
-
+  // /**
+  //  * ! show videoGameDetailsResult in console
+  //  */
+  // const isInitialMount = useRef(true);
+  // useEffect(() => {
+  //   if (isInitialMount.current) {
+  //     isInitialMount.current = false;
+  //   }
+  //   else {
+  //     console.log('videoGameDetailsResult', videoGameDetailsResult);
+  //   }
+  // }, [videoGameDetailsResult]);
 
   return (
     <div className="mediaDetails">
-    {loading ? (
+    {videoGameDetailsLoading ? (
       <Loader />
     ) : (
       <div className="mediaContainer">
         <div className="mediaImageContainer">  
-            <h1 className="mediaDetails__mediaTitle">{videoGameResult.name_original}</h1>
-            <img src={videoGameResult.background_image} alt="" />
-            <h2 className="mediaDetails__mediaReleaseYear">({videoGameResult.released.substring(0,4)})</h2>
+            <h1 className="mediaDetails__mediaTitle">{videoGameDetailsResult.name_original}</h1>
+            <img src={videoGameDetailsResult.background_image} alt="" />
+            <h2 className="mediaDetails__mediaReleaseYear">({videoGameDetailsResult.released.substring(0,4)})</h2>
             <div className='mediaDetails__mediaGenreContainer'>
-            {videoGameResult.genres.map((genre) => (
+            {videoGameDetailsResult.genres.map((genre) => (
               <h4 className="mediaDetails__mediaGenre" key={genre.id}>{genre.name}</h4>
               ))}            
              </div>
@@ -43,11 +48,11 @@ function VideoGameDetails() {
 
                 <h4 className="mediaDetails__mediaCast"></h4>        
             
-                {videoGameResult.publishers.map((publisher) => (
+                {videoGameDetailsResult.publishers.map((publisher) => (
                   <p key={publisher.id}>{publisher.name}</p>
                   ))}
               </div>
-            {/* <h3>Playtime: {videoGameResult.playtime} hours</h3> */}
+            {/* <h3>Playtime: {videoGameDetailsResult.playtime} hours</h3> */}
 
           </div>       
           <div className="mediaTextContainer">   
@@ -55,7 +60,7 @@ function VideoGameDetails() {
 
             <div className="mediaOverviewContainer">
 
-              <h4 className="mediaDetails__mediaOverview">{videoGameResult.description_raw}</h4>           
+              <h4 className="mediaDetails__mediaOverview">{videoGameDetailsResult.description_raw}</h4>           
               </div>
 
         </div>

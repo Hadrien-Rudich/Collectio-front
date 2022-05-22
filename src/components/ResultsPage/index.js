@@ -2,113 +2,32 @@ import Glide from '@glidejs/glide/dist/glide';
 import "@glidejs/glide/dist/css/glide.core.min.css";
 import "@glidejs/glide/dist/css/glide.theme.min.css";
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import './style.scss';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import { fetchInAllApiByTitle } from '../../actions/searchResults';
+import Loader from '../Loader';
+import { changeInputValueHeader } from '../../actions/header';
 
 function ResultsPage() {
-  const resultsData = useSelector((state) => state.searchResults.results);
-  const resultsDataMovie = useSelector((state) => state.searchResults.resultsMovie.results);
-  const resultsDataTV = useSelector((state) => state.searchResults.resultsTV.results);
-  const resultsDataVideoGames = useSelector((state) => state.searchResults.resultsVideoGames.results);
 
-  const categoriesDataTemp = [
-    {
-      name: 'Movies',
-      slug: 'movies',
-      route: '/movies',
-      items: [
-        {
-          name: 'Iron Man 3',
-          imageURL: 'https://fr.web.img5.acsta.net/medias/nmedia/18/91/08/37/20508296.jpg',
-        },
-        {
-          name: 'Captain America: The Winter Soldier',
-          imageURL: 'https://fr.web.img6.acsta.net/pictures/14/01/31/17/06/486036.jpg',
-        },
-        {
-          name: 'Avengers: Infinity War',
-          imageURL: 'https://fr.web.img5.acsta.net/pictures/18/03/16/14/42/0611719.jpg',
-        },
-        {
-          name: 'Eternals',
-          imageURL: 'https://fr.web.img6.acsta.net/pictures/21/10/13/10/33/5985249.jpg',
-        },
-        {
-          name: 'Captain America: Civil War',
-          imageURL: 'https://fr.web.img5.acsta.net/pictures/16/03/11/09/46/182814.jpg',
-        },
-        {
-          name: 'Thor Ragnarock',
-          imageURL: 'https://fr.web.img3.acsta.net/pictures/17/08/24/17/34/098917.jpg',
-        },
-        {
-          name: 'Avengers: EndGame',
-          imageURL: 'https://fr.web.img2.acsta.net/pictures/19/04/04/09/04/0472053.jpg',
-        },
-        {
-          name: 'Shang-Chi and the Legend of the Ten Rings',
-          imageURL: 'https://fr.web.img3.acsta.net/pictures/21/08/25/11/54/3128925.jpg',
-        },
-        {
-          name: 'Avengers: Age of Ultron',
-          imageURL: 'https://fr.web.img4.acsta.net/pictures/15/02/24/18/29/161927.jpg',
-        },
-      ],
-    },
-    {
-      name: 'Series',      
-      slug: 'series',
-      route: '/series',
-      items: [
-        {
-          name: 'Moon Knight',
-          imageURL: 'https://www.francetvinfo.fr/pictures/uGKKmvQfk93jmlwrBiff7JkQcno/fit-in/720x/2022/03/15/php8A3zAY.jpg',
-        },
-        {
-          name: 'Hawkeye',
-          imageURL: 'https://d1fmx1rbmqrxrr.cloudfront.net/cnet/i/edit/2021/11/Hawkeye%20poster%20Renner.jpg',
-        },
-        {
-          name: 'Loki',
-          imageURL: 'https://fr.web.img3.acsta.net/pictures/21/05/12/16/22/0714838.jpg',
-        },
-      ],
-    },
-    {
-      name: 'Books',
-      slug: 'books',
-      route: '/books',
-      items: [
-        {
-          name: 'Franklin',
-          imageURL: 'https://images-na.ssl-images-amazon.com/images/I/61Y9AtCNltL.jpg',
-        },
-        {
-          name: 'Harry Potter',
-          imageURL: 'https://images-na.ssl-images-amazon.com/images/I/81gP4fFhsbL.jpg',
-        },
-      ],
-    },
-    {
-      name: 'Video games',
-      slug: 'video-games',
-      route: '/video-games',
-      items: [
-        {
-          name: 'GTA V',
-          imageURL: 'https://m.media-amazon.com/images/I/91O2cwfTxDL._AC_SY550_.jpg',
-        },
-        {
-          name: 'Minecraft',
-          imageURL: 'https://www.codesproduit.fr/wp-content/uploads/2021/01/minecraft.jpg',
-        },
-      ],
-    },
-  ];
+  const dispatch = useDispatch();
+  const isInitialMount = useRef(true);
 
+  const title = useParams().searchBar;
   const menuIsOpen = useSelector((state) => state.mainMenu.isOpen);
+  const {
+    foundMoviesLoading,
+    foundSeriesLoading,
+    foundBooksLoading,
+    foundVideoGamesLoading,
+
+    foundMoviesResult,
+    foundSeriesResult,
+    foundBooksResult,
+    foundVideoGamesResult,
+  } = useSelector((state) => state.searchResults);
 
   const gliderOptions = {
     type: 'slider',
@@ -134,42 +53,75 @@ function ResultsPage() {
       }
     }
   }
-  
+
   useEffect(() => {
-    return () => {
-      const glides = document.querySelectorAll('.glide');
-      if (glides && glides.length > 0) {
-        for (let i = 0; i < glides.length; i++) {
-          const glideElement = new Glide(glides[i], gliderOptions).mount();
-          // glideElement.update({
-          //   perView: menuIsOpen ? 7 : 9,
-          // });
-          // glidesList[i] = {
-          //   name: `glide${i + 1}`,
-          //   glideElement,
-          // }
-        }
-      }
+    console.log('Je fetch all');
+    dispatch(fetchInAllApiByTitle(title));
+    dispatch(changeInputValueHeader("searchBar", ""));
+  }, [title]);
+
+  useEffect(() => {
+    if (!foundMoviesLoading) {
+      new Glide("#glideMovies", gliderOptions).mount();
     }
-  }, []);
+  }, [foundMoviesLoading]);
+
+  useEffect(() => {
+    if (!foundSeriesLoading) {
+      new Glide("#glideSeries", gliderOptions).mount();
+    }
+  }, [foundSeriesLoading]);
+
+  useEffect(() => {
+    if (!foundBooksLoading) {
+      new Glide("#glideBooks", gliderOptions).mount();
+    }
+  }, [foundBooksLoading]);
+
+  useEffect(() => {
+    if (!foundVideoGamesLoading) {
+      new Glide("#glideVideoGames", gliderOptions).mount();
+    }
+  }, [foundVideoGamesLoading]);
+  
+
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    }
+    else {
+      setTimeout(() => {
+        new Glide("#glideMovies", gliderOptions).mount();
+        new Glide("#glideSeries", gliderOptions).mount();
+        new Glide("#glideBooks", gliderOptions).mount();
+        new Glide("#glideVideoGames", gliderOptions).mount();
+      }, menuIsOpen ? 565 : 420);
+    }
+  }, [menuIsOpen]);
 
   return (
     <div className="homePage">
       
-        <div key="Movie" className="homePage-container">
-          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Movies</h2>
-          <div key="Book" className="homePage-container">
-            <div className="glide" style={{ transition: 'all 550ms' }}>
+      <div className="homePage-container">
+        <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Movies</h2>
+        {foundMoviesLoading ? (
+          <div style={{ padding: '5em 0' }}>
+            <Loader />
+          </div>
+        ) : (
+          <div className="glideContainer">
+            <div id="glideMovies" className="glide" style={{ transition: 'all 550ms' }}>
               <div className="glide__track" data-glide-el="track">
                 <ul className="glide__slides">
-                  {resultsData.results.map((item) => (
-                    <li key={item.id} className="glide__slide">
-                      <Link to={`/movies/${item.id}`} className="glide__slide-link">
-                        <img className="glide__slide-link-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
-                        <span className="glide__slide-link-title">{item.title}</span>
-                      </Link>
-                    </li>
-                  ))}
+                {foundMoviesResult && foundMoviesResult.results.map((item) => (
+                  <li key={item.id} className="glide__slide">
+                    <Link to={`/movies/${item.id}`} className="glide__slide-link">
+                      <img className="glide__slide-link-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.title} />
+                      <span className="glide__slide-link-title">{item.title}</span>
+                    </Link>
+                  </li>
+                ))}
                 </ul>
                 <div className="glide__arrows" data-glide-el="controls">
                   <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
@@ -178,17 +130,22 @@ function ResultsPage() {
               </div>
             </div>
           </div>
-        </div>
+        )}
+      </div>
 
-        <div key="Serie" className="homePage-container">
-          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Series</h2>
-          <div key="Book" className="homePage-container">
-            <div className="glide" style={{ transition: 'all 550ms' }}>
+      <div className="homePage-container">
+        <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Series</h2>
+        {foundSeriesLoading ? (
+          <div style={{ padding: '5em 0' }}>
+            <Loader />
+          </div>
+        ) : (
+          <div className="glideContainer">
+            <div id="glideSeries" className="glide" style={{ transition: 'all 550ms' }}>
               <div className="glide__track" data-glide-el="track">
                 <ul className="glide__slides">
-                  {resultsDataTV?.length > 0 && resultsDataTV.map((item) => (
-                    console.log(item),
-                    <li key={item.name} className="glide__slide">
+                {foundSeriesResult && foundSeriesResult.results.map((item) => (
+                    <li key={item.id} className="glide__slide">
                       <Link to={`/series/${item.id}`} className="glide__slide-link">
                         <img className="glide__slide-link-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.name} />
                         <span className="glide__slide-link-title">{item.name}</span>
@@ -203,23 +160,28 @@ function ResultsPage() {
               </div>
             </div>
           </div>
-        </div>
+        )}
+      </div>
 
-        <div key="Book" className="homePage-container">
-          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Books</h2>
+      <div className="homePage-container">
+        <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Books</h2>
+        {foundBooksLoading ? (
+          <div style={{ padding: '5em 0' }}>
+            <Loader />
+          </div>
+        ) : (
           <div className="glideContainer">
-            <div className="glide" style={{ transition: 'all 550ms' }}>
+            <div id="glideBooks" className="glide" style={{ transition: 'all 550ms' }}>
               <div className="glide__track" data-glide-el="track">
                 <ul className="glide__slides">
-                  {/* {resultsDataTV?.length > 0 && resultsDataTV.map((item) => (
-                    console.log(item),
-                    <Link to={`/series/${item.id}`}>
-                      <li key={item.name} className="glide__slide">
-                        <img className="glide__slide-image" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt={item.name} />
-                        <span>{item.name}</span>
-                      </li>
-                    </Link>
-                  ))} */}
+                {foundBooksResult && foundBooksResult.items.map((item) => (
+                    <li key={item.id} className="glide__slide">
+                      <Link to={`/books/${item.id}`} className="glide__slide-link">
+                        <img className="glide__slide-link-image" src={item.volumeInfo.imageLinks && (item.volumeInfo.imageLinks.thumbnail) && item.volumeInfo.imageLinks.smallThumbnail } alt={item.name} />
+                        <span className="glide__slide-link-title">{item.volumeInfo.title}</span>
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
                 <div className="glide__arrows" data-glide-el="controls">
                   <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
@@ -228,30 +190,40 @@ function ResultsPage() {
               </div>
             </div>
           </div>
-        </div>
+        )}
+      </div>
 
-        <div key="VideoGames" className="homePage-container">
-          <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Video Games</h2>
-          <div className="glide" style={{ transition: 'all 550ms' }}>
-            <div className="glide__track" data-glide-el="track">
-              <ul className="glide__slides">
-                {resultsDataVideoGames?.length > 0 && resultsDataVideoGames.map((item) => (
-                  console.log(item),
-                  <li key={item.name} className="glide__slide">
-                    <Link to={`/video-games/${item.id}`} className="glide__slide-link">
-                      <img className="glide__slide-link-image" src={item.background_image} alt={item.name} />
-                      <span className="glide__slide-link-title">{item.name}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              <div className="glide__arrows" data-glide-el="controls">
-                <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+      <div className="homePage-container">
+        <h2 style={{ fontWeight: 'bold', fontSize: '2em', marginBottom: '1.2em' }}>Video Games</h2>
+        {foundVideoGamesLoading ? (
+          <div style={{ padding: '5em 0' }}>
+            <Loader />
+          </div>
+        ) : (
+          <div className="glideContainer">
+            <div id="glideVideoGames" className="glide" style={{ transition: 'all 550ms' }}>
+              <div className="glide__track" data-glide-el="track">
+                <ul className="glide__slides">
+                {foundVideoGamesResult && foundVideoGamesResult.results.map((item) => (
+                    <li key={item.name} className="glide__slide">
+                      <Link to={`/video-games/${item.id}`} className="glide__slide-link">
+                        <img className="glide__slide-link-image" src={item.background_image} alt={item.name} />
+                        <span className="glide__slide-link-title">{item.name}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <div className="glide__arrows" data-glide-el="controls">
+                  <button className="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+                  <button className="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
+      </div>
+
+
     </div>
 
     

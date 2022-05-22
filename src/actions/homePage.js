@@ -74,31 +74,3 @@ export const saveLatestVideoGamesReleaseResult = (newLatestVideoGamesReleaseResu
   newLatestVideoGamesReleaseResult,
 });
 // ------------------------------
-
-
-// save Glide
-export const SAVE_LATEST_MOVIES_RELEASE_GLIDE = 'SAVE_LATEST_MOVIES_RELEASE_GLIDE';
-export const SAVE_LATEST_SERIES_RELEASE_GLIDE = 'SAVE_LATEST_SERIES_RELEASE_GLIDE';
-export const SAVE_LATEST_BOOKS_RELEASE_GLIDE = 'SAVE_LATEST_BOOKS_RELEASE_GLIDE';
-export const SAVE_LATEST_VIDEO_GAMES_GLIDE = 'SAVE_LATEST_VIDEO_GAMES_GLIDE';
-
-export const saveLatestMoviesReleaseGlide = (newLatestMoviesReleaseGlide) => ({
-  type: SAVE_LATEST_MOVIES_RELEASE_GLIDE,
-  newLatestMoviesReleaseGlide,
-});
-
-export const saveLatestSeriesReleaseGlide = (newLatestSeriesReleaseGlide) => ({
-  type: SAVE_LATEST_SERIES_RELEASE_GLIDE,
-  newLatestSeriesReleaseGlide,
-});
-
-export const saveLatestBooksReleaseGlide = (newLatestBooksReleaseGlide) => ({
-  type: SAVE_LATEST_BOOKS_RELEASE_GLIDE,
-  newLatestBooksReleaseGlide,
-});
-
-export const saveLatestVideoGamesReleaseGlide = (newLatestVideoGamesReleaseGlide) => ({
-  type: SAVE_LATEST_VIDEO_GAMES_GLIDE,
-  newLatestVideoGamesReleaseGlide,
-});
-// ------------------------------

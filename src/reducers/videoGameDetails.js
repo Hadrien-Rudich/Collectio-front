@@ -1,22 +1,22 @@
-import { SAVE_VIDEO_GAME_RESULT, SET_VIDEO_GAME_LOADING } from "../actions/videoGameDetails";
+import { SAVE_VIDEO_GAME_DETAILS_RESULT, SET_VIDEO_GAME_DETAILS_LOADING } from "../actions/videoGameDetails";
 
 const initialState = {
-  loading: true,
-  videoGameResult: undefined,
+  videoGameDetailsLoading: true,
+  videoGameDetailsResult: undefined,
 };
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case SAVE_VIDEO_GAME_RESULT: {
+    case SAVE_VIDEO_GAME_DETAILS_RESULT: {
       return {
         ...state,
-        videoGameResult: action.videoGameResponse,
+        videoGameDetailsResult: action.newVideoGameDetailsResult,
       }
     }
-    case SET_VIDEO_GAME_LOADING: {
+    case SET_VIDEO_GAME_DETAILS_LOADING: {
       return {
         ...state,
-        loading: action.newLoadingValue,
+        videoGameDetailsLoading: action.newVideoGameDetailsLoading,
       }
     }
     default: {

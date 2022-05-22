@@ -8,29 +8,18 @@ import {
   SET_LATEST_SERIES_RELEASE_LOADING,
   SET_LATEST_BOOKS_RELEASE_LOADING,
   SET_LATEST_VIDEO_GAMES_RELEASE_LOADING,
-
-  SAVE_LATEST_MOVIES_RELEASE_GLIDE,
-  SAVE_LATEST_SERIES_RELEASE_GLIDE,
-  SAVE_LATEST_BOOKS_RELEASE_GLIDE,
-  SAVE_LATEST_VIDEO_GAMES_GLIDE,
-  
 } from "../actions/homePage";
 
 const initialState = {
-  latestMoviesReleaseResult: undefined,
-  latestSeriesReleaseResult: undefined,
-  latestBooksReleaseResult: undefined,
-  latestVideoGamesReleaseResult: undefined,
-
   latestMoviesReleaseLoading: true,
   latestSeriesReleaseLoading: true,
   latestBooksReleaseLoading: true,
   latestVideoGamesReleaseLoading: true,
 
-  latestMoviesReleaseGlide: undefined,
-  latestSeriesReleaseGlide: undefined,
-  latestBooksReleaseGlide: undefined,
-  latestVideoGamesReleaseGlide: undefined,
+  latestMoviesReleaseResult: undefined,
+  latestSeriesReleaseResult: undefined,
+  latestBooksReleaseResult: undefined,
+  latestVideoGamesReleaseResult: undefined,
 }
 
 const reducer = (state = initialState, action = {}) => {
@@ -82,31 +71,6 @@ const reducer = (state = initialState, action = {}) => {
       return {
         ...state,
         latestVideoGamesReleaseLoading: action.newLatestVideoGamesReleaseLoading,
-      }
-    }
-    // ------------------------------
-    case SAVE_LATEST_MOVIES_RELEASE_GLIDE: {
-      return {
-        ...state,
-        latestMoviesReleaseGlide: action.newLatestMoviesReleaseGlide,
-      }
-    }
-    case SAVE_LATEST_SERIES_RELEASE_GLIDE: {
-      return {
-        ...state,
-        latestSeriesReleaseGlide: action.newLatestSeriesReleaseGlide,
-      }
-    }
-    case SAVE_LATEST_BOOKS_RELEASE_GLIDE: {
-      return {
-        ...state,
-        latestBooksReleaseGlide: action.newLatestBooksReleaseGlide,
-      }
-    }
-    case SAVE_LATEST_VIDEO_GAMES_GLIDE: {
-      return {
-        ...state,
-        latestVideoGamesReleaseGlide: action.newLatestVideoGamesReleaseGlide,
       }
     }
     // ------------------------------

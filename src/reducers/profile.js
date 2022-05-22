@@ -1,4 +1,4 @@
-import { TOGGLE_EDIT_PROFILE } from "../actions/profile";
+import { CHANGE_INPUT_VALUE_PROFILE, TOGGLE_EDIT_PROFILE } from "../actions/profile";
 
 const initialState = {
   edit: false,
@@ -15,6 +15,12 @@ const initialState = {
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
+    case CHANGE_INPUT_VALUE_PROFILE: {
+      return {
+        ...state,
+        [action.stateName]: action.value
+      }
+    }
     case TOGGLE_EDIT_PROFILE: {
       return {
         ...state,
