@@ -8,9 +8,8 @@
   }
 
   font-family: 'Roboto Flex', sans-serif;
-}
 
-  
+
   .mediaDetails__mediaGenreContainer {
          
   display: flex;
@@ -110,8 +109,82 @@
 }
 
 
+  .userRatingContainer {
+    
+    .checked {
+      display: flex;
+      color: rgb(0, 17, 255);
+    }
+  
+  }
 
+  
+  .mediaUserListContainer {
+  
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: stretch; 
+    gap: 0.5rem
+  }
 
+  
+  .mediaRatingContainer {    
+   
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 1rem;
+    flex-direction: row;
+    align-content: center;
+  
+  }
+  
+  .mediaContainer {
+    margin-top: 7rem;
+    margin-left: 10rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .mediaImageContainer {    
+   
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    img {    
+      
+      border-radius: 1rem;   
+      
+    }
+  
+    h1 {
+      
+      font-size:3em; 
+      font-weight:bolder;
+  }
+  
+}
+  h2, h4 {
+      
+       font-size: 1.2em
+      
+  }
+
+span {
+  height: 50px;
+  width: 50px;
+  transform: scale(2)
+  
+
+}
+  
 .mediaTextContainer {
   display: flex;
   flex-direction: column-reverse;
@@ -125,8 +198,9 @@
 
   h3 {
 
-    font-style: italic;
+    
     text-decoration: underline;
+    font-size: 1.3em;
   }
 
 
@@ -142,19 +216,21 @@
 
       .mediaDetails__mediaOverview {
 
-          font-size:x-large;
-          font-style: italic;     
+          font-size: 1.7em;
+          font-style: italic;   
+          color:rgb(37, 6, 6)
         
       }
 
 }
+
+
 }
 
-
 .button {
-  display: inline-flex;
+  display: flex;
   height: 50px;
-  padding: 0;
+  padding: 10px;
   background: #009578;
   border: none;
   outline: none;
@@ -168,6 +244,32 @@
 
 .button:hover {
   background: #008168;
+  font-size: 8px;
+  font-weight: 500; 
+  flex-direction: row-reverse;
+  cursor: pointer;
+}
+
+.mediaUserReview {
+  
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: stretch; 
+  gap: 0.5rem
+}
+
+  
+.-review {
+  background: rgb(105, 105, 207);
+}
+
+
+.button:hover {
+  background: #6b6b6e;
+  transform: scale(1.05);
 }
 
 .button:active {
@@ -178,7 +280,7 @@
 .button__icon {
   display: inline-flex;
   align-items: center;
-  padding: 0 24px;
+  padding: 0px 20px;  
   color: white;
   height: 100%
   
@@ -188,4 +290,5 @@
   font-size: 1.5em;
   background: rgba(0,0,0, 0.08)
 
+}
 }
