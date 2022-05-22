@@ -29,10 +29,29 @@ function VideoGameDetails() {
       <Loader />
     ) : (
       <div className="mediaContainer">
+        <div className="mediaRatingContainer">
+        <div className="collectioRatingContainer">
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+
+          </div> 
+          <div className="userRatingContainer">
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </div>
+
+          </div> 
+        
         <div className="mediaImageContainer">  
             <h1 className="mediaDetails__mediaTitle">{videoGameResult.name_original}</h1>
             <img src={videoGameResult.background_image} alt="" />
-            <h2 className="mediaDetails__mediaReleaseYear">({videoGameResult.released.substring(0,4)})</h2>
+            <h4 className="mediaDetails__mediaReleaseYear">({videoGameResult.released.substring(0,4)})</h4>
             <div className='mediaDetails__mediaGenreContainer'>
             {videoGameResult.genres.map((genre) => (
               <h4 className="mediaDetails__mediaGenre" key={genre.id}>{genre.name}</h4>
@@ -51,6 +70,52 @@ function VideoGameDetails() {
 
           </div>       
           <div className="mediaTextContainer">   
+          <div className="mediaUserReview">
+   
+            <button type="button" class="button -review">
+          <span class="button__text">Rating</span>              
+          <span class="button__icon">
+          <ion-icon name="star"></ion-icon>
+          </span>
+          </button>     
+
+          <button type="button" class="button -review">
+          <span class="button__text">Review</span>              
+          <span class="button__icon">
+          <ion-icon name="reader"></ion-icon>
+          <ion-icon name="pencil"></ion-icon>        
+          </span>
+          </button>   
+          </div>
+
+          <div className="mediaUserListContainer">
+            <button type="button" class="button">
+              <span class="button__text">Wishlist</span>
+              <span class="button__icon">
+              <ion-icon name="bookmark"></ion-icon>
+              </span>
+              </button>
+              <button type="button" class="button">
+              <span class="button__text">Favorites</span>
+              <span class="button__icon">
+                <ion-icon name="heart"></ion-icon></span>
+              </button>         
+
+              <button type="button" class="button">
+              <span class="button__text">In Library</span>              
+              <span class="button__icon">
+              <ion-icon name="checkmark"></ion-icon> 
+              </span>
+              </button>
+
+              <button type="button" class="button">
+              <span class="button__text">In Progress</span>              
+              <span class="button__icon">
+              <ion-icon name="eye"></ion-icon>
+              </span>
+              </button>          
+                   
+          </div>
             
 
             <div className="mediaOverviewContainer">
