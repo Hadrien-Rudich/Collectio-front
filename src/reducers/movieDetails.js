@@ -1,29 +1,29 @@
-import { SAVE_MOVIE_RESULTS, SET_MOVIE_LOADING } from "../actions/movieDetails";
+import { SAVE_MOVIE_DETAILS_RESULTS, SET_MOVIE_DETAILS_LOADING } from "../actions/movieDetails";
 
 const initialState = {
-  loading: true,
-  movieResults: {
-    movie: undefined,
-    cast: undefined,
+  movieDetailsLoading: true,
+  movieDetailsResults: {
+    movieDetailsResult: undefined,
+    movieDetailsCastResult: undefined,
   },
 };
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case SAVE_MOVIE_RESULTS: {
+    case SAVE_MOVIE_DETAILS_RESULTS: {
       return {
         ...state,
-        movieResults: {
-          ...state.movieResults,
-          movie: action.movieResponse,
-          cast: action.movieCastResponse,
+        movieDetailsResults: {
+          ...state.movieDetailsResults,
+          movieDetailsResult: action.newMovieDetailsResult,
+          movieDetailsCastResult: action.newMovieDetailsCastResult,
         },
       }
     }
-    case SET_MOVIE_LOADING: {
+    case SET_MOVIE_DETAILS_LOADING: {
       return {
         ...state,
-        loading: action.newLoadingValue,
+        movieDetailsLoading: action.newMovieDetailsLoading,
       }
     }
     default: {

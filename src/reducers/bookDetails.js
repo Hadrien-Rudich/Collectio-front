@@ -1,22 +1,22 @@
-import { SAVE_BOOK_RESULT, SET_BOOK_LOADING } from "../actions/bookDetails";
+import { SAVE_BOOK_DETAILS_RESULT, SET_BOOK_DETAILS_LOADING } from "../actions/bookDetails";
 
 const initialState = {
-  loading: true,
-  bookResult: undefined,
+  bookDetailsLoading: true,
+  bookDetailsResult: undefined,
 };
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case SAVE_BOOK_RESULT: {
+    case SAVE_BOOK_DETAILS_RESULT: {
       return {
         ...state,
-        bookResult: action.bookResponse,
+        bookDetailsResult: action.newBookDetailsResult,
       }
     }
-    case SET_BOOK_LOADING: {
+    case SET_BOOK_DETAILS_LOADING: {
       return {
         ...state,
-        loading: action.newLoadingValue,
+        bookDetailsLoading: action.newBookDetailsLoading,
       }
     }
     default: {

@@ -1,35 +1,58 @@
-export const SAVE_RESULTS_DATA = 'SAVE_RESULTS_DATA';
-export const SAVE_RESULTS_DATA_MOVIE = 'SAVE_RESULTS_DATA_MOVIE';
-export const SAVE_RESULTS_DATA_TV = 'SAVE_RESULTS_DATA_TV';
-export const SAVE_RESULTS_DATA_VIDEOGAMES = 'SAVE_RESULTS_DATA_VIDEOGAMES';
-export const BEST_RATED = 'BEST_RATED';
-export const TOGGLE_SEARCH_RESULTS = 'TOGGLE_SEARCH_RESULTS';
+export const FETCH_IN_ALL_API_BY_TITLE = 'FETCH_IN_ALL_API_BY_TITLE';
 
-export const saveResultsData = (results) => ({
-    type: SAVE_RESULTS_DATA,
-    results,
+export const fetchInAllApiByTitle = (title) => ({
+    type: FETCH_IN_ALL_API_BY_TITLE,
+    title,
 });
 
-export const saveResultsDataMovie = (resultsMovie) => ({
-    type: SAVE_RESULTS_DATA_MOVIE,
-    resultsMovie,
+
+export const SAVE_FOUND_MOVIES_RESULT = 'SAVE_FOUND_MOVIES_RESULT';
+export const SAVE_FOUND_SERIES_RESULT = 'SAVE_FOUND_SERIES_RESULT';
+export const SAVE_FOUND_BOOKS_RESULT = 'SAVE_FOUND_BOOKS_RESULT';
+export const SAVE_FOUND_VIDEO_GAMES_RESULT = 'SAVE_FOUND_VIDEO_GAMES_RESULT';
+
+export const saveFoundMoviesResult = (newFoundMoviesResult) => ({
+    type: SAVE_FOUND_MOVIES_RESULT,
+    newFoundMoviesResult,
 });
 
-export const saveResultsDataVideoGames = (resultsVideoGames) => ({
-    type: SAVE_RESULTS_DATA_VIDEOGAMES,
-    resultsVideoGames,
-})
-
-export const saveResultsDataTV = (resultsTV) => ({
-    type: SAVE_RESULTS_DATA_TV,
-    resultsTV, 
+export const saveFoundSeriesResult = (newFoundSeriesResult) => ({
+    type: SAVE_FOUND_SERIES_RESULT,
+    newFoundSeriesResult,
 });
 
-export const bestRated = (bestRated) => ({
-    type: BEST_RATED,
-    bestRated,
-})
+export const saveFoundBooksResult = (newFoundBooksResult) => ({
+    type: SAVE_FOUND_BOOKS_RESULT,
+    newFoundBooksResult,
+});
 
-export const toggleSearchResults = () => ({
-    type: TOGGLE_SEARCH_RESULTS,
-  });
+export const saveFoundVideoGamesResult = (newFoundVideoGamesResult) => ({
+    type: SAVE_FOUND_VIDEO_GAMES_RESULT,
+    newFoundVideoGamesResult,
+});
+
+
+export const SET_FOUND_MOVIES_LOADING = 'SET_FOUND_MOVIES_LOADING';
+export const SET_FOUND_SERIES_LOADING = 'SET_FOUND_SERIES_LOADING';
+export const SET_FOUND_BOOKS_LOADING = 'SET_FOUND_BOOKS_LOADING';
+export const SET_FOUND_VIDEO_GAMES_LOADING = 'SET_FOUND_VIDEO_GAMES_LOADING';
+
+export const setFoundMoviesLoading = (newFoundMoviesLoading) => ({
+    type: SET_FOUND_MOVIES_LOADING,
+    newFoundMoviesLoading,
+});
+
+export const setFoundSeriesLoading = (newFoundSeriesLoading) => ({
+    type: SET_FOUND_SERIES_LOADING,
+    newFoundSeriesLoading,
+});
+
+export const setFoundBooksLoading = (newFoundBooksLoading) => ({
+    type: SET_FOUND_BOOKS_LOADING,
+    newFoundBooksLoading,
+});
+
+export const setFoundVideoGamesLoading = (newFoundVideoGamesLoading) => ({
+    type: SET_FOUND_VIDEO_GAMES_LOADING,
+    newFoundVideoGamesLoading,
+});

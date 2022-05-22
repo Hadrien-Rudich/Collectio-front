@@ -2,32 +2,53 @@
 
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeInputValueRegister } from '../../actions/register';
+import { useNavigate } from 'react-router-dom';
+import { changeInputValueRegister, setFetchRegisterResponseCode } from '../../actions/register';
+import { fetchCreateUser } from '../../actions/user';
 import './style.scss';
 
 function RegisterPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const { firstname, lastname, username, bYear, bMonth, bDay, email, password1, password2 } =  useSelector((state) => state.register);
+  const {
+    firstName,
+    lastName,
+    username,
+    bYear,
+    bMonth,
+    bDay,
+    email,
+    password1,
+    password2,
+
+    fetchRegisterResponseCode,
+  } =  useSelector((state) => state.register);
+
+  const { auth } = useSelector((state) => state.user);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('Je veux m\'enregistrer');
-
-    try {
-      const response = await axios.post('https://collectio-app.herokuapp.com/api/register', {
-        email: email,
-        username: username,
-        password: password1,
-        firstName: firstname,
-        lastName: lastname,
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(fetchCreateUser());
   }
+
+  useEffect(() => {
+    if (typeof fetchRegisterResponseCode !== 'undefined') {
+      if (fetchRegisterResponseCode === 201) {
+        navigate('/login');
+        dispatch(setFetchRegisterResponseCode(undefined));
+      }
+    }
+  }, [fetchRegisterResponseCode]);
+
+  useEffect(() => {
+    if (auth) {
+      navigate("/login");
+    }
+  }, [auth]);
 
   const dataTemp = {
     years: ["2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972"],
@@ -47,8 +68,8 @@ function RegisterPage() {
               className="registerPage__form-fieldset-container-input"
               type="text"
               id="registerPage-firstname"
-              value={firstname}
-              onChange={(event) => dispatch(changeInputValueRegister("firstname", event.target.value))}
+              value={firstName}
+              onChange={(event) => dispatch(changeInputValueRegister("firstName", event.target.value))}
               autoComplete="name"
             />
           </div>
@@ -58,8 +79,8 @@ function RegisterPage() {
               className="registerPage__form-fieldset-container-input"
               type="text"
               id="registerPage-lastname"
-              value={lastname}
-              onChange={(event) => dispatch(changeInputValueRegister("lastname", event.target.value))}
+              value={lastName}
+              onChange={(event) => dispatch(changeInputValueRegister("lastName", event.target.value))}
               autoComplete="family-name"
             />
           </div>

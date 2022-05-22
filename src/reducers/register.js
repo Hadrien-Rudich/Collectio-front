@@ -1,8 +1,8 @@
-import { CHANGE_INPUT_VALUE_REGISTER } from "../actions/register";
+import { CHANGE_INPUT_VALUE_REGISTER, SET_FETCH_REGISTER_RESPONSE_CODE } from "../actions/register";
 
 const initialState = {
-  firstname: '',
-  lastname: '',
+  firstName: '',
+  lastName: '',
   username: '',
   bYear: '',
   bMonth: '',
@@ -10,6 +10,8 @@ const initialState = {
   email: '',
   password1: '',
   password2: '',
+
+  fetchRegisterResponseCode: undefined,
 };
 
 const reducer = (state = initialState, action = {}) => {
@@ -18,6 +20,12 @@ const reducer = (state = initialState, action = {}) => {
       return {
         ...state,
         [action.stateName]: action.value,
+      }
+    }
+    case SET_FETCH_REGISTER_RESPONSE_CODE: {
+      return {
+        ...state,
+        fetchRegisterResponseCode: action.newFetchRegisterResponseCode
       }
     }
     default: {

@@ -1,88 +1,173 @@
-import axios from 'axios';
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { saveVideoGameResult, setVideoGameLoading } from '../../actions/videoGameDetails';
+import { fetchVideoGameDetailsById } from '../../actions/videoGameDetails';
+import Loader from '../Loader';
 import './style.scss';
 
 function VideoGameDetails() {
   const dispatch = useDispatch();
 
-  const { loading, videoGameResult } = useSelector((state) => state.videoGameDetails);
-  const { mediaId } = useParams();
-
-  const videoGameApiKey = '445da378957044c0ad00ff9fe3f8e708';
-
-  const getVideoGameData = async () => {
-    dispatch(setVideoGameLoading(true));
-    try {
-      const videoGameResponse = await axios.get(`https://api.rawg.io/api/games/${mediaId}?key=${videoGameApiKey}`);
-      
-      dispatch(saveVideoGameResult(videoGameResponse.data));
-      dispatch(setVideoGameLoading(false));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const { videoGameDetailsLoading, videoGameDetailsResult } = useSelector((state) => state.videoGameDetails);
+  const videoGameId = useParams().mediaId;
 
   useEffect(() => {
-    if (typeof videoGameResult !== 'undefined') {
-      console.log('videoGameResult', videoGameResult);
-    }
-  }, [videoGameResult]);
-
-  useEffect(() => {
-    return () => {
-      getVideoGameData();
-    }
+    dispatch(fetchVideoGameDetailsById(videoGameId));
   }, []);
 
-
+  // /**
+  //  * ! show videoGameDetailsResult in console
+  //  */
+  // const isInitialMount = useRef(true);
+  // useEffect(() => {
+  //   if (isInitialMount.current) {
+  //     isInitialMount.current = false;
+  //   }
+  //   else {
+  //     console.log('videoGameDetailsResult', videoGameDetailsResult);
+  //   }
+  // }, [videoGameDetailsResult]);
 
   return (
     <div className="mediaDetails">
-    {loading ? (
-      <div>Chargement...</div>
+    {videoGameDetailsLoading ? (
+      <Loader />
     ) : (
-      <div>
-        <img src={videoGameResult.background_image} alt="" />
-        <h2 className="mediaDetails__mediaTitle">{videoGameResult.name_original}</h2>
-        <h2>Release : {videoGameResult.released}</h2>
+      <div className="mediaContainer">
+        <div className="mediaRatingContainer">
+        <div className="collectioRatingContainer">
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
 
+          </div> 
+          <div className="userRatingContainer">
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </div>
 
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaCast">Description</h3>
-        <br />
-        <p>{videoGameResult.description_raw}</p>
+          </div> 
+        
+        <div className="mediaImageContainer">  
+            <h1 className="mediaDetails__mediaTitle">{videoGameDetailsResult.name_original}</h1>
+            <img src={videoGameDetailsResult.background_image} alt="" />
+            <h2 className="mediaDetails__mediaReleaseYear">({videoGameDetailsResult.released.substring(0,4)})</h2>
+            <div className='mediaDetails__mediaGenreContainer'>
+            {videoGameDetailsResult.genres.map((genre) => (
+              <h4 className="mediaDetails__mediaGenre" key={genre.id}>{genre.name}</h4>
+              ))}            
+             </div>
 
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaCast">Genres</h3>
-        <br />
-        {videoGameResult.genres.map((genre) => (
-          <p key={genre.id}>{genre.name}</p>
-        ))}
+             <div className="mediaCastContainer">       
 
-        <br />
-        <h3>Playtime: {videoGameResult.playtime} hours</h3>
+                <h4 className="mediaDetails__mediaCast"></h4>        
+            
+                {videoGameDetailsResult.publishers.map((publisher) => (
+                  <p key={publisher.id}>{publisher.name}</p>
+                  ))}
+              </div>
+            {/* <h3>Playtime: {videoGameDetailsResult.playtime} hours</h3> */}
 
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaCast">Publisher{videoGameResult.publishers.length > 1 ? 's' : ''}</h3>
-        <br />
-        {videoGameResult.publishers.map((publisher) => (
-          <p key={publisher.id}>{publisher.name}</p>
-        ))}
+          </div>       
+          <div className="mediaTextContainer">   
+          <div className="mediaUserReview">
+   
+            <button type="button" class="button -review">
+          <span class="button__text">Rating</span>              
+          <span class="button__icon">
+          <ion-icon name="star"></ion-icon>
+          </span>
+          </button>     
+
+          <button type="button" class="button -review">
+          <span class="button__text">Review</span>              
+          <span class="button__icon">
+          <ion-icon name="reader"></ion-icon>
+          <ion-icon name="pencil"></ion-icon>        
+          </span>
+          </button>   
+          </div>
+
+          <div className="mediaUserListContainer">
+            <button type="button" class="button">
+              <span class="button__text">Wishlist</span>
+              <span class="button__icon">
+              <ion-icon name="bookmark"></ion-icon>
+              </span>
+              </button>
+              <button type="button" class="button">
+              <span class="button__text">Favorites</span>
+              <span class="button__icon">
+                <ion-icon name="heart"></ion-icon></span>
+              </button>         
+
+              <button type="button" class="button">
+              <span class="button__text">In Library</span>              
+              <span class="button__icon">
+              <ion-icon name="checkmark"></ion-icon> 
+              </span>
+              </button>
+
+              <button type="button" class="button">
+              <span class="button__text">In Progress</span>              
+              <span class="button__icon">
+              <ion-icon name="eye"></ion-icon>
+              </span>
+              </button>          
+                   
+          </div>
+            
+
+            <div className="mediaOverviewContainer">
+
+              <h4 className="mediaDetails__mediaOverview">{videoGameDetailsResult.description_raw}</h4>           
+              </div>
+
+        </div>
+
+          {/* <br />
+          <br />
+          <h3 className="mediaDetails__mediaCast">Director{videoGameResult.cast.crew.filter((crew) => crew.department === "Directing").length > 1 ? 's' : ''}</h3>
+          <br />
+          {videoGameResult.cast.crew.filter((crew) => crew.department === "Directing").slice(0, 5).map((crew) => (
+            <h4 key={crew.id} className="mediaDetails__mediaGenre">{crew.name}</h4>
+          ))}
+
+          <br />
+          <br />
+          <h3 className="mediaDetails__mediaCast">Main cast</h3>
+          <br />
+          {videoGameResult.cast.cast.slice(0, 5).map((cast) => (
+            <div key={cast.id}>
+              <h4 className="mediaDetails__mediaGenre">{cast.name}</h4>
+              <span>{cast.character}</span>
+              <br />
+              <br />
+            </div>
+          ))}
+
+          <br />
+          <br />
+          <h3 className="mediaDetails__mediaOverview">Overview</h3>
+          <br />
+          <p className="mediaDetails__mediaOverview">{videoGameResult.movie.overview}</p>
+
+          <br />
+          <br />
+          <h3 className="mediaDetails__mediaOverview">Genres</h3>
+          <br />
+          {videoGameResult.movie.genres.map((genre) => (
+            <h4 key={genre.id} className="mediaDetails__mediaGenre">{genre.name}</h4>
+          ))} */}
       </div>
     )}
     </div>
   );
 }
-
-VideoGameDetails.propTypes = {
-  
-};
 
 export default VideoGameDetails;

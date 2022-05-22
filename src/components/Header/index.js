@@ -1,14 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import './style.scss';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FaBars, FaSearch, FaPlus, FaFilm, FaTv, FaBook, FaGamepad, FaSignInAlt, FaPen, FaAngleDown, FaSignOutAlt, FaUserAlt } from 'react-icons/fa';
 
 import { toggleMainMenu } from '../../actions/mainMenu';
 import { changeInputValueHeader } from '../../actions/header';
-import { saveResultsData, saveResultsDataMovie, saveResultsDataTV, saveResultsDataVideoGames } from '../../actions/searchResults';
 
 
 const categoriesData = [
@@ -54,30 +52,10 @@ function Header() {
   //   console.log(searchBar);
   // }, [searchBar])
 
-  const apiKey = "53d8914dec27b153e9ddc38fedcfb93e";
-  const apiKeyGames = "65da31f76aac4be6aeead35e091febd7"; 
-
-
-  async function handleSubmit(event) {
-    let movie = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${searchBar}&page=1&include_adult=false`;
-    let serie = `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&language=en-US&query=${searchBar}&page=1&include_adult=false`;
-    let video_game = `https://api.rawg.io/api/games?key=${apiKeyGames}&search=${searchBar}`;
-    
-  
-    event.preventDefault()
-    try {
-        const requestOne = await axios.get(movie);
-        const requestTwo = await axios.get(serie);
-        const requestThree = await axios.get(video_game);
-        console.log("requests",requestOne.data, requestTwo.data, requestThree.data);
-        dispatch(saveResultsDataMovie(requestOne.data))
-        dispatch(saveResultsDataTV(requestTwo.data))
-        dispatch(saveResultsDataVideoGames(requestThree.data))
-        navigate(`/results/${searchBar}`)
-    } catch (error) {
-        console.log(error);
-    }
-}
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    navigate(`/results/${searchBar}`);
+  }
 
   return(
     <header className='header'>

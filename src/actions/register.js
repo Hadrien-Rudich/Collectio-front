@@ -5,3 +5,10 @@ export const changeInputValueRegister = (stateName, value) => ({
   stateName,
   value,
 });
+
+
+export const SET_FETCH_REGISTER_RESPONSE_CODE = 'SET_FETCH_REGISTER_RESPONSE_CODE';
+export const setFetchRegisterResponseCode = (newFetchRegisterResponseCode) => ({
+  type: SET_FETCH_REGISTER_RESPONSE_CODE,
+  newFetchRegisterResponseCode,
+});

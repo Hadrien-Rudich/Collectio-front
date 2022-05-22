@@ -1,99 +1,275 @@
 import axios from 'axios';
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { saveMovieResults, setMovieLoading } from '../../actions/movieDetails';
+import { fetchMovieDetailsById } from '../../actions/movieDetails';
+import Loader from '../Loader';
 import './style.scss';
 
+
+// TO DO:
+// - Afficher la note Moyenne
+// - Créer input pour modifier son commentaire
+// - Créer un Update pour la note de la review
+// - Dupliquer sur Book, Series...
+
+
+// NOTE MOYENNE
+// Afficher la note moyenne pour une review, si le USER est CONNECTÉ: response.data.avg_rating[0].note_moyenne
+// si le user n'est pas CONNECTÉ: response.data.note_moyenne
+
+
 function MovieDetails() {
+
+  const token = localStorage.getItem('token');
+  const [results, setResults] = useState('');
+  const [inLibrary, setInLibrary] = useState(false);
+  const [reviewDetails, setReviewDetails] = useState({});
+  let baseURL = "https://image.tmdb.org/t/p/original";
+  console.log(token)
+
+
   const dispatch = useDispatch();
 
-  const { loading, movieResults } = useSelector((state) => state.movieDetails);
-  const { mediaId } = useParams();
+  const { movieDetailsLoading, movieDetailsResults } = useSelector((state) => state.movieDetails);
+  const movieId = useParams().mediaId;
 
-  const moviesApiKey = '53d8914dec27b153e9ddc38fedcfb93e';
+  useEffect(() => {    
+    dispatch(fetchMovieDetailsById(movieId));
+  }, []);
 
-  const getMovieData = async () => {
-    dispatch(setMovieLoading(true));
-    try {
-      const movieResponse = await axios.get(`https://api.themoviedb.org/3/movie/${mediaId}?api_key=${moviesApiKey}&language=en-US`);
-      const movieCastResponse = await axios.get(`https://api.themoviedb.org/3/movie/${mediaId}/credits?api_key=${moviesApiKey}&language=en-US`);
-      
-      dispatch(saveMovieResults(movieResponse.data, movieCastResponse.data));
-      dispatch(setMovieLoading(false));
-    } catch (error) {
-      console.log(error);
-    }
+  // /**
+  //  * ! show movieDetailsResults in console
+  //  */
+  // const isInitialMount = useRef(true);
+  // useEffect(() => {
+  //   if (isInitialMount.current) {
+  //     isInitialMount.current = false;
+  //   }
+  //   else {
+  //     console.log('movieDetailsResults', movieDetailsResults);
+  //   }
+  // }, [movieDetailsResults]);
+
+
+  console.log(reviewDetails);
+
+  async function PostReview(list, title, coverURL) {
+    console.log('post')
+      try {
+        console.log(list)
+        console.log(title)
+        const response = await axios.post(`https://collectio-app.herokuapp.com/api/movie/${movieId}`, {
+           "list": list,
+           "title": title,
+           "coverURL": coverURL
+         }, {
+          headers: {
+            "authorization": token
+          },
+        })
+        console.log(response);
+        //setResults(response.data[0].note_moyenne)
+        //console.log(results);
+      } catch (error) {
+        console.log(error)
+      }
+
   }
 
-  useEffect(() => {
-    if (typeof movieResults.movie !== 'undefined' && typeof movieResults.cast !== 'undefined') {
-      console.log('movieResult', movieResults);
-    }
-  }, [movieResults]);
+  
 
-  useEffect(() => {
-    return () => {
-      getMovieData();
+
+  async function PatchReview(list) {
+
+    console.log('patch')
+     try {
+
+       const response = await axios.patch(`https://collectio-app.herokuapp.com/api/movie/${movieId}`, {
+          "list": list
+        }, {
+         headers: {
+           "authorization": token
+         },
+       })
+       console.log(response);
+       //setResults(response.data[0].note_moyenne)
+       //console.log(results);
+     } catch (error) {
+       console.log(error)
+     }
+
+
+  }
+
+
+  // A DÉVELOPPER
+  /*
+  async function PatchReviewComment(comment) {
+  }
+
+  async function PatchReviewNote(note) {
+    try {
+    const response = await axios.patch(`https://collectio-app.herokuapp.com/api/movie/${mediaId}`, { 
+          "note": note
+        }, {
+         headers: {
+           "authorization": token
+         },
+       })
+      } catch (error) {
+        console.log(error)
+      }
     }
-  }, []);
+    */
+
 
 
 
   return (
     <div className="mediaDetails">
-    {loading ? (
-      <div>Chargement...</div>
+    {movieDetailsLoading ? (
+      <Loader />
     ) : (
-      <div>
-        <img src={`https://image.tmdb.org/t/p/original/${movieResults.movie.poster_path}`} alt="" />
-        <h2 className="mediaDetails__mediaReleaseYear">{movieResults.movie.release_date}</h2>
-        <h2 className="mediaDetails__mediaRunTime">{movieResults.movie.runtime} minutes</h2>
-        <h2 className="mediaDetails__mediaTitle">{movieResults.movie.original_title}</h2>
+      <div className="mediaContainer">
+        <div className="mediaRatingContainer">
+        <div className="collectioRatingContainer">
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
 
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaCast">Director{movieResults.cast.crew.filter((crew) => crew.department === "Directing").length > 1 ? 's' : ''}</h3>
-        <br />
-        {movieResults.cast.crew.filter((crew) => crew.department === "Directing").slice(0, 5).map((crew) => (
-          <h4 key={crew.id} className="mediaDetails__mediaGenre">{crew.name}</h4>
-        ))}
-
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaCast">Main cast</h3>
-        <br />
-        {movieResults.cast.cast.slice(0, 5).map((cast) => (
-          <div key={cast.id}>
-            <h4 className="mediaDetails__mediaGenre">{cast.name}</h4>
-            <span>{cast.character}</span>
-            <br />
-            <br />
           </div>
-        ))}
+          <div className="userRatingContainer">
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
+          </div>
 
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaOverview">Overview</h3>
-        <br />
-        <p className="mediaDetails__mediaOverview">{movieResults.movie.overview}</p>
+          </div>
+        <div className="mediaImageContainer">
+          <h1 className="mediaDetails__mediaTitle">{movieDetailsResults.movieDetailsResult.original_title}</h1>
+          <img src={`https://image.tmdb.org/t/p/original/${movieDetailsResults.movieDetailsResult.poster_path}`} alt="" />
+          <h4 className="mediaDetails__mediaReleaseYear">({movieDetailsResults.movieDetailsResult.release_date.substring(0,4)})</h4>
+          <h4 className="mediaDetails__mediaRunTime">{movieDetailsResults.movieDetailsResult.runtime} minutes</h4>
+          <div className='mediaDetails__mediaGenreContainer'>
+          {movieDetailsResults.movieDetailsResult.genres.map((genre) => (
+          <h4 key={genre.id} className="mediaDetails__mediaGenre"> {genre.name} </h4>
+          ))}
+          </div>
+        </div>
+        <div className="mediaTextContainer">
+          <div className="mediaUserListContainer">
 
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaOverview">Genres</h3>
-        <br />
-        {movieResults.movie.genres.map((genre) => (
-          <h4 key={genre.id} className="mediaDetails__mediaGenre">{genre.name}</h4>
-        ))}
+
+          <div>
+            { inLibrary &&  <div><p>{reviewDetails.note}</p><p>{reviewDetails.comment}</p></div>}
+          </div>
+
+
+           { inLibrary?
+              <button type="button" className="button" value='wishlist' onClick={() => PatchReview('wishlist')}>
+                <span className="button__text">Wishlist</span>
+                <span className="button__icon">
+                <ion-icon name="bookmark"></ion-icon></span>
+              </button>
+          :
+                <button type="button" className="button" value='wishlist' onClick={() => PostReview('wishlist', movieDetailsResults.movieDetailsResult.original_title, `${baseURL}${movieDetailsResults.movieDetailsResult.poster_path}`)}>
+                  <span className="button__text">Wishlist</span>
+                  <span className="button__icon">
+                  <ion-icon name="bookmark"></ion-icon></span>
+                </button>
+
+         }
+
+          { inLibrary?
+              <button type="button" className="button" value='favorites' onClick={() => PatchReview('favorites')}>
+                  <span className="button__text">Favorites</span>
+                  <span className="button__icon">
+                  <ion-icon name="bookmark"></ion-icon></span>
+                </button>
+          :                    
+
+              <button type="button" className="button" value='favorites' onClick={() => PostReview('favorites', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
+              <span className="button__text">Favorites</span>
+              <span className="button__icon">
+                <ion-icon name="heart"></ion-icon></span>
+              </button>
+               
+          }   
+
+          { inLibrary? 
+
+              <button type="button" className="button" value='check' onClick={() => PatchReview('check')}>
+              <span className="button__text">Add to Library</span>
+              <span className="button__icon">
+                <ion-icon name="checkmark"></ion-icon>
+              </span>
+              </button>
+            :
+              <button type="button" className="button" value='check' onClick={() => PatchReview('check', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
+              <span className="button__text">Add to Library</span>
+              <span className="button__icon">
+              <ion-icon name="checkmark"></ion-icon>
+              </span>
+              </button>
+          }
+
+          { inLibrary? 
+              <button type="button" className="button" value='in_progress' onClick={() => PostReview("In Progress", movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
+              <span className="button__text">In Progress</span>
+              <span className="button__icon">
+                <ion-icon name="eye"></ion-icon>
+              </span>
+              </button>
+          :
+              <button type="button" className="button" value='in_progress' onClick={() => PostReview('In Progress', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
+              <span className="button__text">In Progress</span>
+              <span className="button__icon">
+              <ion-icon name="eye"></ion-icon>
+              </span>
+              </button>
+          }
+          </div>
+          <div className="mediaCrewContainer">
+            <h3 className="mediaDetails__mediaCrew">Director{movieDetailsResults.movieDetailsCastResult.crew.filter((crew) => crew.department === "Directing").length > 1 ? 's' : ''}</h3>
+            <br />
+              <div className='mediaDetails__mediaCrew'>
+                  {movieDetailsResults.movieDetailsCastResult.crew.filter((crew) => crew.department === "Directing").slice(0, 5).map((crew) => (
+                    <h4 key={crew.id} className="mediaDetails__mediaCrew">{crew.name}</h4>
+                  ))}
+
+              </div>
+          </div>
+
+          <div className="mediaCastContainer">
+            <h3 className="mediaDetails__mediaCast">Main cast</h3>
+            <br />
+              {movieDetailsResults.movieDetailsCastResult.cast.slice(0, 5).map((cast) => (
+              <div key={cast.id}>
+                <h4 className="mediaDetails__mediaCast">{cast.name} ({cast.character})</h4>
+
+              </div>
+
+
+            ))}
+            </div>
+          <div className="mediaOverviewContainer">
+
+            <h4 className="mediaDetails__mediaOverview">{movieDetailsResults.movieDetailsResult.overview}</h4>
+
+
+
+        </div>
+
       </div>
-    )}
     </div>
+    )}
+  </div>
   );
 }
-
-MovieDetails.propTypes = {
-  
-};
 
 export default MovieDetails;

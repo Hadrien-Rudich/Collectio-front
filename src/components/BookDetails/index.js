@@ -1,93 +1,105 @@
 import axios from 'axios';
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { saveBookResult, setBookLoading } from '../../actions/bookDetails';
+import { fetchBookDetailsById } from '../../actions/bookDetails';
+import Loader from '../Loader';
 import './style.scss';
 
 function BookDetails() {
   const dispatch = useDispatch();
+  
+  const { bookDetailsLoading, bookDetailsResult } = useSelector((state) => state.bookDetails);
+  const bookId = useParams().mediaId;
+  
+  useEffect(() => {
+    dispatch(fetchBookDetailsById(bookId));
+  }, []);
 
   const { loading, bookResult } = useSelector((state) => state.bookDetails);
   const { mediaId } = useParams();
 
-  const getBookData = async () => {
-    dispatch(setBookLoading(true));
+  const [results, setResults] = useState('');
+
+  const bookDetails = async () => {
+    
     try {
-      const bookResponse = await axios.get(`https://www.googleapis.com/books/v1/volumes/${mediaId}`);
-      
-      dispatch(saveBookResult(bookResponse.data));
-      dispatch(setBookLoading(false));
+      const response = await axios.get(`https://collectio-app.herokuapp.com/api/book/zG9wDwAAQBAJ`)
+      console.log(response);
+      setResults(response.data[0].note_moyenne)
+      console.log(results);
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  }
+  };
 
-  useEffect(() => {
-    if (typeof bookResult !== 'undefined') {
-      console.log('bookResult', bookResult);
-    }
-  }, [bookResult]);
-
-  useEffect(() => {
-    return () => {
-      getBookData();
-    }
-  }, []);
-
+  
+  
+  // /**
+  //  * ! show bookDetailsResult in console
+  //  */
+  // const isInitialMount = useRef(true);
+  // useEffect(() => {
+  //   if (isInitialMount.current) {
+  //     isInitialMount.current = false;
+  //   }
+  //   else {
+  //     console.log('bookDetailsResult', bookDetailsResult);
+  //   }
+  // }, [bookDetailsResult]);
 
 
   return (
     <div className="mediaDetails">
-    {loading ? (
-      <div>Chargement...</div>
+    {bookDetailsLoading ? (
+      <Loader />
     ) : (
-      <div>
-        {typeof bookResult.volumeInfo.imageLinks !== 'undefined' && (
-          <div>
-            <img src={bookResult.volumeInfo.imageLinks.thumbnail} alt="" />
-          </div>
-        )}
-        <br />
-        <br />
-        <h2 className="mediaDetails__mediaReleaseYear">PublishedDate : {bookResult.volumeInfo.publishedDate}</h2>
-        <h2 className="mediaDetails__mediaRunTime">PageCount : {bookResult.volumeInfo.pageCount}</h2>
-        <br />
-        <h2 className="mediaDetails__mediaTitle">Title : {bookResult.volumeInfo.title}</h2>
-        <h2 className="mediaDetails__mediaTitle">Subtitle : {bookResult.volumeInfo.subtitle}</h2>
-        <br />
-        <h2 className="mediaDetails__mediaTitle">Publisher : {bookResult.volumeInfo.publisher}</h2>
+        <div className="mediaContainer">
+          <div className="mediaImageContainer">             
+            <h1 className="mediaDetails__mediaTitle">{bookDetailsResult.volumeInfo.title}</h1>
+          
+          {typeof bookDetailsResult.volumeInfo.imageLinks !== 'undefined' && (
+          <img src={bookDetailsResult.volumeInfo.imageLinks.thumbnail} alt="" />         
+          )}
+           
+            <h2 className="mediaDetails__mediaReleaseYear">({bookDetailsResult.volumeInfo.publishedDate.substring(0,4)})</h2>
+            <h2 className="mediaDetails__mediaRunTime">{bookDetailsResult.volumeInfo.pageCount} pages</h2>
+            <div className='mediaDetails__mediaGenreContainer'>
+              <h4 className="mediaDetails__mediaGenre">{bookDetailsResult.volumeInfo.categories}</h4>
+          </div>                       
+          <div className="mediaTextContainer"> 
+           <div className="mediaCrewContainer">
+            {typeof bookDetailsResult.volumeInfo.authors !== 'undefined' && (
+              <div>
+                <h3 className="mediaDetails__mediaCrew">Author{bookDetailsResult.volumeInfo.authors.length > 1 ? 's' : ''}</h3>
+                <br />
+                {bookDetailsResult.volumeInfo.authors.map((author) => (
+                  <h4 key={author} className="mediaDetails__mediaTitle">{author}</h4>
+                ))}                
+                
+              </div>              
+              
+            )}
+              </div>                   
+                                     
+            <h2 className="mediaDetails__mediaTitle">Publisher : {bookDetailsResult.volumeInfo.publisher}</h2>
+           
+            </div>
+            
+            <div className="mediaOverviewContainer">        
+              <h4 className="mediaDetails__mediaCast" dangerouslySetInnerHTML={{__html: bookDetailsResult.volumeInfo.description}} />
+            </div>
 
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaCast">Description</h3>
-        <br />
-        <div dangerouslySetInnerHTML={{__html: bookResult.volumeInfo.description}} />
-
-        <br />
-        <br />
-        {typeof bookResult.volumeInfo.authors !== 'undefined' && (
-          <div>
-            <h3 className="mediaDetails__mediaCast">Author{bookResult.volumeInfo.authors.length > 1 ? 's' : ''}</h3>
-            <br />
-            {bookResult.volumeInfo.authors.map((author) => (
-              <h4 key={author} className="mediaDetails__mediaTitle">{author}</h4>
-            ))}
-          </div>
-        )}
-
-        <br />
-        <br />
-        <h3 className="mediaDetails__mediaCast">Categories : {bookResult.volumeInfo.categories}</h3>
+            <p>Note moyenne: {results}</p>
+                                 
+           
+               </div>
+  
+        
       </div>
     )}
     </div>
   );
 }
-
-BookDetails.propTypes = {
-  
-};
 
 export default BookDetails;

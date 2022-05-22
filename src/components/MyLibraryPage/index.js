@@ -8,12 +8,13 @@ const MyLibraryPage = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [libraryList, setLibraryList] = useState([]);
   const token = localStorage.getItem('token');
+  let baseURL = "https://image.tmdb.org/t/p/original";
   // const tokenTest = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTY1Mjc3NzE2MSwiZXhwIjoxNzM5MTc3MTYxfQ.qBFTFlkJvKz8f106Axdtsot-Xx43gaf3lAP3Hch5dm4`
 
   const fetchLibrary = async () => {
     setLibraryList([]);
     try {
-      const response = await axios.get(`http://localhost:4200/api/${libraryType}`, { 
+      const response = await axios.get(`https://collectio-app.herokuapp.com/api/${libraryType}`, { 
         headers: {
           "authorization": token
         }
@@ -41,11 +42,11 @@ const MyLibraryPage = (props) => {
         <h2>My Library</h2>
         <div className="myLibraryPage_Container">
           {libraryList.map(el => (
-            <Link to={'/'+el.mediatypename+'/'+el.apimediaid}>
+            <Link to={`/${el.mediatypename !== 'series' ? `${el.mediatypename}s` : el.mediatypename}/${el.apimediaid}`}>
               <div className='myLibraryPage_Element' key={el.apimediaid}>
                 <p>{el.title}</p>
                 <p>{el.listname}</p>
-                <img className='myLibraryPage_Element_img' src={el.coverurl} alt="blabla"></img>
+                <img className='myLibraryPage_Element_img' src={`${el.coverurl.startsWith('/') ? baseURL : ''}${el.coverurl}`} alt="blabla"></img>
               </div>
             </Link>
           ))}
