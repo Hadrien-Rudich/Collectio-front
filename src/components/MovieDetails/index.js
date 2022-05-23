@@ -25,6 +25,7 @@ function MovieDetails() {
   const [results, setResults] = useState('');
   const [inLibrary, setInLibrary] = useState(false);
   const [reviewDetails, setReviewDetails] = useState({});
+  const { auth } = useSelector((state) => state.user);
   let baseURL = "https://image.tmdb.org/t/p/original";
   console.log(token)
 
@@ -133,23 +134,28 @@ function MovieDetails() {
     ) : (
       <div className="mediaContainer">
         <div className="mediaRatingContainer">
-        <div className="collectioRatingContainer">
+          
+          <div className="collectioRatingContainer">
             <span className="fa fa-star"></span>
             <span className="fa fa-star"></span>
             <span className="fa fa-star checked"></span>
             <span className="fa fa-star checked"></span>
-            <span className="fa fa-star checked"></span>
-
-          </div>
-          <div className="userRatingContainer">
-            <span className="fa fa-star"></span>
-            <span className="fa fa-star checked"></span>
-            <span className="fa fa-star checked"></span>
-            <span className="fa fa-star checked"></span>
-            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>       
           </div>
 
+                  
+        
+    
+          <div className='userRatingContainer'>  
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
           </div>
+          
+          </div> 
+          
         <div className="mediaImageContainer">
           <h1 className="mediaDetails__mediaTitle">{movieDetailsResults.movieDetailsResult.original_title}</h1>
           <img src={`https://image.tmdb.org/t/p/original/${movieDetailsResults.movieDetailsResult.poster_path}`} alt="" />
@@ -162,79 +168,118 @@ function MovieDetails() {
           </div>
         </div>
         <div className="mediaTextContainer">
-          <div className="mediaUserListContainer">
-
-
           <div>
             { inLibrary &&  <div><p>{reviewDetails.note}</p><p>{reviewDetails.comment}</p></div>}
           </div>
 
+          {auth && (
+            <div>
 
-           { inLibrary?
-              <button type="button" className="button" value='wishlist' onClick={() => PatchReview('wishlist')}>
+      
+            <div className='mediaUserReview'>
+             
+                <button type="button" class="button -review">
+                <span class="button__text">Rating</span>              
+                <span class="button__icon">
+                <ion-icon name="star"></ion-icon>
+                </span>
+                </button>
+           
+                  
+        
+          
+                <button type="button" class="button -review">
+                <span class="button__text">Review</span>              
+                <span class="button__icon">
+                <ion-icon name="reader"></ion-icon>
+                <ion-icon name="pencil"></ion-icon>        
+                </span>
+                </button>  
+             
+              
+          </div>
+              
+          <div className='mediaUserListContainer'>
+            { inLibrary?
+
+
+
+            // si PAS de token, griser les boutons d'ajout de liste
+              <button type="button" className="button--activelist" value='wishlist' onClick={() => PatchReview('wishlist')}>
                 <span className="button__text">Wishlist</span>
                 <span className="button__icon">
                 <ion-icon name="bookmark"></ion-icon></span>
               </button>
-          :
+            :
                 <button type="button" className="button" value='wishlist' onClick={() => PostReview('wishlist', movieDetailsResults.movieDetailsResult.original_title, `${baseURL}${movieDetailsResults.movieDetailsResult.poster_path}`)}>
                   <span className="button__text">Wishlist</span>
                   <span className="button__icon">
                   <ion-icon name="bookmark"></ion-icon></span>
                 </button>
 
-         }
+            }
 
-          { inLibrary?
-              <button type="button" className="button" value='favorites' onClick={() => PatchReview('favorites')}>
+            { inLibrary?
+
+            // si PAS de token, griser les boutons d'ajout de liste
+              <button type="button" className="button--activelist" value='favorites' onClick={() => PatchReview('favorites')}>
                   <span className="button__text">Favorites</span>
                   <span className="button__icon">
                   <ion-icon name="bookmark"></ion-icon></span>
                 </button>
-          :                    
+            :                    
 
               <button type="button" className="button" value='favorites' onClick={() => PostReview('favorites', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
               <span className="button__text">Favorites</span>
               <span className="button__icon">
                 <ion-icon name="heart"></ion-icon></span>
               </button>
-               
-          }   
+                
+            }   
 
-          { inLibrary? 
+            { inLibrary? 
 
-              <button type="button" className="button" value='check' onClick={() => PatchReview('check')}>
+              <button type="button" className="button--activelist" value='check' onClick={() => PatchReview('check')}>
               <span className="button__text">Add to Library</span>
               <span className="button__icon">
                 <ion-icon name="checkmark"></ion-icon>
               </span>
               </button>
             :
-              <button type="button" className="button" value='check' onClick={() => PatchReview('check', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
+              <button type="button" className="button" value='check' onClick={() => PostReview('check', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
               <span className="button__text">Add to Library</span>
               <span className="button__icon">
               <ion-icon name="checkmark"></ion-icon>
               </span>
               </button>
-          }
+            }
 
-          { inLibrary? 
-              <button type="button" className="button" value='in_progress' onClick={() => PostReview("In Progress", movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
+            { inLibrary? 
+
+            // si PAS de token, griser les boutons d'ajout de liste
+              <button type="button" className="button--activelist" value='in_progress' onClick={() => PatchReview("in progress")}>
               <span className="button__text">In Progress</span>
               <span className="button__icon">
                 <ion-icon name="eye"></ion-icon>
               </span>
               </button>
-          :
-              <button type="button" className="button" value='in_progress' onClick={() => PostReview('In Progress', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
+            :
+              <button type="button" className="button" value='in_progress' onClick={() => PostReview('in progress', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
               <span className="button__text">In Progress</span>
               <span className="button__icon">
               <ion-icon name="eye"></ion-icon>
               </span>
               </button>
-          }
+            }
           </div>
-          <div className="mediaCrewContainer">
+                      
+          
+
+          </div>  
+
+        )}
+
+        <div className="mediaCrewContainer">
             <h3 className="mediaDetails__mediaCrew">Director{movieDetailsResults.movieDetailsCastResult.crew.filter((crew) => crew.department === "Directing").length > 1 ? 's' : ''}</h3>
             <br />
               <div className='mediaDetails__mediaCrew'>
@@ -244,7 +289,7 @@ function MovieDetails() {
 
               </div>
           </div>
-
+          
           <div className="mediaCastContainer">
             <h3 className="mediaDetails__mediaCast">Main cast</h3>
             <br />
@@ -256,17 +301,16 @@ function MovieDetails() {
 
 
             ))}
-            </div>
-          <div className="mediaOverviewContainer">
-
-            <h4 className="mediaDetails__mediaOverview">{movieDetailsResults.movieDetailsResult.overview}</h4>
-
-
-
+          </div>
+          
+        <div className="mediaOverviewContainer">
+          <h4 className="mediaDetails__mediaOverview">{movieDetailsResults.movieDetailsResult.overview}</h4>
         </div>
+           
+      </div>
 
       </div>
-    </div>
+    
     )}
   </div>
   );

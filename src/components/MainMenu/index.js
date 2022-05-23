@@ -62,6 +62,7 @@ function MainMenu() {
             </NavLink>
           ))}
         </div>
+        
       )}
       <div className="main__menu-section">
         <span className="main__menu-section-label">

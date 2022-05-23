@@ -161,6 +161,12 @@ span {
   font-weight: 500; 
   flex-direction: row-reverse;
   cursor: pointer;
+
+  .--activelist {
+
+    background: yellowgreen;
+
+  }
 }
 
 .mediaUserReview {

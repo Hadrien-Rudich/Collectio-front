@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchVideoGameDetailsById } from '../../actions/videoGameDetails';
@@ -8,12 +9,64 @@ import './style.scss';
 function VideoGameDetails() {
   const dispatch = useDispatch();
 
+  const token = localStorage.getItem('token');
   const { videoGameDetailsLoading, videoGameDetailsResult } = useSelector((state) => state.videoGameDetails);
   const videoGameId = useParams().mediaId;
+  const [inLibrary, setInLibrary] = useState(false);
+  const { auth } = useSelector((state) => state.user);
+  let baseURL = "https://image.tmdb.org/t/p/original";
 
   useEffect(() => {
     dispatch(fetchVideoGameDetailsById(videoGameId));
   }, []);
+
+  async function PostReview(list, title, coverURL) {
+    console.log('post')
+      try {
+        console.log(list)
+        console.log(title)
+        const response = await axios.post(`https://collectio-app.herokuapp.com/api/video-games/${videoGameId}`, {
+           "list": list,
+           "title": title,
+           "coverURL": coverURL
+         }, {
+          headers: {
+            "authorization": token
+          },
+        })
+        console.log(response);
+        //setResults(response.data[0].note_moyenne)
+        //console.log(results);
+      } catch (error) {
+        console.log(error)
+      }
+
+  }
+
+  
+
+
+  async function PatchReview(list) {
+
+    console.log('patch')
+     try {
+
+       const response = await axios.patch(`https://collectio-app.herokuapp.com/api/video-games/${videoGameId}`, {
+          "list": list
+        }, {
+         headers: {
+           "authorization": token
+         },
+       })
+       console.log(response);
+       //setResults(response.data[0].note_moyenne)
+       //console.log(results);
+     } catch (error) {
+       console.log(error)
+     }
+
+
+  }
 
   // /**
   //  * ! show videoGameDetailsResult in console
@@ -75,52 +128,112 @@ function VideoGameDetails() {
 
           </div>       
           <div className="mediaTextContainer">   
-          <div className="mediaUserReview">
-   
-            <button type="button" class="button -review">
-          <span class="button__text">Rating</span>              
-          <span class="button__icon">
-          <ion-icon name="star"></ion-icon>
-          </span>
-          </button>     
+          {auth && (
+            <div>
 
-          <button type="button" class="button -review">
-          <span class="button__text">Review</span>              
-          <span class="button__icon">
-          <ion-icon name="reader"></ion-icon>
-          <ion-icon name="pencil"></ion-icon>        
-          </span>
-          </button>   
+      
+            <div className='mediaUserReview'>
+             
+                <button type="button" class="button -review">
+                <span class="button__text">Rating</span>              
+                <span class="button__icon">
+                <ion-icon name="star"></ion-icon>
+                </span>
+                </button>
+           
+                  
+        
+          
+                <button type="button" class="button -review">
+                <span class="button__text">Review</span>              
+                <span class="button__icon">
+                <ion-icon name="reader"></ion-icon>
+                <ion-icon name="pencil"></ion-icon>        
+                </span>
+                </button>  
+             
+              
           </div>
+              
+          <div className='mediaUserListContainer'>
+            { inLibrary?
 
-          <div className="mediaUserListContainer">
-            <button type="button" class="button">
-              <span class="button__text">Wishlist</span>
-              <span class="button__icon">
-              <ion-icon name="bookmark"></ion-icon>
-              </span>
+
+
+            // si PAS de token, griser les boutons d'ajout de liste
+              <button type="button" className="button--activelist" value='wishlist' onClick={() => PatchReview('wishlist')}>
+                <span className="button__text">Wishlist</span>
+                <span className="button__icon">
+                <ion-icon name="bookmark"></ion-icon></span>
               </button>
-              <button type="button" class="button">
-              <span class="button__text">Favorites</span>
-              <span class="button__icon">
+            :
+                <button type="button" className="button" value='wishlist' onClick={() => PostReview('wishlist', videoGameDetailsResult.videoGameDetailsResult.original_title, `${baseURL}${videoGameDetailsResult.videoGameDetailsResult.poster_path}`)}>
+                  <span className="button__text">Wishlist</span>
+                  <span className="button__icon">
+                  <ion-icon name="bookmark"></ion-icon></span>
+                </button>
+
+            }
+
+            { inLibrary?
+
+            // si PAS de token, griser les boutons d'ajout de liste
+              <button type="button" className="button--activelist" value='favorites' onClick={() => PatchReview('favorites')}>
+                  <span className="button__text">Favorites</span>
+                  <span className="button__icon">
+                  <ion-icon name="bookmark"></ion-icon></span>
+                </button>
+            :                    
+
+              <button type="button" className="button" value='favorites' onClick={() => PostReview('favorites', videoGameDetailsResult.videoGameDetailsResult.original_title, videoGameDetailsResult.videoGameDetailsResult.poster_path)}>
+              <span className="button__text">Favorites</span>
+              <span className="button__icon">
                 <ion-icon name="heart"></ion-icon></span>
-              </button>         
+              </button>
+                
+            }   
 
-              <button type="button" class="button">
-              <span class="button__text">In Library</span>              
-              <span class="button__icon">
-              <ion-icon name="checkmark"></ion-icon> 
+            { inLibrary? 
+
+              <button type="button" className="button--activelist" value='check' onClick={() => PatchReview('check')}>
+              <span className="button__text">Add to Library</span>
+              <span className="button__icon">
+                <ion-icon name="checkmark"></ion-icon>
               </span>
               </button>
+            :
+              <button type="button" className="button" value='check' onClick={() => PostReview('check', videoGameDetailsResult.videoGameDetailsResult.original_title, videoGameDetailsResult.videoGameDetailsResult.poster_path)}>
+              <span className="button__text">Add to Library</span>
+              <span className="button__icon">
+              <ion-icon name="checkmark"></ion-icon>
+              </span>
+              </button>
+            }
 
-              <button type="button" class="button">
-              <span class="button__text">In Progress</span>              
-              <span class="button__icon">
+            { inLibrary? 
+
+            // si PAS de token, griser les boutons d'ajout de liste
+              <button type="button" className="button--activelist" value='in_progress' onClick={() => PatchReview("in progress")}>
+              <span className="button__text">In Progress</span>
+              <span className="button__icon">
+                <ion-icon name="eye"></ion-icon>
+              </span>
+              </button>
+            :
+              <button type="button" className="button" value='in_progress' onClick={() => PostReview('in progress', videoGameDetailsResult.videoGameDetailsResult.original_title, videoGameDetailsResult.videoGameDetailsResult.poster_path)}>
+              <span className="button__text">In Progress</span>
+              <span className="button__icon">
               <ion-icon name="eye"></ion-icon>
               </span>
-              </button>          
-                   
+              </button>
+            }
           </div>
+                      
+          
+
+          </div>  
+
+        )}
             
 
             <div className="mediaOverviewContainer">
