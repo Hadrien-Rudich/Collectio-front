@@ -65,17 +65,37 @@ function MovieDetails() {
     console.log('get')
       try {
 
-        const response = await axios.get(`https://collectio-app.herokuapp.com/api/movie/${movieId}`, {
-          "userid": userId,
-           "apimediaid": movieId,
-           "library": "movie"
-         }, {
+        const response = await axios.get(`https://collectio-app.herokuapp.com/api/movie/${movieId}`,{
+          headers: {
+            "authorization": token
+          },
+        })        
+
+        if (response.request.response["listname"]) {
+
+          console.log("J'ai bien trouve une review");
+          setInLibrary(true)
+
+        }              
+   
+      } catch (error) {
+        console.log(error)
+      }
+
+  }
+
+  async function DeleteReview() {
+    console.log('delete')
+      try {
+
+        const response = await axios.delete(`https://collectio-app.herokuapp.com/api/movie/${movieId}`,{
           headers: {
             "authorization": token
           },
         })
-        console.log(`Voici la reponse`);     
+        console.log(`Voici la reponse du delete`);     
         console.log(response)
+        setInLibrary(false)
       } catch (error) {
         console.log(error)
       }
@@ -229,6 +249,15 @@ function MovieDetails() {
           </div>
               
           <div className='mediaUserListContainer'>
+
+          <button type="button" className="button--activelist" value='wishlist' onClick={() => DeleteReview()}>
+                <span className="button__text">Delete</span>
+                <span className="button__icon">
+                <ion-icon name="trash-outline"></ion-icon></span>
+              </button>
+            
+          
+
             { inLibrary?
 
 
@@ -300,6 +329,8 @@ function MovieDetails() {
               </span>
               </button>
             }
+
+
           </div>
                       
           
