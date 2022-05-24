@@ -22,12 +22,15 @@ import './style.scss';
 function MovieDetails() {
 
   const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
   const [results, setResults] = useState('');
   const [inLibrary, setInLibrary] = useState(false);
   const [reviewDetails, setReviewDetails] = useState({});
   const { auth } = useSelector((state) => state.user);
   let baseURL = "https://image.tmdb.org/t/p/original";
   console.log(token)
+  console.log(`Je suis le userId ${userId}`)
+
 
 
   const dispatch = useDispatch();
@@ -37,7 +40,10 @@ function MovieDetails() {
 
   useEffect(() => {    
     dispatch(fetchMovieDetailsById(movieId));
-  }, []);
+ 
+       GetReview() 
+     
+  }, [userId]);
 
   // /**
   //  * ! show movieDetailsResults in console
@@ -55,11 +61,33 @@ function MovieDetails() {
 
   console.log(reviewDetails);
 
+  async function GetReview() {
+    console.log('get')
+      try {
+
+        const response = await axios.get(`https://collectio-app.herokuapp.com/api/movie/${movieId}`, {
+          "userid": userId,
+           "apimediaid": movieId,
+           "library": "movie"
+         }, {
+          headers: {
+            "authorization": token
+          },
+        })
+        console.log(`Voici la reponse`);     
+        console.log(response)
+      } catch (error) {
+        console.log(error)
+      }
+
+  }
+
+
   async function PostReview(list, title, coverURL) {
     console.log('post')
       try {
-        console.log(list)
-        console.log(title)
+        // console.log(list)
+        // console.log(title)
         const response = await axios.post(`https://collectio-app.herokuapp.com/api/movie/${movieId}`, {
            "list": list,
            "title": title,
@@ -72,6 +100,7 @@ function MovieDetails() {
         console.log(response);
         //setResults(response.data[0].note_moyenne)
         //console.log(results);
+        setInLibrary(true)
       } catch (error) {
         console.log(error)
       }
@@ -178,9 +207,9 @@ function MovieDetails() {
       
             <div className='mediaUserReview'>
              
-                <button type="button" class="button -review">
-                <span class="button__text">Rating</span>              
-                <span class="button__icon">
+                <button type="button" className="button -review">
+                <span className="button__text">Rating</span>              
+                <span className="button__icon">
                 <ion-icon name="star"></ion-icon>
                 </span>
                 </button>
@@ -188,9 +217,9 @@ function MovieDetails() {
                   
         
           
-                <button type="button" class="button -review">
-                <span class="button__text">Review</span>              
-                <span class="button__icon">
+                <button type="button" className="button -review">
+                <span className="button__text">Review</span>              
+                <span className="button__icon">
                 <ion-icon name="reader"></ion-icon>
                 <ion-icon name="pencil"></ion-icon>        
                 </span>
@@ -222,14 +251,14 @@ function MovieDetails() {
             { inLibrary?
 
             // si PAS de token, griser les boutons d'ajout de liste
-              <button type="button" className="button--activelist" value='favorites' onClick={() => PatchReview('favorites')}>
+              <button type="button" className="button--activelist" value='favorites' onClick={() => PatchReview('favorite')}>
                   <span className="button__text">Favorites</span>
                   <span className="button__icon">
                   <ion-icon name="bookmark"></ion-icon></span>
                 </button>
             :                    
 
-              <button type="button" className="button" value='favorites' onClick={() => PostReview('favorites', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
+              <button type="button" className="button" value='favorites' onClick={() => PostReview('favorite', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
               <span className="button__text">Favorites</span>
               <span className="button__icon">
                 <ion-icon name="heart"></ion-icon></span>
@@ -257,14 +286,14 @@ function MovieDetails() {
             { inLibrary? 
 
             // si PAS de token, griser les boutons d'ajout de liste
-              <button type="button" className="button--activelist" value='in_progress' onClick={() => PatchReview("in progress")}>
+              <button type="button" className="button--activelist" value='in_progress' onClick={() => PatchReview("in_progress")}>
               <span className="button__text">In Progress</span>
               <span className="button__icon">
                 <ion-icon name="eye"></ion-icon>
               </span>
               </button>
             :
-              <button type="button" className="button" value='in_progress' onClick={() => PostReview('in progress', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
+              <button type="button" className="button" value='in_progress' onClick={() => PostReview('in_progress', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
               <span className="button__text">In Progress</span>
               <span className="button__icon">
               <ion-icon name="eye"></ion-icon>

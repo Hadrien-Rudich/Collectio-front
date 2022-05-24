@@ -89,19 +89,19 @@ function VideoGameDetails() {
       <div className="mediaContainer">
         <div className="mediaRatingContainer">
         <div className="collectioRatingContainer">
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
 
           </div> 
           <div className="userRatingContainer">
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
           </div>
 
           </div> 
@@ -135,8 +135,8 @@ function VideoGameDetails() {
             <div className='mediaUserReview'>
              
                 <button type="button" class="button -review">
-                <span class="button__text">Rating</span>              
-                <span class="button__icon">
+                <span className="button__text">Rating</span>              
+                <span className="button__icon">
                 <ion-icon name="star"></ion-icon>
                 </span>
                 </button>
@@ -145,8 +145,8 @@ function VideoGameDetails() {
         
           
                 <button type="button" class="button -review">
-                <span class="button__text">Review</span>              
-                <span class="button__icon">
+                <span className="button__text">Review</span>              
+                <span className="button__icon">
                 <ion-icon name="reader"></ion-icon>
                 <ion-icon name="pencil"></ion-icon>        
                 </span>

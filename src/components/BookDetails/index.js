@@ -94,19 +94,19 @@ function BookDetails() {
         <div className="mediaContainer">
           <div className="mediaRatingContainer">
           <div className="collectioRatingContainer">
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
 
           </div> 
           <div className="userRatingContainer">
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
+            <span className="fa fa-star"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
+            <span className="fa fa-star checked"></span>
           </div>
 
         </div> 
@@ -123,6 +123,29 @@ function BookDetails() {
               <h4 className="mediaDetails__mediaGenre">{bookDetailsResult.volumeInfo.categories}</h4>
           </div>                       
           <div className="mediaTextContainer"> 
+            
+           <div className="mediaCrewContainer">
+            {typeof bookDetailsResult.volumeInfo.authors !== 'undefined' && (
+              <div>
+                <h3 className="mediaDetails__mediaCrew">Author{bookDetailsResult.volumeInfo.authors.length > 1 ? 's' : ''}</h3>
+                <br />
+                {bookDetailsResult.volumeInfo.authors.map((author) => (
+                  <h4 key={author} className="mediaDetails__mediaTitle">{author}</h4>
+                ))}                
+                
+              </div>              
+              
+            )}
+              </div>                   
+                                     
+            <h2 className="mediaDetails__mediaTitle">Publisher : {bookDetailsResult.volumeInfo.publisher}</h2>
+           
+            </div>
+            
+            <div className="mediaOverviewContainer">        
+              <h4 className="mediaDetails__mediaCast" dangerouslySetInnerHTML={{__html: bookDetailsResult.volumeInfo.description}} />
+            </div>
+
             {auth && (
               <div>
 
@@ -130,8 +153,8 @@ function BookDetails() {
               <div className='mediaUserReview'>
               
                   <button type="button" class="button -review">
-                  <span class="button__text">Rating</span>              
-                  <span class="button__icon">
+                  <span className="button__text">Rating</span>              
+                  <span className="button__icon">
                   <ion-icon name="star"></ion-icon>
                   </span>
                   </button>
@@ -140,8 +163,8 @@ function BookDetails() {
           
             
                   <button type="button" class="button -review">
-                  <span class="button__text">Review</span>              
-                  <span class="button__icon">
+                  <span className="button__text">Review</span>              
+                  <span className="button__icon">
                   <ion-icon name="reader"></ion-icon>
                   <ion-icon name="pencil"></ion-icon>        
                   </span>
@@ -173,14 +196,14 @@ function BookDetails() {
               { inLibrary?
 
               // si PAS de token, griser les boutons d'ajout de liste
-                <button type="button" className="button--activelist" value='favorites' onClick={() => PatchReview('favorites')}>
+                <button type="button" className="button--activelist" value='favorites' onClick={() => PatchReview('favorite')}>
                     <span className="button__text">Favorites</span>
                     <span className="button__icon">
                     <ion-icon name="bookmark"></ion-icon></span>
                   </button>
               :                    
 
-                <button type="button" className="button" value='favorites' onClick={() => PostReview('favorites', bookDetailsResult.bookDetailsResult.original_title, bookDetailsResult.bookDetailsResult.poster_path)}>
+                <button type="button" className="button" value='favorites' onClick={() => PostReview('favorite', bookDetailsResult.bookDetailsResult.original_title, bookDetailsResult.bookDetailsResult.poster_path)}>
                 <span className="button__text">Favorites</span>
                 <span className="button__icon">
                   <ion-icon name="heart"></ion-icon></span>
@@ -208,14 +231,14 @@ function BookDetails() {
               { inLibrary? 
 
               // si PAS de token, griser les boutons d'ajout de liste
-                <button type="button" className="button--activelist" value='in_progress' onClick={() => PatchReview("in progress")}>
+                <button type="button" className="button--activelist" value='in_progress' onClick={() => PatchReview("in_progress")}>
                 <span className="button__text">In Progress</span>
                 <span className="button__icon">
                   <ion-icon name="eye"></ion-icon>
                 </span>
                 </button>
               :
-                <button type="button" className="button" value='in_progress' onClick={() => PostReview('in progress', bookDetailsResult.bookDetailsResult.original_title, bookDetailsResult.bookDetailsResult.poster_path)}>
+                <button type="button" className="button" value='in_progress' onClick={() => PostReview('in_progress', bookDetailsResult.bookDetailsResult.original_title, bookDetailsResult.bookDetailsResult.poster_path)}>
                 <span className="button__text">In Progress</span>
                 <span className="button__icon">
                 <ion-icon name="eye"></ion-icon>
@@ -229,29 +252,6 @@ function BookDetails() {
             </div>  
 
           )}
-           <div className="mediaCrewContainer">
-            {typeof bookDetailsResult.volumeInfo.authors !== 'undefined' && (
-              <div>
-                <h3 className="mediaDetails__mediaCrew">Author{bookDetailsResult.volumeInfo.authors.length > 1 ? 's' : ''}</h3>
-                <br />
-                {bookDetailsResult.volumeInfo.authors.map((author) => (
-                  <h4 key={author} className="mediaDetails__mediaTitle">{author}</h4>
-                ))}                
-                
-              </div>              
-              
-            )}
-              </div>                   
-                                     
-            <h2 className="mediaDetails__mediaTitle">Publisher : {bookDetailsResult.volumeInfo.publisher}</h2>
-           
-            </div>
-            
-            <div className="mediaOverviewContainer">        
-              <h4 className="mediaDetails__mediaCast" dangerouslySetInnerHTML={{__html: bookDetailsResult.volumeInfo.description}} />
-            </div>
-
-            
                                  
            
                </div>

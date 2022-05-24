@@ -7,14 +7,14 @@ import Loader from '../Loader';
 import './style.scss';
 
 function SeriesDetails() {
-  const dispatch = useDispatch();
-
   const token = localStorage.getItem('token');
   const { seriesDetailsLoading, seriesDetailsResults } = useSelector((state) => state.seriesDetails);
   const seriesId = useParams().mediaId;
   const [inLibrary, setInLibrary] = useState(false);
   const { auth } = useSelector((state) => state.user);
   let baseURL = "https://image.tmdb.org/t/p/original";
+  
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchSeriesDetailsById(seriesId));
@@ -129,8 +129,8 @@ function SeriesDetails() {
             <div className='mediaUserReview'>
              
                 <button type="button" class="button -review">
-                <span class="button__text">Rating</span>              
-                <span class="button__icon">
+                <span className="button__text">Rating</span>              
+                <span className="button__icon">
                 <ion-icon name="star"></ion-icon>
                 </span>
                 </button>
@@ -139,8 +139,8 @@ function SeriesDetails() {
         
           
                 <button type="button" class="button -review">
-                <span class="button__text">Review</span>              
-                <span class="button__icon">
+                <span className="button__text">Review</span>              
+                <span className="button__icon">
                 <ion-icon name="reader"></ion-icon>
                 <ion-icon name="pencil"></ion-icon>        
                 </span>
@@ -161,7 +161,7 @@ function SeriesDetails() {
                 <ion-icon name="bookmark"></ion-icon></span>
               </button>
             :
-                <button type="button" className="button" value='wishlist' onClick={() => PostReview('wishlist', seriesDetailsResults.seriesDetailsResult.original_title, `${baseURL}${seriesDetailsResults.seriesDetailsResult.poster_path}`)}>
+                <button type="button" className="button" value='wishlist' onClick={() => PostReview('wishlist', seriesDetailsResults.seriesDetailsResult.original_name, `${baseURL}${seriesDetailsResults.seriesDetailsResult.poster_path}`)}>
                   <span className="button__text">Wishlist</span>
                   <span className="button__icon">
                   <ion-icon name="bookmark"></ion-icon></span>
@@ -172,14 +172,14 @@ function SeriesDetails() {
             { inLibrary?
 
             // si PAS de token, griser les boutons d'ajout de liste
-              <button type="button" className="button--activelist" value='favorites' onClick={() => PatchReview('favorites')}>
+              <button type="button" className="button--activelist" value='favorites' onClick={() => PatchReview('favorite')}>
                   <span className="button__text">Favorites</span>
                   <span className="button__icon">
                   <ion-icon name="bookmark"></ion-icon></span>
                 </button>
             :                    
 
-              <button type="button" className="button" value='favorites' onClick={() => PostReview('favorites', seriesDetailsResults.seriesDetailsResult.original_title, seriesDetailsResults.seriesDetailsResult.poster_path)}>
+              <button type="button" className="button" value='favorites' onClick={() => PostReview('favorite', seriesDetailsResults.seriesDetailsResult.original_name, seriesDetailsResults.seriesDetailsResult.poster_path)}>
               <span className="button__text">Favorites</span>
               <span className="button__icon">
                 <ion-icon name="heart"></ion-icon></span>
@@ -196,7 +196,7 @@ function SeriesDetails() {
               </span>
               </button>
             :
-              <button type="button" className="button" value='check' onClick={() => PostReview('check', seriesDetailsResults.seriesDetailsResult.original_title, seriesDetailsResults.seriesDetailsResult.poster_path)}>
+              <button type="button" className="button" value='check' onClick={() => PostReview('check', seriesDetailsResults.seriesDetailsResult.original_name, seriesDetailsResults.seriesDetailsResult.poster_path)}>
               <span className="button__text">Add to Library</span>
               <span className="button__icon">
               <ion-icon name="checkmark"></ion-icon>
@@ -207,14 +207,14 @@ function SeriesDetails() {
             { inLibrary? 
 
             // si PAS de token, griser les boutons d'ajout de liste
-              <button type="button" className="button--activelist" value='in_progress' onClick={() => PatchReview("in progress")}>
+              <button type="button" className="button--activelist" value='in_progress' onClick={() => PatchReview("in_progress")}>
               <span className="button__text">In Progress</span>
               <span className="button__icon">
                 <ion-icon name="eye"></ion-icon>
               </span>
               </button>
             :
-              <button type="button" className="button" value='in_progress' onClick={() => PostReview('in progress', seriesDetailsResults.seriesDetailsResult.original_title, seriesDetailsResults.seriesDetailsResult.poster_path)}>
+              <button type="button" className="button" value='in_progress' onClick={() => PostReview('in_progress', seriesDetailsResults.seriesDetailsResult.original_name, seriesDetailsResults.seriesDetailsResult.poster_path)}>
               <span className="button__text">In Progress</span>
               <span className="button__icon">
               <ion-icon name="eye"></ion-icon>
