@@ -10,6 +10,7 @@ function ContactPage() {
         <div className="contactPage__person-roles">
           <h3 className="contactPage__person-title">Roles</h3>
           <ul className="contactPage__person-roles-list">
+            <li className="contactPage__person-roles-list-item">Dev Back</li>
             <li className="contactPage__person-roles-list-item">Product owner</li>
             <li className="contactPage__person-roles-list-item">Scrum Master</li>
           </ul>
@@ -80,6 +81,7 @@ function ContactPage() {
         <div className="contactPage__person-roles">
           <h3 className="contactPage__person-title">Roles</h3>
           <ul className="contactPage__person-roles-list">
+            <li className="contactPage__person-roles-list-item">Dev Front</li>
             <li className="contactPage__person-roles-list-item">Git Master</li>
           </ul>
         </div>
