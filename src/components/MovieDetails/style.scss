@@ -227,7 +227,7 @@
   border-radius: 5px;
   overflow: hidden;
   font-family: "Quicksand", sans-serif;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 500;
   cursor: pointer;
 }
@@ -237,11 +237,11 @@
     background: #ff0505;
     }
 
+  .button--dark_green {
+    border:0.3rem dotted pink;
 
-.button--update {  
-    
-      background: #b9d6ae;
-      }
+  }
+
 
   .button--review {  
     
@@ -252,10 +252,10 @@
 
 .button:hover {
   background: #008168;
-  font-size: 8px;
-  font-weight: 500; 
-  flex-direction: row-reverse;
+  font-size: 10px;
+  font-weight: 500;   
   cursor: pointer;
+  transform: scale(1.1);
 }
 
 .buttonMediaUser {
@@ -272,14 +272,6 @@
   background: rgb(255, 0, 0);
 }
 
-
-
-
-
-.button:hover {
-  background: #6b6b6e;
-  transform: scale(1.05);
-}
 
 .button:active {
   background: #006e58;
