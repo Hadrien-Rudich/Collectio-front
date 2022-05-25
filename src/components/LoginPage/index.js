@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { changeInputValueLogin, login } from '../../actions/login';
-import { saveUserData } from '../../actions/user';
 import './style.scss';
 
 function LoginPage() {

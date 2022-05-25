@@ -38,7 +38,7 @@ const MyLibraryPage = (props) => {
 
   if (isLoaded) {
     return (
-      <section>
+      <section className="myLibraryPage">
         <h2>My Library</h2>
         <div className="myLibraryPage_Container">
           {libraryList.map(el => (

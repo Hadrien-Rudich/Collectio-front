@@ -16,6 +16,9 @@ import MovieDetails from '../MovieDetails';
 import SeriesDetails from '../SeriesDetails';
 import BookDetails from '../BookDetails';
 import VideoGameDetails from '../VideoGameDetails';
+import ContactPage from '../ContactPage';
+import ErrorPage from '../ErrorPage';
+import AboutPage from '../AboutPage';
 
 function MainScreen() {
   
@@ -42,11 +45,11 @@ function MainScreen() {
 
         <Route path='/movies' element={<MyLibrairyPage library='movie'/>} />
         <Route path='/series' element={<MyLibrairyPage library='series'/>} />
-        <Route path='/books' element={<MyLibrairyPage library='book'/>} />
-        <Route path='/video-games' element={<MyLibrairyPage library='video_game'/>} />
-        <Route path='/contact' element={<div>Contact</div>} />
-        <Route path='/about' element={<div>About</div>} />
-        <Route path='/legal-notice' element={<div>Legal notice</div>} />
+        <Route path='/books' element={<MyLibrairyPage library='books'/>} />
+        <Route path='/video-games' element={<MyLibrairyPage library='video-games'/>} />
+        <Route path='/contact' element={<ContactPage />} />
+        <Route path='/about' element={<AboutPage />} />
+        <Route path='*' element={<ErrorPage />} />
       </Routes>
     </div>
   );

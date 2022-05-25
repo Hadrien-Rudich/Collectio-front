@@ -1,19 +1,21 @@
-h2 {
-  font-weight: bold;
-  font-size: 1.4em;
-  margin: 20px 0px 50px 30px;
-}
-
-
-.myLibraryPage_Container {
-  display: flex;
-  flex-direction: row;
-}
-
-.myLibraryPage_Element {
-  margin: 10px 10px;
-}
-
-.myLibraryPage_Element_img {
-  height: 200px;
+.myLibraryPage {
+  h2 {
+    font-weight: bold;
+    font-size: 1.4em;
+    margin: 20px 0px 50px 30px;
+  }
+  
+  
+  .myLibraryPage_Container {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .myLibraryPage_Element {
+    margin: 10px 10px;
+  }
+  
+  .myLibraryPage_Element_img {
+    height: 200px;
+  }
 }

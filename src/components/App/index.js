@@ -7,7 +7,7 @@ function App() {
     <div className="app">
       <Header />
       <Main />
-      <p style={{padding: '1em 0', textAlign: 'center'}}>Footer</p>
+      {/* <p style={{padding: '1em 0', textAlign: 'center'}}>Footer</p> */}
     </div>
   );
 }

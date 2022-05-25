@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { changeInputValueRegister, setFetchRegisterResponseCode } from '../../actions/register';
@@ -12,6 +12,7 @@ import './style.scss';
 function RegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isInitialMount = useRef(true);
 
   const {
     firstName,
@@ -30,10 +31,42 @@ function RegisterPage() {
   const { auth } = useSelector((state) => state.user);
 
   const handleSubmit = async (event) => {
+    if (!noError) {
+      return window.alert("Veuillez corriger le formulaire!")
+    }
     event.preventDefault();
     console.log('Je veux m\'enregistrer');
     dispatch(fetchCreateUser());
   }
+
+  const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  let emailErrorMessage = ''; 
+  if (!EMAIL_REGEX.test(email) && email.length>0) {
+    emailErrorMessage = "email not valid";
+  }
+
+  const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#?()'"§€£+=-_$%^&*]).{8,}$/;
+  let passwordErrorMessage = ''; 
+  if (!PASSWORD_REGEX.test(password1) && password1.length>0) {
+    passwordErrorMessage = 'password not valid: at least 8 chars (uppercase AND lowercase), at least one number, at least one special char';
+  }
+  
+  let passwordConfirmMessage = '';
+  if (password2.length>0 && password2 !== password1) {
+    console.log('Password ok');
+    passwordConfirmMessage = 'passwords must match';
+  }
+
+  let usernameErrorMessage = '';
+  if (username.length>0 && (username.length >= 17 || username.length <= 2)) {
+    usernameErrorMessage = 'wrong username (length must be: 3 - 16)'
+  }
+
+  const noError = emailErrorMessage === "" && passwordErrorMessage === "" && passwordConfirmMessage === "" && usernameErrorMessage === "" && email !== "" && password1 !== "" && password2 !== "" && firstName !== "" && lastName !== "";
+
+
+
+
 
   useEffect(() => {
     if (typeof fetchRegisterResponseCode !== 'undefined') {
@@ -49,6 +82,25 @@ function RegisterPage() {
       navigate("/login");
     }
   }, [auth]);
+
+  const years = [];
+  
+  let iteration = 120;
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  console.log({currentYear});
+  
+  for (let index = 0; index <= iteration; index++) {
+    years.push(currentYear - index);
+  }
+  useEffect(() => {
+  }, []);
+
+  useEffect(() => {
+    console.log(years);
+
+  }, [years]);
+
 
   const dataTemp = {
     years: ["2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972"],
@@ -96,6 +148,7 @@ function RegisterPage() {
               onChange={(event) => dispatch(changeInputValueRegister("username", event.target.value))}
               autoComplete="username"
             />
+            <p>{usernameErrorMessage}</p>
           </div>
         </fieldset>
         <fieldset className="registerPage__form-fieldset">
@@ -108,8 +161,8 @@ function RegisterPage() {
               onChange={(event) => dispatch(changeInputValueRegister("bYear", event.target.value))}
             >
               <option value={null} hidden></option>
-              {dataTemp.years.map((year) => (
-                <option key={year} value={year.toLowerCase()}>{year}</option>
+              {years.map((year) => (
+                <option key={year} value={year}>{year}</option>
               ))}
             </select>
           </div>
@@ -152,6 +205,7 @@ function RegisterPage() {
               onChange={(event) => dispatch(changeInputValueRegister("email", event.target.value))}
               autoComplete="email"
             />
+            <p>{emailErrorMessage}</p>
           </div>
         </fieldset>
         <fieldset className="registerPage__form-fieldset">
@@ -163,7 +217,8 @@ function RegisterPage() {
               value={password1}
               onChange={(event) => dispatch(changeInputValueRegister("password1", event.target.value))}
               autoComplete="new-password"
-            />
+              />
+              <p>{passwordErrorMessage}</p>
           </div>
           <div className="registerPage__form-fieldset-container">
             <label className="registerPage__form-fieldset-container-label" htmlFor="registerPage-password2">Confirm</label>
@@ -174,6 +229,7 @@ function RegisterPage() {
               onChange={(event) => dispatch(changeInputValueRegister("password2", event.target.value))}
               autoComplete="new-password"
             />
+            <p>{passwordConfirmMessage}</p>
           </div>
         </fieldset>
         <button className="registerPage__form-submit" type="submit">Sign Up</button>

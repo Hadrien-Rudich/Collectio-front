@@ -83,14 +83,6 @@ function MainMenu() {
           <MenuIcon icon={FaInfo} />
           About
         </NavLink>
-        <NavLink
-          key="legal notice"
-          to="/legal-notice"
-          className={({isActive}) => `main__menu-link ${isActive ? 'main__menu-link--active' : ''}`}
-        >
-          <MenuIcon icon={FaQuestion} />
-          Legal Notice
-        </NavLink>
       </div>
     </div>
   );

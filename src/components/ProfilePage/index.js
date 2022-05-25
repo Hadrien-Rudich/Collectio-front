@@ -9,9 +9,10 @@ import { toggleEditProfile } from '../../actions/profile';
 import { useEffect, useRef } from 'react';
 import { changeFetchReadUserResponse, fetchDeleteUser, fetchReadUser, fetchUpdateUser } from '../../actions/user';
 import Loader from '../Loader';
+import axios from 'axios';
 
 function ProfilePage() {
-  const disptach = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
   const isInitialMount = useRef(true);
@@ -23,44 +24,61 @@ function ProfilePage() {
     fetchReadUserResponse,
   } = useSelector((state) => state.user);
   
-  /**
-   * ! show fetchReadUserResponse in console
-   */
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-    }
-    else {
-      if (typeof fetchReadUserResponse !== 'undefined') {
-        console.log(fetchReadUserResponse);
-      }
-    }
-  }, [fetchReadUserResponse]);
+  // /**
+  //  * ! show fetchReadUserResponse in console
+  //  */
+  // useEffect(() => {
+  //   if (isInitialMount.current) {
+  //     isInitialMount.current = false;
+  //   }
+  //   else {
+  //     if (typeof fetchReadUserResponse !== 'undefined') {
+  //       console.log(fetchReadUserResponse);
+  //     }
+  //   }
+  // }, [fetchReadUserResponse]);
 
   useEffect(() => {
-    disptach(fetchReadUser());
+    dispatch(fetchReadUser());
   }, []);
 
   const handleEdit = () => {
     console.log('Je veux editer mon profil');
-    disptach(toggleEditProfile());
+    dispatch(toggleEditProfile());
   };
 
   const handleSubmitChangeProfile = (event) => {
     event.preventDefault();
-    disptach(fetchUpdateUser());
-    disptach(toggleEditProfile());
+    dispatch(fetchUpdateUser());
+    dispatch(toggleEditProfile());
   }
 
   const onChangeInput = (event, stateName) => {
-    disptach(changeFetchReadUserResponse(stateName, event.target.value));
+    dispatch(changeFetchReadUserResponse(stateName, event.target.value));
   }
 
   const handleDelete = () => {
     let sure = window.confirm("Are you sure ?");
     if (sure) {
-      disptach(fetchDeleteUser());
+      dispatch(fetchDeleteUser());
     }
+  }
+
+  const handleChangeImage = async (event) => {
+    console.log(event.target.files[0]);
+    console.log(event.target.files[0].name);
+
+
+    const formData = new FormData();
+    formData.append('image', event.target.files[0], event.target.files[0].name);
+    const response = await axios.post(`http://localhost:4200/api/profile/6/upload`, formData, {
+      headers: {
+        'content-type': 'multipart/form-data',
+      }
+    });
+    console.log(response);
+    dispatch(changeFetchReadUserResponse("pictureurl", response.data.url));
+
   }
 
   useEffect(() => {
@@ -95,7 +113,7 @@ function ProfilePage() {
         <form className="profilePage__user" onSubmit={handleSubmitChangeProfile}>
           <div className="profilePage__user-avatarContainer">
             {edit ? (
-              <input style={{ width: '100%' }} type="file" onChange={(event) => onChangeInput(event, 'pictureurl')} accept="image/png, image/jpeg" />
+              <input style={{ width: '100%' }} type="file" onChange={handleChangeImage} accept="image/png, image/jpeg" />
             ): (
               <img className="profilePage__user-avatarContainer-avatar" src={fetchReadUserResponse.pictureurl} alt="" />
             )}
