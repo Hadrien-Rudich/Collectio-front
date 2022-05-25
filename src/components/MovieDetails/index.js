@@ -111,6 +111,21 @@ function MovieDetails() {
             <span className="fa fa-star checked"></span>
             <span className="fa fa-star checked"></span>
           </div>
+          <div className='mediaUserReview'>
+              <button type="button" className="button button--review">
+                <span className="button__text">Rating</span>              
+                <span className="button__icon">
+                <ion-icon name="star"></ion-icon>
+                </span>
+              </button>
+              <button type="button" className="button button--review">
+                <span className="button__text">Review</span>              
+                <span className="button__icon">
+                <ion-icon name="reader"></ion-icon>
+                <ion-icon name="pencil"></ion-icon>        
+                </span>
+              </button>  
+            </div>
         </div>   
         <div className="mediaImageContainer">
           <h1 className="mediaDetails__mediaTitle">{movieDetailsResults.movieDetailsResult.original_title}</h1>
@@ -129,21 +144,6 @@ function MovieDetails() {
           </div>
           {auth && (
           <div>
-            <div className='mediaUserReview'>
-              <button type="button button--review" className="button">
-                <span className="button__text">Rating</span>              
-                <span className="button__icon">
-                <ion-icon name="star"></ion-icon>
-                </span>
-              </button>
-              <button type="button button--review" className="button">
-                <span className="button__text">Review</span>              
-                <span className="button__icon">
-                <ion-icon name="reader"></ion-icon>
-                <ion-icon name="pencil"></ion-icon>        
-                </span>
-              </button>  
-            </div>
             <div className='mediaUserListContainer'>
               {inLibrary &&
               <button type="button" className="button button--delete" onClick={() => DeleteReview()}>

@@ -9,6 +9,12 @@
 
   font-family: 'Roboto Flex', sans-serif;
 
+  span {
+    height: 50px;
+    width: 50px;
+    transform: scale(2);
+  }
+
 
   .mediaDetails__mediaGenreContainer {
          
@@ -245,7 +251,7 @@
 
   .button--review {  
     
-  background: #2e60eb;
+    background: #2e60eb !important;
    }
   
 
