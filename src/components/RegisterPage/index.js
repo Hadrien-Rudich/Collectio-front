@@ -218,7 +218,7 @@ function RegisterPage() {
               onChange={(event) => dispatch(changeInputValueRegister("password1", event.target.value))}
               autoComplete="new-password"
               />
-              <p>{passwordErrorMessage}</p>
+              <p className="labelPassword">{passwordErrorMessage}</p>
           </div>
           <div className="registerPage__form-fieldset-container">
             <label className="registerPage__form-fieldset-container-label" htmlFor="registerPage-password2">Confirm</label>
