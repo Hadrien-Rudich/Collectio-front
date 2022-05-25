@@ -135,14 +135,14 @@ function SeriesDetails() {
     ) : (
       <div className='mediaContainer'>
         <div className="mediaRatingContainer">
-        <div className="collectioRatingContainer">
+          {auth &&<div className="collectioRatingContainer">
             <span className="fa fa-star"></span>
             <span className="fa fa-star"></span>
             <span className="fa fa-star checked"></span>
             <span className="fa fa-star checked"></span>
             <span className="fa fa-star checked"></span>
 
-          </div> 
+          </div>}
           <div className="userRatingContainer">
             <span className="fa fa-star"></span>
             <span className="fa fa-star checked"></span>
@@ -150,6 +150,26 @@ function SeriesDetails() {
             <span className="fa fa-star checked"></span>
             <span className="fa fa-star checked"></span>
           </div>
+          {auth && <div className='mediaUserReview'>
+             
+                <button type="button" class="button -review">
+                <span className="button__text">Rating</span>              
+                <span className="button__icon">
+                <ion-icon name="star"></ion-icon>
+                </span>
+                </button>
+           
+                  
+        
+          
+                <button type="button" class="button -review">
+                <span className="button__text">Review</span>              
+                <span className="button__icon">
+                <ion-icon name="reader"></ion-icon>
+                <ion-icon name="pencil"></ion-icon>        
+                </span>
+                </button>
+          </div>}
 
         </div> 
 
@@ -172,29 +192,6 @@ function SeriesDetails() {
         {auth && (
             <div>
 
-      
-            <div className='mediaUserReview'>
-             
-                <button type="button" class="button -review">
-                <span className="button__text">Rating</span>              
-                <span className="button__icon">
-                <ion-icon name="star"></ion-icon>
-                </span>
-                </button>
-           
-                  
-        
-          
-                <button type="button" class="button -review">
-                <span className="button__text">Review</span>              
-                <span className="button__icon">
-                <ion-icon name="reader"></ion-icon>
-                <ion-icon name="pencil"></ion-icon>        
-                </span>
-                </button>  
-             
-              
-          </div>
               
           <div className='mediaUserListContainer'>
             { inLibrary?

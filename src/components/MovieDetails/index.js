@@ -97,13 +97,13 @@ function MovieDetails() {
     {movieDetailsLoading ? (<Loader />) : (
       <div className="mediaContainer">
         <div className="mediaRatingContainer">
-          <div className="collectioRatingContainer">
+          {auth && <div className="collectioRatingContainer">
             <span className="fa fa-star"></span>
             <span className="fa fa-star"></span>
             <span className="fa fa-star checked"></span>
             <span className="fa fa-star checked"></span>
             <span className="fa fa-star checked"></span>       
-          </div>    
+          </div>}
           <div className='userRatingContainer'>  
             <span className="fa fa-star"></span>
             <span className="fa fa-star checked"></span>
@@ -111,7 +111,7 @@ function MovieDetails() {
             <span className="fa fa-star checked"></span>
             <span className="fa fa-star checked"></span>
           </div>
-          <div className='mediaUserReview'>
+          {auth && <div className='mediaUserReview'>
               <button type="button" className="button button--review">
                 <span className="button__text">Rating</span>              
                 <span className="button__icon">
@@ -125,7 +125,7 @@ function MovieDetails() {
                 <ion-icon name="pencil"></ion-icon>        
                 </span>
               </button>  
-            </div>
+            </div>}
         </div>   
         <div className="mediaImageContainer">
           <h1 className="mediaDetails__mediaTitle">{movieDetailsResults.movieDetailsResult.original_title}</h1>
