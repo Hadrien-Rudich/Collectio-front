@@ -152,7 +152,7 @@ function SeriesDetails() {
           </div>
           {auth && <div className='mediaUserReview'>
              
-                <button type="button" class="button -review">
+                <button type="button" className="button button--review">
                 <span className="button__text">Rating</span>              
                 <span className="button__icon">
                 <ion-icon name="star"></ion-icon>
@@ -162,7 +162,7 @@ function SeriesDetails() {
                   
         
           
-                <button type="button" class="button -review">
+                <button type="button" className="button button--review">
                 <span className="button__text">Review</span>              
                 <span className="button__icon">
                 <ion-icon name="reader"></ion-icon>
