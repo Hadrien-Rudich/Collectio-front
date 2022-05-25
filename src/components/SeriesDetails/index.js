@@ -18,13 +18,59 @@ function SeriesDetails() {
 
   useEffect(() => {
     dispatch(fetchSeriesDetailsById(seriesId));
+    GetReview();
   }, []);
+
+  async function GetReview() {
+    console.log('get')
+      try {
+
+        const response = await axios.get(`https://collectio-app.herokuapp.com/api/series/${seriesId}`,{
+          headers: {
+            "authorization": token
+          },
+        })                
+
+        if (response.request.response === `{"message":"This Media is not in user Library yet","avg_rating":[]}`) {
+
+          console.log("no review")
+
+          setInLibrary(false)
+
+      } else {
+        setInLibrary(true)
+      }  
+        
+      } catch (error) {
+        console.log(error)
+      }
+
+  }
+
+  async function DeleteReview() {
+    console.log('delete')
+      try {
+
+        const response = await axios.delete(`https://collectio-app.herokuapp.com/api/series/${seriesId}`,{
+          headers: {
+            "authorization": token
+          },
+        })
+        console.log(`Voici la reponse du delete`);     
+        console.log(response)
+        setInLibrary(false)
+      } catch (error) {
+        console.log(error)
+      }
+
+  }
+
 
   async function PostReview(list, title, coverURL) {
     console.log('post')
       try {
-        console.log(list)
-        console.log(title)
+        // console.log(list)
+        // console.log(title)
         const response = await axios.post(`https://collectio-app.herokuapp.com/api/series/${seriesId}`, {
            "list": list,
            "title": title,
@@ -37,6 +83,7 @@ function SeriesDetails() {
         console.log(response);
         //setResults(response.data[0].note_moyenne)
         //console.log(results);
+        setInLibrary(true)
       } catch (error) {
         console.log(error)
       }
@@ -221,6 +268,19 @@ function SeriesDetails() {
               </span>
               </button>
             }
+
+            { inLibrary?
+
+            <button type="button" className="button button--delete" onClick={() => DeleteReview()}>
+                  <span className="button__text">Delete</span>
+                  <span className="button__icon">
+                  <ion-icon name="trash-outline"></ion-icon></span>
+                </button>
+              :
+                null
+              
+            }
+
           </div>
                       
           

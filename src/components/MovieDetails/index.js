@@ -194,9 +194,6 @@ function MovieDetails() {
             <span className="fa fa-star checked"></span>
             <span className="fa fa-star checked"></span>       
           </div>
-
-                  
-        
     
           <div className='userRatingContainer'>  
             <span className="fa fa-star"></span>
@@ -206,29 +203,8 @@ function MovieDetails() {
             <span className="fa fa-star checked"></span>
           </div>
           
-          </div> 
-          
-        <div className="mediaImageContainer">
-          <h1 className="mediaDetails__mediaTitle">{movieDetailsResults.movieDetailsResult.original_title}</h1>
-          <img src={`https://image.tmdb.org/t/p/original/${movieDetailsResults.movieDetailsResult.poster_path}`} alt="" />
-          <h4 className="mediaDetails__mediaReleaseYear">({movieDetailsResults.movieDetailsResult.release_date.substring(0,4)})</h4>
-          <h4 className="mediaDetails__mediaRunTime">{movieDetailsResults.movieDetailsResult.runtime} minutes</h4>
-          <div className='mediaDetails__mediaGenreContainer'>
-          {movieDetailsResults.movieDetailsResult.genres.map((genre) => (
-          <h4 key={genre.id} className="mediaDetails__mediaGenre"> {genre.name} </h4>
-          ))}
-          </div>
-        </div>
-        <div className="mediaTextContainer">
-          <div>
-            { inLibrary &&  <div><p>{reviewDetails.note}</p><p>{reviewDetails.comment}</p></div>}
-          </div>
 
-          {auth && (
-            <div>
-
-      
-            <div className='mediaUserReview'>
+          <div className='mediaUserReview'>
              
                 <button type="button button--review" className="button">
                 <span className="button__text">Rating</span>              
@@ -250,20 +226,52 @@ function MovieDetails() {
              
               
           </div>
+        </div> 
+          
+        <div className="mediaImageContainer">
+          <h1 className="mediaDetails__mediaTitle">{movieDetailsResults.movieDetailsResult.original_title}</h1>
+          <img src={`https://image.tmdb.org/t/p/original/${movieDetailsResults.movieDetailsResult.poster_path}`} alt="" />
+          <h4 className="mediaDetails__mediaReleaseYear">({movieDetailsResults.movieDetailsResult.release_date.substring(0,4)})</h4>
+          <h4 className="mediaDetails__mediaRunTime">{movieDetailsResults.movieDetailsResult.runtime} minutes</h4>
+          <div className='mediaDetails__mediaGenreContainer'>
+          {movieDetailsResults.movieDetailsResult.genres.map((genre) => (
+          <h4 key={genre.id} className="mediaDetails__mediaGenre"> {genre.name} </h4>
+          ))}
+          </div>
+        </div>
+        <div className="mediaTextContainer">
+          <div>
+            { inLibrary &&  <div><p>{reviewDetails.note}</p><p>{reviewDetails.comment}</p></div>}
+          </div>
+
+          {auth && (
+            <div className="buttonMediaUser">
+
+      
+            {/* <div className='mediaUserReview'>
+             
+                <button type="button button--review" className="button">
+                <span className="button__text">Rating</span>              
+                <span className="button__icon">
+                <ion-icon name="star"></ion-icon>
+                </span>
+                </button>
+           
+                  
+        
+          
+                <button type="button button--review" className="button">
+                <span className="button__text">Review</span>              
+                <span className="button__icon">
+                <ion-icon name="reader"></ion-icon>
+                <ion-icon name="pencil"></ion-icon>        
+                </span>
+                </button>  
+             
+              
+          </div> */}
               
           <div className='mediaUserListContainer'>
-
-          { inLibrary?
-
-          <button type="button" className="button button--delete" onClick={() => DeleteReview()}>
-                <span className="button__text">Delete</span>
-                <span className="button__icon">
-                <ion-icon name="trash-outline"></ion-icon></span>
-              </button>
-            :
-              null
-            
-          }
 
             { inLibrary?
 
@@ -335,6 +343,18 @@ function MovieDetails() {
               <ion-icon name="eye"></ion-icon>
               </span>
               </button>
+            }
+
+            { inLibrary?
+
+            <button type="button" className="button button--delete" onClick={() => DeleteReview()}>
+                  <span className="button__text">Delete</span>
+                  <span className="button__icon">
+                  <ion-icon name="trash-outline"></ion-icon></span>
+                </button>
+              :
+                null
+              
             }
 
 

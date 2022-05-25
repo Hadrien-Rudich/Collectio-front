@@ -29,7 +29,7 @@
 
 .userRatingContainer {
   
-  .checked {
+  .checkatined {
     color: rgb(0, 17, 255);
   }
 
@@ -48,12 +48,29 @@
 .mediaRatingContainer {    
  
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: fit-content;
   justify-content: center;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 1rem;
-  flex-direction: row;
-  align-content: center;
+
+
+  .collectioRatingContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    height: fit-content;
+  }
+  .userRatingContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    height: fit-content;
+  }
+  .mediaUserReview {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.4em;
+    width: fit-content;
+    height: fit-content;
+  }
 
 }
 
@@ -128,19 +145,6 @@
     justify-content: space-evenly;
     align-items: stretch; 
     gap: 0.5rem
-  }
-
-  
-  .mediaRatingContainer {    
-   
-    display: flex;
-    justify-content: center;
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: 1rem;
-    flex-direction: row;
-    align-content: center;
-  
   }
   
   .mediaContainer {
@@ -268,15 +272,9 @@ span {
   cursor: pointer;
 }
 
-.mediaUserReview {
-  
+.buttonMediaUser {
   display: flex;
-  flex-direction: row;
-  align-content: space-between;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: stretch; 
-  gap: 0.5rem
+  flex-direction: column;
 }
 
   
@@ -313,7 +311,6 @@ span {
 
 .button__icon {
   font-size: 1.5em;
-  background: rgba(0,0,0, 0.08)
-
+  justify-content: space-evenly;
 }
 }
