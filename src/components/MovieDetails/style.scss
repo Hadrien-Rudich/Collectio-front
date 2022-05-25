@@ -241,6 +241,24 @@ span {
   font-weight: 500;
   cursor: pointer;
 }
+  
+  .button--delete {  
+    
+    background: #ff0505;
+    }
+
+
+.button--update {  
+    
+      background: #b9d6ae;
+      }
+
+  .button--review {  
+    
+  background: #2e60eb;
+   }
+  
+
 
 .button:hover {
   background: #008168;
@@ -262,9 +280,16 @@ span {
 }
 
   
-.-review {
+.--review {
   background: rgb(105, 105, 207);
 }
+
+.--delete {
+  background: rgb(255, 0, 0);
+}
+
+
+
 
 
 .button:hover {

@@ -69,15 +69,18 @@ function MovieDetails() {
           headers: {
             "authorization": token
           },
-        })        
+        })                
 
-        if (response.request.response["listname"]) {
+        if (response.request.response === `{"message":"This Media is not in user Library yet","avg_rating":[]}`) {
 
-          console.log("J'ai bien trouve une review");
-          setInLibrary(true)
+          console.log("no review")
 
-        }              
-   
+          setInLibrary(false)
+
+      } else {
+        setInLibrary(true)
+      }  
+        
       } catch (error) {
         console.log(error)
       }
@@ -227,7 +230,7 @@ function MovieDetails() {
       
             <div className='mediaUserReview'>
              
-                <button type="button" className="button -review">
+                <button type="button button--review" className="button">
                 <span className="button__text">Rating</span>              
                 <span className="button__icon">
                 <ion-icon name="star"></ion-icon>
@@ -237,7 +240,7 @@ function MovieDetails() {
                   
         
           
-                <button type="button" className="button -review">
+                <button type="button button--review" className="button">
                 <span className="button__text">Review</span>              
                 <span className="button__icon">
                 <ion-icon name="reader"></ion-icon>
@@ -250,20 +253,24 @@ function MovieDetails() {
               
           <div className='mediaUserListContainer'>
 
-          <button type="button" className="button--activelist" value='wishlist' onClick={() => DeleteReview()}>
+          { inLibrary?
+
+          <button type="button" className="button button--delete" onClick={() => DeleteReview()}>
                 <span className="button__text">Delete</span>
                 <span className="button__icon">
                 <ion-icon name="trash-outline"></ion-icon></span>
               </button>
+            :
+              null
             
-          
+          }
 
             { inLibrary?
 
 
 
             // si PAS de token, griser les boutons d'ajout de liste
-              <button type="button" className="button--activelist" value='wishlist' onClick={() => PatchReview('wishlist')}>
+              <button type="button" className="button" value='wishlist' onClick={() => PatchReview('wishlist')}>
                 <span className="button__text">Wishlist</span>
                 <span className="button__icon">
                 <ion-icon name="bookmark"></ion-icon></span>
@@ -280,15 +287,15 @@ function MovieDetails() {
             { inLibrary?
 
             // si PAS de token, griser les boutons d'ajout de liste
-              <button type="button" className="button--activelist" value='favorites' onClick={() => PatchReview('favorite')}>
-                  <span className="button__text">Favorites</span>
+              <button type="button" className="button" value='favorite' onClick={() => PatchReview('favorite')}>
+                  <span className="button__text">Favorite</span>
                   <span className="button__icon">
-                  <ion-icon name="bookmark"></ion-icon></span>
+                  <ion-icon name="heart"></ion-icon></span>
                 </button>
             :                    
 
-              <button type="button" className="button" value='favorites' onClick={() => PostReview('favorite', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
-              <span className="button__text">Favorites</span>
+              <button type="button" className="button" value='favorite' onClick={() => PostReview('favorite', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
+              <span className="button__text">Favorite</span>
               <span className="button__icon">
                 <ion-icon name="heart"></ion-icon></span>
               </button>
@@ -297,15 +304,15 @@ function MovieDetails() {
 
             { inLibrary? 
 
-              <button type="button" className="button--activelist" value='check' onClick={() => PatchReview('check')}>
-              <span className="button__text">Add to Library</span>
+              <button type="button" className="button" value='check' onClick={() => PatchReview('check')}>
+              <span className="button__text">To Library</span>
               <span className="button__icon">
                 <ion-icon name="checkmark"></ion-icon>
               </span>
               </button>
             :
               <button type="button" className="button" value='check' onClick={() => PostReview('check', movieDetailsResults.movieDetailsResult.original_title, movieDetailsResults.movieDetailsResult.poster_path)}>
-              <span className="button__text">Add to Library</span>
+              <span className="button__text">To Library</span>
               <span className="button__icon">
               <ion-icon name="checkmark"></ion-icon>
               </span>
@@ -315,7 +322,7 @@ function MovieDetails() {
             { inLibrary? 
 
             // si PAS de token, griser les boutons d'ajout de liste
-              <button type="button" className="button--activelist" value='in_progress' onClick={() => PatchReview("in_progress")}>
+              <button type="button" className="button" value='in_progress' onClick={() => PatchReview("in_progress")}>
               <span className="button__text">In Progress</span>
               <span className="button__icon">
                 <ion-icon name="eye"></ion-icon>
