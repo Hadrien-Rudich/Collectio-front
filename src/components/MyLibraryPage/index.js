@@ -20,6 +20,7 @@ const MyLibraryPage = (props) => {
         }
        });
       if (response.status === 200) {
+        console.log('response :', response.data);
         setIsLoaded(true)
         setLibraryList(response.data)
       };
@@ -41,15 +42,19 @@ const MyLibraryPage = (props) => {
       <section className="myLibraryPage">
         <h2>My Library</h2>
         <div className="myLibraryPage_Container">
-          {libraryList.map(el => (
-            <Link to={`/${el.mediatypename !== 'series' ? `${el.mediatypename}s` : el.mediatypename}/${el.apimediaid}`}>
-              <div className='myLibraryPage_Element' key={el.apimediaid}>
-                <p>{el.title}</p>
-                <p>{el.listname}</p>
-                <img className='myLibraryPage_Element_img' src={`${el.coverurl.startsWith('/') ? baseURL : ''}${el.coverurl}`} alt="blabla"></img>
-              </div>
-            </Link>
-          ))}
+          <div className='myLibraryPage_Container-container'>
+            {libraryList.map(el => (
+              <Link to={`/${el.mediatypename === 'video_game' ? 'video-games' : (el.mediatypename !== 'series' ? `${el.mediatypename}s` : el.mediatypename)}/${el.apimediaid}`}>
+                <div className='myLibraryPage_Element' key={el.apimediaid}>
+                    <img className='myLibraryPage_Element_img' src={`${el.coverurl.startsWith('/') ? baseURL : ''}${el.coverurl}`} alt="blabla"></img>
+                    <p>{el.title}</p>
+                    <p className={`listname ${el.listname}Color`}>
+                      {el.mediatypename === 'video_game' ? el.listname === 'check' ? 'played' : el.listname : el.mediatypename === 'book' ? el.listname === 'check' ? 'read' : el.listname : (el.listname === 'check' ? 'watched' : el.listname)}
+                    </p>
+                  </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
     )

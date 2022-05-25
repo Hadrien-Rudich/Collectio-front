@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchSeriesDetailsById } from '../../actions/seriesDetails';
@@ -6,14 +7,113 @@ import Loader from '../Loader';
 import './style.scss';
 
 function SeriesDetails() {
-  const dispatch = useDispatch();
-
+  const token = localStorage.getItem('token');
   const { seriesDetailsLoading, seriesDetailsResults } = useSelector((state) => state.seriesDetails);
   const seriesId = useParams().mediaId;
+  const [inLibrary, setInLibrary] = useState(false);
+  const { auth } = useSelector((state) => state.user);
+  let baseURL = "https://image.tmdb.org/t/p/original";
+  
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchSeriesDetailsById(seriesId));
+    GetReview();
   }, []);
+
+  async function GetReview() {
+    console.log('get')
+      try {
+
+        const response = await axios.get(`https://collectio-app.herokuapp.com/api/series/${seriesId}`,{
+          headers: {
+            "authorization": token
+          },
+        })                
+
+        if (response.request.response === `{"message":"This Media is not in user Library yet","avg_rating":[]}`) {
+
+          console.log("no review")
+
+          setInLibrary(false)
+
+      } else {
+        setInLibrary(true)
+      }  
+        
+      } catch (error) {
+        console.log(error)
+      }
+
+  }
+
+  async function DeleteReview() {
+    console.log('delete')
+      try {
+
+        const response = await axios.delete(`https://collectio-app.herokuapp.com/api/series/${seriesId}`,{
+          headers: {
+            "authorization": token
+          },
+        })
+        console.log(`Voici la reponse du delete`);     
+        console.log(response)
+        setInLibrary(false)
+      } catch (error) {
+        console.log(error)
+      }
+
+  }
+
+
+  async function PostReview(list, title, coverURL) {
+    console.log('post')
+      try {
+        // console.log(list)
+        // console.log(title)
+        const response = await axios.post(`https://collectio-app.herokuapp.com/api/series/${seriesId}`, {
+           "list": list,
+           "title": title,
+           "coverURL": coverURL
+         }, {
+          headers: {
+            "authorization": token
+          },
+        })
+        console.log(response);
+        //setResults(response.data[0].note_moyenne)
+        //console.log(results);
+        setInLibrary(true)
+      } catch (error) {
+        console.log(error)
+      }
+
+  }
+
+  
+
+
+  async function PatchReview(list) {
+
+    console.log('patch')
+     try {
+
+       const response = await axios.patch(`https://collectio-app.herokuapp.com/api/series/${seriesId}`, {
+          "list": list
+        }, {
+         headers: {
+           "authorization": token
+         },
+       })
+       console.log(response);
+       //setResults(response.data[0].note_moyenne)
+       //console.log(results);
+     } catch (error) {
+       console.log(error)
+     }
+
+
+  }
 
   // /**
   //  * ! show seriesDetailsResults in console
@@ -51,7 +151,7 @@ function SeriesDetails() {
             <span className="fa fa-star checked"></span>
           </div>
 
-          </div> 
+        </div> 
 
 
         <div className="mediaImageContainer"> 
@@ -69,51 +169,125 @@ function SeriesDetails() {
         <div className="mediaTextContainer">
 
           
-        <div className="mediaUserReview">
-   
-   <button type="button" className="button -review">
- <span className="button__text">Rating</span>              
- <span className="button__icon">
- <ion-icon name="star"></ion-icon>
- </span>
- </button>     
+        {auth && (
+            <div>
 
- <button type="button" className="button -review">
- <span className="button__text">Review</span>              
- <span className="button__icon">
- <ion-icon name="reader"></ion-icon>
- <ion-icon name="pencil"></ion-icon>        
- </span>
- </button>   
- </div>
-        <div className="mediaUserListContainer">
-            <button type="button" className="button">
-              <span className="button__text">Wishlist</span>
-              <span className="button__icon">
-              <ion-icon name="bookmark"></ion-icon>
-              </span>
+      
+            <div className='mediaUserReview'>
+             
+                <button type="button" class="button -review">
+                <span className="button__text">Rating</span>              
+                <span className="button__icon">
+                <ion-icon name="star"></ion-icon>
+                </span>
+                </button>
+           
+                  
+        
+          
+                <button type="button" class="button -review">
+                <span className="button__text">Review</span>              
+                <span className="button__icon">
+                <ion-icon name="reader"></ion-icon>
+                <ion-icon name="pencil"></ion-icon>        
+                </span>
+                </button>  
+             
+              
+          </div>
+              
+          <div className='mediaUserListContainer'>
+            { inLibrary?
+
+
+
+            // si PAS de token, griser les boutons d'ajout de liste
+              <button type="button" className="button--activelist" value='wishlist' onClick={() => PatchReview('wishlist')}>
+                <span className="button__text">Wishlist</span>
+                <span className="button__icon">
+                <ion-icon name="bookmark"></ion-icon></span>
               </button>
-              <button type="button" className="button">
+            :
+                <button type="button" className="button" value='wishlist' onClick={() => PostReview('wishlist', seriesDetailsResults.seriesDetailsResult.original_name, `${baseURL}${seriesDetailsResults.seriesDetailsResult.poster_path}`)}>
+                  <span className="button__text">Wishlist</span>
+                  <span className="button__icon">
+                  <ion-icon name="bookmark"></ion-icon></span>
+                </button>
+
+            }
+
+            { inLibrary?
+
+            // si PAS de token, griser les boutons d'ajout de liste
+              <button type="button" className="button--activelist" value='favorites' onClick={() => PatchReview('favorite')}>
+                  <span className="button__text">Favorites</span>
+                  <span className="button__icon">
+                  <ion-icon name="bookmark"></ion-icon></span>
+                </button>
+            :                    
+
+              <button type="button" className="button" value='favorites' onClick={() => PostReview('favorite', seriesDetailsResults.seriesDetailsResult.original_name, seriesDetailsResults.seriesDetailsResult.poster_path)}>
               <span className="button__text">Favorites</span>
               <span className="button__icon">
                 <ion-icon name="heart"></ion-icon></span>
-              </button>         
+              </button>
+                
+            }   
 
-              <button type="button" className="button">
-              <span className="button__text">In Library</span>              
+            { inLibrary? 
+
+              <button type="button" className="button--activelist" value='check' onClick={() => PatchReview('check')}>
+              <span className="button__text">Add to Library</span>
               <span className="button__icon">
-              <ion-icon name="checkmark"></ion-icon> 
+                <ion-icon name="checkmark"></ion-icon>
               </span>
               </button>
+            :
+              <button type="button" className="button" value='check' onClick={() => PostReview('check', seriesDetailsResults.seriesDetailsResult.original_name, seriesDetailsResults.seriesDetailsResult.poster_path)}>
+              <span className="button__text">Add to Library</span>
+              <span className="button__icon">
+              <ion-icon name="checkmark"></ion-icon>
+              </span>
+              </button>
+            }
 
-              <button type="button" className="button">
-              <span className="button__text">In Progress</span>              
+            { inLibrary? 
+
+            // si PAS de token, griser les boutons d'ajout de liste
+              <button type="button" className="button--activelist" value='in_progress' onClick={() => PatchReview("in_progress")}>
+              <span className="button__text">In Progress</span>
+              <span className="button__icon">
+                <ion-icon name="eye"></ion-icon>
+              </span>
+              </button>
+            :
+              <button type="button" className="button" value='in_progress' onClick={() => PostReview('in_progress', seriesDetailsResults.seriesDetailsResult.original_name, seriesDetailsResults.seriesDetailsResult.poster_path)}>
+              <span className="button__text">In Progress</span>
               <span className="button__icon">
               <ion-icon name="eye"></ion-icon>
               </span>
-              </button>          
-                   
+              </button>
+            }
+
+            { inLibrary?
+
+            <button type="button" className="button button--delete" onClick={() => DeleteReview()}>
+                  <span className="button__text">Delete</span>
+                  <span className="button__icon">
+                  <ion-icon name="trash-outline"></ion-icon></span>
+                </button>
+              :
+                null
+              
+            }
+
           </div>
+                      
+          
+
+          </div>  
+
+        )}
           
           <div className="mediaCrewContainer">   
           <h3 className="mediaDetails__mediaCast">Director{seriesDetailsResults.seriesDetailsCastResult.crew.filter((crew) => crew.known_for_department === "Directing").length > 1 ? 's' : ''}</h3>

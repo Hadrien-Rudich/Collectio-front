@@ -45,8 +45,8 @@ function MainScreen() {
 
         <Route path='/movies' element={<MyLibrairyPage library='movie'/>} />
         <Route path='/series' element={<MyLibrairyPage library='series'/>} />
-        <Route path='/books' element={<MyLibrairyPage library='books'/>} />
-        <Route path='/video-games' element={<MyLibrairyPage library='video-games'/>} />
+        <Route path='/books' element={<MyLibrairyPage library='book'/>} />
+        <Route path='/video-games' element={<MyLibrairyPage library='video_game'/>} />
         <Route path='/contact' element={<ContactPage />} />
         <Route path='/about' element={<AboutPage />} />
         <Route path='*' element={<ErrorPage />} />
